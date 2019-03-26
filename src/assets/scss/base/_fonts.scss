@@ -1,0 +1,65 @@
+$stolzl: "/src/assets/fonts/stolzl" !default;
+
+// stolzl regular
+@font-face {
+	font-family: "stolzl";
+	font-style: normal;
+	font-weight: 400;
+	src: url("#{$stolzl}/Stolzl-Regular.eot");
+	src: url("#{$stolzl}/Stolzl-Regular.woff2") format("woff2"),
+	url("#{$stolzl}/Stolzl-Regular.woff") format("woff"),
+	url("#{$stolzl}/Stolzl-Regular.otf") format("opentype"),
+	url("#{$stolzl}/Stolzl-Regular.ttf") format("truetype"),
+	url("#{$stolzl}/Stolzl-Regular.svg#Stolzl-Regular") format("svg");
+}
+
+@mixin stolzl-regular {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font: {
+		family: "stolzl";
+		weight: 400;
+	}
+}
+
+// stolzl medium
+@font-face {
+	font-family: "stolzl";
+	font-style: normal;
+	font-weight: 500;
+	src: url("#{$stolzl}/Stolzl-Medium.eot");
+	src: url("#{$stolzl}/Stolzl-Medium.woff2") format("woff2"),
+	url("#{$stolzl}/Stolzl-Medium.woff") format("woff"),
+	url("#{$stolzl}/Stolzl-Bold.otf") format("opentype"),
+	url("#{$stolzl}/Stolzl-Medium.ttf") format("truetype"),
+	url("#{$stolzl}/Stolzl-Medium.svg#Stolzl-Medium") format("svg");
+}
+
+@mixin stolzl-medium {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font: {
+		family: "stolzl";
+		weight: 500;
+	}
+}
+
+// stolzl bold
+@font-face {
+	font-family: "stolzl";
+	font-style: normal;
+	font-weight: 700;
+	src: url("#{$stolzl}/Stolzl-Bold.eot");
+	src: url("#{$stolzl}/Stolzl-Bold.woff2") format("woff2"),
+	url("#{$stolzl}/Stolzl-Bold.woff") format("woff"),
+	url("#{$stolzl}/Stolzl-Bold.otf") format("opentype"),
+	url("#{$stolzl}/Stolzl-Bold.ttf") format("truetype"),
+	url("#{$stolzl}/Stolzl-Bold.svg#Stolzl-Bold") format("svg");
+}
+
+@mixin stolzl-bold {
+	font: {
+		family: "stolzl";
+		weight: 700;
+	}
+}

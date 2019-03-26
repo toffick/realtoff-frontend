@@ -1,0 +1,134 @@
+stages:
+  - test
+  - build
+
+eslint:
+  image: node:10.15
+  stage: test
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    paths:
+    - node_modules/
+  script:
+    - npm i --silent
+    - npm run lint
+  tags:
+    - docker
+
+build.develop:
+  stage: build
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    paths:
+      - node_modules
+  script:
+    - npm i
+    - npm run build-dev
+    - rm -rf /home/frontend
+    - cp -r ./dist /home/frontend
+  only:
+    - develop
+  tags:
+    - develop
+  environment:
+    name: development
+
+build.master:
+  stage: build
+  cache:
+    key: $CI_COMMIT_REF_NAME
+    paths:
+      - node_modules
+  script:
+    - npm i
+    - npm run build-stage
+    - rm -rf /home/frontend
+    - cp -r ./dist /home/frontend
+  only:
+    - master
+  tags:
+    - master
+  environment:
+    name: stage
+
+
+# variables:
+#   DOCKER_REPOSITORY_TYPE: "ecr"
+#   ECR_REGION: "eu-central-1"
+#   ERC_REPOSITORY_NAME: web/full-stack/front
+#   DOCKER_REPOSITORY_URL: 676650119647.dkr.ecr.eu-central-1.amazonaws.com/web/full-stack/front
+
+# stages:
+#   - test
+#   - build
+#   - containerize
+
+# eslint:
+#   image: node:8-alpine
+#   stage: test
+#   cache:
+#     key: $CI_COMMIT_REF_NAME
+#     paths:
+#     - node_modules/
+#   script:
+#     - npm i
+#     - npm run lint
+#   tags:
+#     - docker
+
+# build: 
+#   image: node:8-alpine
+#   stage: build
+#   script:
+#     - node -v
+#     - npm install --silent
+#     - npm run build
+#   cache:
+#     key: $CI_COMMIT_REF_NAME
+#     paths:
+#       - dist
+#       - node_modules
+#   only:
+#     - master
+#     - develop
+#     - tags
+#   tags:
+#     - docker
+
+# containerize:
+#   image: docker:latest
+#   stage: containerize
+#   services:
+#     - docker:dind
+#   variables:
+#     DOCKER_HOST: tcp://docker:2375/
+#     DOCKER_DRIVER: overlay2
+#   script:
+#     - docker -v
+#     - rm -rf node_modules
+#     - apk add curl jq python py-pip
+#     - pip install awscli
+#     - IMAGE_TAG="$CI_COMMIT_REF_NAME"
+#     # - IMAGE_COMMIT_TAG="$(echo $CI_COMMIT_SHA | head -c 8)"
+#     - echo "Use Repository - $DOCKER_REPOSITORY_URL"
+#     - if [[ $DOCKER_REPOSITORY_TYPE == "ecr" ]]; then $(aws ecr get-login --no-include-email --region "${ECR_REGION}"); fi
+#     - echo "Building image..."
+#     - docker build -t $DOCKER_REPOSITORY_URL:$IMAGE_TAG .
+#     - echo "Tagging image..."
+#     # - docker tag $DOCKER_REPOSITORY_URL:$IMAGE_TAG $DOCKER_REPOSITORY_URL:$IMAGE_COMMIT_TAG
+#     - echo "Pushing image..."
+#     - docker push $DOCKER_REPOSITORY_URL:$IMAGE_TAG
+#     # - docker push $DOCKER_REPOSITORY_URL:$IMAGE_COMMIT_TAG
+#     - if [[ $CI_COMMIT_TAG ]]; then docker tag $DOCKER_REPOSITORY_URL:$IMAGE_TAG $DOCKER_REPOSITORY_URL:latest; docker push $DOCKER_REPOSITORY_URL:latest; fi
+#     - if [[ $DOCKER_REPOSITORY_TYPE == "ecr" ]]; then IMAGES_TO_DELETE=$( aws ecr list-images --region $ECR_REGION --repository-name $ERC_REPOSITORY_NAME --filter "tagStatus=UNTAGGED" --query 'imageIds[*]' --output json ); fi
+#     - if [[ $DOCKER_REPOSITORY_TYPE == "ecr" ]]; then aws ecr batch-delete-image --region $ECR_REGION --repository-name $ERC_REPOSITORY_NAME --image-ids "$IMAGES_TO_DELETE" || true; fi
+#   cache:
+#     key: $CI_COMMIT_REF_NAME
+#     paths:
+#       - dist
+#   only:
+#     - master
+#     - develop
+#     - tags
+#   tags:
+#     - docker
