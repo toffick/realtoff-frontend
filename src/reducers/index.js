@@ -1,11 +1,9 @@
-import modalReducer from './ModalReducer';
+import userReducer from './UserReducer';
 import globalReducer from './GlobalReducer';
-import formReducer from './FormReducer';
-import gridReducer from './GridReducer';
+import authReducer from './AuthReducer';
 
 export default {
-	modal: modalReducer.reducer,
-	global: globalReducer.reducer,
-	form: formReducer.reducer,
-	grid: gridReducer.reducer,
+	user: userReducer,
+	auth: authReducer,
+	global: globalReducer,
 };

@@ -1,50 +1,6 @@
-import GlobalReducer from '../reducers/GlobalReducer';
-import BaseActionsClass from './BaseActionsClass';
+import actionCreator from '../utils/ActionCreator';
+import { INIT_IN_PROCESS_STATUS } from './constants';
 
-class GlobalActionsClass extends BaseActionsClass {
-
-	/** Initialize reducer
-	 * @constructor
-	 */
-	constructor() {
-		super(GlobalReducer);
-	}
-
-	/**
-	 *  Actions after init app
-	 * @returns {function(*): *}
-	 */
-	afterInit() {
-		return () => new Promise((resolve, reject) => {
-			Promise.all([
-				// Load data after start page
-			]).then((data) => {
-				resolve(data);
-			}).catch((error) => {
-				reject(error);
-			});
-		});
-	}
-
-	/**
-	 * Init app
-	 * @returns {function(*=): Promise<any>}
-	 */
-	init() {
-		return (dispatch) => new Promise((resolve) => {
-			Promise.all([
-				// Load data before start page
-			]).then((data) => {
-				dispatch(this.afterInit()).then(() => {
-					resolve(data);
-				});
-			}).catch((error) => {
-				resolve(error);
-			});
-		});
-	}
-
-}
-
-const GlobalActions = new GlobalActionsClass();
-export default GlobalActions;
+export default {
+	setRequestProcessStatus: (status) => actionCreator(INIT_IN_PROCESS_STATUS, {status}),
+};

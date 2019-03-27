@@ -9,6 +9,7 @@
 		"jsx-a11y",
 		"import"
 	],
+	"parser": "babel-eslint",
 	"rules": {
 		"arrow-parens": [
 			"error",
@@ -51,6 +52,7 @@
 		"no-param-reassign": 0,
 		"no-tabs": 0,
 		"max-len": 0,
+		"no-underscore-dangle": 0,
 		"indent": [
 			"error",
 			"tab",

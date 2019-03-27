@@ -1,26 +1,29 @@
-import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import { applyMiddleware, combineReducers, createStore, compose } from 'redux';
 
-import { routerMiddleware, connectRouter } from 'connected-react-router';
+import { routerMiddleware, routerReducer } from 'react-router-redux';
 
 import history from './history';
 import reducers from './reducers';
+import rootSaga from './sagas';
 
 // Build the middleware for intercepting and dispatching navigation actions
 const middleware = routerMiddleware(history);
+const sagaMiddleware = createSagaMiddleware();
 
-// Add the reducer to your store on the `router` key
-// Also apply our middleware for navigating
 const store = createStore(
 	combineReducers({
 		...reducers,
-		router: connectRouter(history),
+		router: routerReducer,
 	}), {},
 	compose(
-		applyMiddleware(thunk),
+		applyMiddleware(sagaMiddleware),
 		applyMiddleware(middleware),
 		window.devToolsExtension ? window.devToolsExtension() : (f) => f,
 	),
 );
+
+
+sagaMiddleware.run(rootSaga);
 
 export default store;
