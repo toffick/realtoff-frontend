@@ -5,11 +5,13 @@ import { Button } from 'react-bootstrap';
 import ErrorMessage from '../../ErrorMessage/index';
 import LoadingButton from '../../Elements/LoadingButton';
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
 
 	state = {
 		email: 'www@mail.com',
 		password: '123456',
+		passwordRepeat: '123456',
+		nickname: 'toffick',
 		formErrors: null,
 	}
 
@@ -18,20 +20,23 @@ class LoginForm extends Component {
 		this.setState({ [id]: value });
 	}
 
-	_onSubmit = (event) => {
+	_onSubmit =(event) => {
 		event.preventDefault();
 		// TODO validation
 		// TODO add to errors
-		const { email, password } = this.state;
-		this.props.onSubmit(email, password);
+		const {
+			email, password, passwordRepeat, nickname,
+		} = this.state;
+		this.props.onSubmit(email, password, nickname);
 	}
 
 	render() {
 		const { error, currentlySending } = this.props;
-		const { email, password, formErrors } = this.state;
+		const {
+			email, password, passwordRepeat, nickname, formErrors,
+		} = this.state;
 
 		const mainError = formErrors || error;
-
 		return (
 			<form className="form" onSubmit={this._onSubmit}>
 				{mainError ? <ErrorMessage error={mainError} /> : null}
@@ -41,14 +46,14 @@ class LoginForm extends Component {
 						type="text"
 						id="email"
 						value={email}
-						placeholder="frank.underwood"
+						placeholder="Email"
 						onChange={this._emitChange}
 						autoCorrect="off"
 						autoCapitalize="off"
 						spellCheck="false"
 					/>
 					<label className="form__field-label" htmlFor="username">
-						Email
+						Username
 					</label>
 				</div>
 				<div className="form__field-wrapper">
@@ -64,12 +69,41 @@ class LoginForm extends Component {
 						Password
 					</label>
 				</div>
+				<div className="form__field-wrapper">
+					<input
+						className="form__field-input"
+						id="password-repeat"
+						type="password"
+						value={passwordRepeat}
+						placeholder="••••••••••"
+						onChange={this._emitChange}
+					/>
+					<label className="form__field-label" htmlFor="password">
+						Password repeat
+					</label>
+				</div>
+				<div className="form__field-wrapper">
+					<input
+						className="form__field-input"
+						type="text"
+						id="nickname"
+						value={nickname}
+						placeholder="Nickname"
+						onChange={this._emitChange}
+						autoCorrect="off"
+						autoCapitalize="off"
+						spellCheck="false"
+					/>
+					<label className="form__field-label" htmlFor="password">
+						Nickname
+					</label>
+				</div>
 				<div className="form__submit-btn-wrapper">
 					{currentlySending ? (
 						<LoadingButton />
 					) : (
 						<Button className="form__submit-btn" type="submit">
-							Login
+							Register
 						</Button>
 					)}
 				</div>
@@ -77,19 +111,17 @@ class LoginForm extends Component {
 		);
 	}
 
-
 }
 
-LoginForm.propTypes = {
+RegisterForm.propTypes = {
 	error: PropTypes.any,
 	currentlySending: PropTypes.bool,
-	onSubmit: PropTypes.func,
+	onSubmit: PropTypes.func.isRequired,
 };
 
-LoginForm.defaultProps = {
+RegisterForm.defaultProps = {
 	error: null,
 	currentlySending: false,
-	onSubmit: () => {},
 };
 
-export default LoginForm;
+export default RegisterForm;

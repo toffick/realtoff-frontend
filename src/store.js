@@ -1,7 +1,16 @@
 import createSagaMiddleware from 'redux-saga';
-import { applyMiddleware, combineReducers, createStore, compose } from 'redux';
+import {
+	applyMiddleware,
+	combineReducers,
+	createStore,
+	compose
+} from 'redux';
+import logger from 'redux-logger'
 
-import { routerMiddleware, routerReducer } from 'react-router-redux';
+import {
+	routerMiddleware,
+	routerReducer
+} from 'react-router-redux';
 
 import history from './history';
 import reducers from './reducers';
@@ -19,6 +28,7 @@ const store = createStore(
 	compose(
 		applyMiddleware(sagaMiddleware),
 		applyMiddleware(middleware),
+		applyMiddleware(logger),
 		window.devToolsExtension ? window.devToolsExtension() : (f) => f,
 	),
 );

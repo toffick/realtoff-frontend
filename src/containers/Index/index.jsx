@@ -6,7 +6,7 @@ class Index extends React.Component {
 	render() {
 
 		return (
-			<h1>PixelPlex-app</h1>
+			<h1>RealtOff-app</h1>
 		);
 	}
 

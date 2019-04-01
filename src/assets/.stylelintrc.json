@@ -86,7 +86,7 @@
 			  "properties": ["position", "top", "right", "bottom", "left", "z-index"]
 			},
 			{
-			  "properties": ["display", "width", "min-width", "max-width", "height", "min-height", "max-height", "visibility", "box-sizing", "overflow", "overflow-x", "overflow-y"]
+			  "properties": ["display", "width", "min-width", "768px", "height", "min-height", "max-height", "visibility", "box-sizing", "overflow", "overflow-x", "overflow-y"]
 			},
 			{
 			  "properties": ["margin", "margin-top", "margin-right", "margin-bottom", "margin-left", "padding", "padding-top", "padding-right", "padding-bottom", "padding-left"]

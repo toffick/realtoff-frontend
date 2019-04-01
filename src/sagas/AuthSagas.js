@@ -1,11 +1,21 @@
-import { call, put, fork, race, take } from 'redux-saga/effects';
+import {
+	call,
+	put,
+	fork,
+	race,
+	take,
+} from 'redux-saga/effects';
 
 import ApiService from '../services/ApiService';
 import {
 	LOGOUT_REQUEST,
 	LOGIN_REQUEST,
+	REGISTER_REQUEST,
 } from '../actions/constants';
-import { LOCAL_STORAGE_PATHS, ROUTER_PATHS } from '../constants/GlobalConstants';
+import {
+	LOCAL_STORAGE_PATHS,
+	ROUTER_PATHS,
+} from '../constants/GlobalConstants';
 import Actions from '../actions';
 import ErrorsHelper from '../helpers/ErrorsHelper';
 
@@ -14,7 +24,7 @@ export function* authSaga() {
 	try {
 		const authResult = yield call([ApiService, ApiService.auth]);
 
-		return authResult.data;
+		return authResult.data.user;
 	} catch (error) {
 		const [errorObject] = ErrorsHelper.processServerErrors(error);
 		console.error(errorObject);
@@ -23,13 +33,62 @@ export function* authSaga() {
 	}
 
 }
+
+
+/**
+ *
+ * @return {IterableIterator<*>}
+ */
+export function* registerSaga(email, password, nickname) {
+
+	yield put(Actions.auth.setRequestProcessStatus(true));
+
+	try {
+		const authResult = yield call([ApiService, ApiService.signUp], email, password, nickname);
+
+		localStorage.setItem(LOCAL_STORAGE_PATHS.ACCESS_TOKEN_LOCAL_STORAGE, authResult.data.access_token);
+		localStorage.setItem(LOCAL_STORAGE_PATHS.REFRESH_TOKEN_LOCAL_STORAGE, authResult.data.refresh_token);
+
+		return authResult.data;
+	} catch (error) {
+		const [errorObject] = ErrorsHelper.processServerErrors(error);
+		yield put(Actions.auth.setAuthError(errorObject.message));
+
+		return false;
+	} finally {
+		yield put(Actions.auth.setRequestProcessStatus(false));
+	}
+}
+
+/**
+ *
+ * @return {IterableIterator<*>}
+ */
+export function* registerFlow() {
+	while (true) {
+		const { payload } = yield take(REGISTER_REQUEST);
+
+		const { email, password, nickname } = payload;
+
+		const result = yield call(registerSaga, email, password, nickname);
+
+		if (result) {
+			yield put(Actions.auth.setAuth(result.user));
+			yield put(Actions.navigate.navigateTo(ROUTER_PATHS.REGISTER_CONTINUE));
+			yield put(Actions.auth.clearError());
+		}
+
+	}
+}
+
+
 /**
  *
  * @param email
  * @param password
  * @return {IterableIterator<*>}
  */
-export function* signIn(email, password) {
+export function* signInSaga(email, password) {
 	yield put(Actions.auth.setRequestProcessStatus(true));
 
 	try {
@@ -60,7 +119,7 @@ export function* loginFlow() {
 		const { email, password } = payload;
 
 		const winner = yield race({
-			auth: call(signIn, email, password),
+			auth: call(signInSaga, email, password),
 			logout: take(LOGOUT_REQUEST),
 		});
 
@@ -75,7 +134,7 @@ export function* loginFlow() {
  *
  * @return {IterableIterator<*>}
  */
-export function* logout() {
+export function* logoutSaga() {
 
 	yield put(Actions.auth.setRequestProcessStatus(true));
 
@@ -105,7 +164,7 @@ export function* logoutFlow() {
 	while (true) {
 		yield take(LOGOUT_REQUEST);
 
-		const logoutResult = yield call(logout);
+		const logoutResult = yield call(logoutSaga);
 
 		if (logoutResult) {
 
@@ -119,6 +178,7 @@ export function* logoutFlow() {
 }
 
 export default function* root() {
+	yield fork(registerFlow);
 	yield fork(loginFlow);
 	yield fork(logoutFlow);
 }

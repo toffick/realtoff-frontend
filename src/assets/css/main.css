@@ -13,10 +13,6 @@
 @import 'base/_base.css';
 @import 'base/_typography.css';
 
-/* 4. Layout-related sections */
-@import 'layout/_header.css';
-@import 'layout/_footer.css';
-
 /* 5. Components */
 @import 'components/_buttons.css';
 @import 'components/_home.css';

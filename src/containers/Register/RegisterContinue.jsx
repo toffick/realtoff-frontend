@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
-
-import LoginForm from '../../components/Form/LoginForm';
 
 import Actions from '../../actions';
 import { ROUTER_PATHS } from '../../constants/GlobalConstants';
+import RegisterContinueForm from '../../components/Form/RegisterContinueForm';
 
-class Login extends Component {
+class RegisterContinue extends Component {
 
-	_login = (email, password) => {
-		this.props.login(email, password);
+	_setPersonalInfo = (username, password, nickname) => {
+		this.props.setPersonalInfo(username, password, nickname);
 	}
 
 	render() {
+
 		const { authRequestStatus, authError, user } = this.props;
 
-		if (user) {
+		if (user.telephone_number) {
 			return <Redirect to={ROUTER_PATHS.INDEX} />;
 		}
 
@@ -25,30 +25,30 @@ class Login extends Component {
 			<div className="form-page__wrapper">
 				<div className="form-page__form-wrapper">
 					<div className="form-page__form-header">
-						<h2 className="form-page__form-heading">Login</h2>
+						<h2 className="form-page__form-heading">Set personal info</h2>
+						<RegisterContinueForm
+							onSubmit={this._setPersonalInfo}
+							btnText="Register"
+							error={authError}
+							currentlySending={authRequestStatus}
+						/>
 					</div>
-					<LoginForm
-						onSubmit={this._login}
-						btnText="Login"
-						error={authError}
-						currentlySending={authRequestStatus}
-					/>
+
 				</div>
 			</div>
 		);
 	}
 
-
 }
 
-Login.propTypes = {
+RegisterContinue.propTypes = {
 	authError: PropTypes.any,
 	authRequestStatus: PropTypes.bool,
-	user: PropTypes.object.isRequired,
-	login: PropTypes.isRequired,
+	user: PropTypes.object,
+	setPersonalInfo: PropTypes.func.isRequired,
 };
 
-Login.defaultProps = {
+RegisterContinue.defaultProps = {
 	authError: null,
 	authRequestStatus: false,
 };
@@ -60,6 +60,6 @@ export default connect(
 		authRequestStatus: state.auth.get('authRequestStatus'),
 	}),
 	(dispatch) => ({
-		login: (email, password) => dispatch(Actions.auth.login(email, password)),
+		setPersonalInfo: (firstName, telephoneNumber, isPersonalLessor) => dispatch(Actions.auth.setPersonalInfo(firstName, telephoneNumber, isPersonalLessor)),
 	}),
-)(Login);
+)(RegisterContinue);

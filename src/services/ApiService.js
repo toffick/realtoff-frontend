@@ -16,7 +16,47 @@ class ApiService {
 		this.apiUrl = config.API_URL;
 	}
 
-    /**
+	/**
+	 *
+	 * @param email
+	 * @param password
+	 * @param nickname
+	 * @returns {AxiosPromise<any>}
+	 */
+	signUp(email, password, nickname) {
+		return axios.request({
+			method: 'POST',
+			url: `${this.apiUrl}/api/v1/sign-up`,
+			data: {
+				email,
+				password,
+				nickname,
+			},
+		});
+	}
+
+	/**
+	 *
+	 * @param firstName
+	 * @param telephoneNumber
+	 * @param isPersonalLessor
+	 * @returns {AxiosPromise<any>}
+	 */
+	setPersonalInfo(firstName, telephoneNumber, isPersonalLessor) {
+		return axios.request({
+			method: 'POST',
+			url: `${this.apiUrl}/api/v1/sign-up/continue`,
+			data: {
+				first_name: firstName,
+				telephone_number: telephoneNumber,
+				is_personal_lessor: isPersonalLessor,
+			},
+			enableAuthorizationHeader: true,
+		});
+	}
+
+
+	/**
 	 *
      * @param email
      * @param password
@@ -33,7 +73,7 @@ class ApiService {
 		});
 	}
 
-    /**
+	/**
 	 *
      * @param accessToken
      * @param refreshToken

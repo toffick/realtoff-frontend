@@ -20,6 +20,5 @@ export default function* rootSaga() {
 			}
 		})));
 
-	console.log(6);
 	yield call(initSaga);
 }

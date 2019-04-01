@@ -2,36 +2,36 @@
  * Basic typography style for copy text
  */
 body {
-  color: $text-color;
-  font-family: $text-font-stack;
+  color: #222;
+  font-family: 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   font-kerning: normal;
   font-variant-ligatures: common-ligatures, contextual;
   font-feature-settings: "kern", "liga", "clig", "calt";
 }
 
 p {
-  font-family: $serif-font-stack;
+  font-family: $Georgia, Times, 'Times New Roman', serif;
   line-height: 1.5em;
 }
 
 ul,
 ol {
-  font-family: $serif-font-stack;
+  font-family: $Georgia, Times, 'Times New Roman', serif;
   padding-left: 1.75em;
 }
 
 a {
   text-decoration: none;
-  color: $dark-brand-color;
+  color: #41ADDD;
 }
 
 a:hover {
-  color: $brand-color;
+  color: #6CC0E5;
 }
 
 code {
   font-size: 0.75em;
-  background-color: $very-light-grey;
+  background-color: #EDEDED;
   padding: 0.125em 0.5em;
   border-radius: 1px;
 }
