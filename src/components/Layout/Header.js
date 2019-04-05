@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { ROUTER_PATHS } from '../../constants/GlobalConstants';
+import {
+	Navbar,
+	Nav,
+} from 'react-bootstrap';
 
 class Header extends Component {
 
@@ -13,26 +17,31 @@ class Header extends Component {
 	render() {
 
 		const navButtons = this.props.loggedIn ? (
-			<div>
+			<React.Fragment>
+				<Link to={ROUTER_PATHS.CREATE_OFFER} className="btn_header btn--dash btn--header">Create offer</Link>
 				<Link to={ROUTER_PATHS.PROFILE} className="btn_header btn--dash btn--header">Profile</Link>
 				<a href="#" className="btn_header btn--login btn--header" onClick={this._logout}>Logout</a>
-			</div>
+			</React.Fragment>
 		) : (
-			<div>
+			<React.Fragment>
 				<Link to={ROUTER_PATHS.REGISTER} className="btn_header btn--login btn--header" onClick={this.props.clearError}>Register</Link>
 				<Link to={ROUTER_PATHS.LOGIN} className="btn_header btn--login btn--header" onClick={this.props.clearError}>Login</Link>
-			</div>
+			</React.Fragment>
 		);
+
 
 		return (
-			<div className="header">
-				<div className="header__wrapper">
-					<Link to={ROUTER_PATHS.INDEX} className="btn_header btn--dash btn--header" >Dashboard</Link>
-					{navButtons}
-				</div>
+			<Navbar collapseOnSelect expand="lg" bg="light" variant="dark" fixed="top">
+				<Nav.Item href="#home" className="logo">RealtOff</Nav.Item>
+				<Navbar.Collapse id="responsive-navbar-nav">
+					<Nav className="mr-auto">
 
-			</div>
-		);
+					</Nav>
+					<Nav>
+						{navButtons}
+					</Nav>
+				</Navbar.Collapse>
+			</Navbar>);
 	}
 
 

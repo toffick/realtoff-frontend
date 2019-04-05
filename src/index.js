@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import './assets/css/main.css'
+import './assets/css/main.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -15,9 +15,7 @@ import store from './store';
 ReactDOM.render(
 	<Provider store={store}>
 		<ConnectedRouter history={history} store={store}>
-			<div>
-				<Routes/>
-			</div>
+			<Routes />
 		</ConnectedRouter>
 	</Provider>,
 	document.getElementById('root'),

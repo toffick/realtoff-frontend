@@ -15,6 +15,10 @@ class AuthRoute extends React.Component {
 			return <Redirect to={ROUTER_PATHS.LOGIN} />;
 		}
 
+		if (!user.telephone_number) {
+			return <Redirect to={ROUTER_PATHS.REGISTER_CONTINUE} />;
+		}
+
 		return children;
 	}
 

@@ -49,7 +49,7 @@ export function* registerSaga(email, password, nickname) {
 		localStorage.setItem(LOCAL_STORAGE_PATHS.ACCESS_TOKEN_LOCAL_STORAGE, authResult.data.access_token);
 		localStorage.setItem(LOCAL_STORAGE_PATHS.REFRESH_TOKEN_LOCAL_STORAGE, authResult.data.refresh_token);
 
-		return authResult.data;
+		return authResult.data.user;
 	} catch (error) {
 		const [errorObject] = ErrorsHelper.processServerErrors(error);
 		yield put(Actions.auth.setAuthError(errorObject.message));
@@ -97,7 +97,7 @@ export function* signInSaga(email, password) {
 		localStorage.setItem(LOCAL_STORAGE_PATHS.ACCESS_TOKEN_LOCAL_STORAGE, authResult.data.access_token);
 		localStorage.setItem(LOCAL_STORAGE_PATHS.REFRESH_TOKEN_LOCAL_STORAGE, authResult.data.refresh_token);
 
-		return authResult.data;
+		return authResult.data.user;
 	} catch (error) {
 		const [errorObject] = ErrorsHelper.processServerErrors(error);
 		yield put(Actions.auth.setAuthError(errorObject.message));

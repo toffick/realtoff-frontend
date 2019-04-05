@@ -27,7 +27,6 @@ class App extends React.Component {
 					clearError={clearAuthError}
 				/>
 				{children}
-				<Toast />
 			</div>
 		);
 	}

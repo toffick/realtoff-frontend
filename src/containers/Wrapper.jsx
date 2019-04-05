@@ -9,10 +9,10 @@ class Wrapper extends React.Component {
 		const { children } = this.props;
 
 		return (
-			<div>
+			<React.Fragment>
 				{children}
 				<Toast />
-			</div>
+			</React.Fragment>
 		);
 	}
 

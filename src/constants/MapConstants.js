@@ -1,0 +1,1 @@
+export const MINSK_COORDINATES = [53.9, 27.56659]

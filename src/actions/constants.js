@@ -14,3 +14,5 @@ export const CHANGE_FORM = 'CHANGE_FORM';
 export const SENDING_REQUEST = 'SENDING_REQUEST';
 export const REQUEST_ERROR = 'REQUEST_ERROR';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
+
+export const CHANGE_OFFER_STEP = 'offer/CHANGE_OFFER_STEP';
