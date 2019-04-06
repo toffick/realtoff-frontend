@@ -1,29 +1,41 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import CreateOfferMap from '../../components/Maps/CreateOfferMap';
 import LocationForm from '../../components/Form/CreateOffer/LocationForm';
 
-import connect from 'react-redux/es/connect/connect';
 import Actions from '../../actions';
 
 class OfferLocation extends Component {
 
-	changeAddressHandler = (address) => {
-		console.log(address);
+	changeAddressHandler = (query) => {
+		this.props.locationAutocompleteRequest(query);
+	}
+
+	changeLocationHandler = (location) => {
+		this.props.setLocation(location);
 	}
 
 	render() {
 
-		const { coordinates } = this.props;
+		const { autocomleteList, location } = this.props;
+		const { coordinates, bounds } = location;
 
 		return (
 			<div className="location-wrap">
 				<div className="location-form-wrap">
-					<LocationForm onAddressChange={this.changeAddressHandler} />
+					<LocationForm
+						onAddressChange={this.changeAddressHandler}
+						onLocationChange={this.changeLocationHandler}
+						autocomleteList={autocomleteList}
+					/>
 				</div>
 				<div className="map-wrap">
-					<CreateOfferMap defaultCoordinates={coordinates} />
+					<CreateOfferMap
+						coordinates={coordinates}
+						bounds={bounds}
+					/>
 				</div>
 			</div>
 
@@ -34,18 +46,28 @@ class OfferLocation extends Component {
 }
 
 OfferLocation.propTypes = {
-	coordinates: PropTypes.array
+	location: PropTypes.object,
+	coordinates: PropTypes.array,
+	autocomleteList: PropTypes.array,
+	changeOfferStep: PropTypes.func.isRequired,
+	locationAutocompleteRequest: PropTypes.func.isRequired,
 };
 
 OfferLocation.defaultProps = {
-	coordinates: []
+	location: {},
+	coordinates: [],
+	autocomleteList: [],
 };
 
 export default connect(
 	(state) => ({
+		location: state.offer.get('location'),
+		autocomleteList: state.offer.get('autocomleteList'),
 		coordinates: state.offer.get('coordinates'),
 	}),
 	(dispatch) => ({
 		changeOfferStep: (step) => dispatch(Actions.offer.changeOfferStep(step)),
+		locationAutocompleteRequest: (query) => dispatch(Actions.offer.locationAutocompleteRequest(query)),
+		setLocation: (location) => dispatch(Actions.offer.setLocation(location)),
 	}),
 )(OfferLocation);

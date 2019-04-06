@@ -38,6 +38,7 @@
 		"qs": "^6.5.2",
 		"randomstring": "^1.1.5",
 		"react": "^16.2.0",
+		"react-autocomplete": "^1.8.1",
 		"react-bootstrap": "^1.0.0-beta.6",
 		"react-dom": "^16.2.0",
 		"react-hot-loader": "^4.0.0",

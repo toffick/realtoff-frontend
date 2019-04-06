@@ -28,7 +28,7 @@ const store = createStore(
 	compose(
 		applyMiddleware(sagaMiddleware),
 		applyMiddleware(middleware),
-		applyMiddleware(logger),
+		// applyMiddleware(logger),
 		window.devToolsExtension ? window.devToolsExtension() : (f) => f,
 	),
 );
