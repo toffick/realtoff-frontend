@@ -7,7 +7,7 @@ import OfferDescription from './Description';
 import OfferPersonal from './Personal';
 
 import Actions from '../../actions';
-import { CREATE_OFFER_STEPS } from '../../constants/GlobalConstants';
+import { CREATE_OFFER_STEPS } from '../../constants/OfferConstants';
 
 class CreateOffer extends Component {
 
@@ -35,18 +35,18 @@ class CreateOffer extends Component {
 			switch (step) {
 				case CREATE_OFFER_STEPS.LOCATION:
 					return (<OfferLocation />);
-
-				case CREATE_OFFER_STEPS.PERMITS_DESCRIPTION:
+				case CREATE_OFFER_STEPS.DETAILS:
 					return (<OfferDescription />);
-
 				case CREATE_OFFER_STEPS.PERSONAL:
 					return (<OfferPersonal />);
+				default:
+					return (<OfferLocation />);
 			}
 		})();
 
 		return (
 			<div className="offer">
-				<h2>Location</h2>
+				<h2>{step}</h2>
 				<div className="step-wrap">
 					{stepComponent}
 				</div>

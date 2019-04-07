@@ -12,7 +12,7 @@ import Profile from './containers/Profile';
 import PageNotFound from './containers/PageNotFound';
 import Wrapper from './containers/Wrapper';
 
-import { ROUTER_PATHS, CREATE_OFFER_PATHS } from './constants/GlobalConstants';
+import { ROUTER_PATHS } from './constants/GlobalConstants';
 
 export default class Routes extends React.Component {
 
