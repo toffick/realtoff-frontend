@@ -9,6 +9,7 @@ import Register from './containers/Register';
 import RegisterContinue from './containers/Register/RegisterContinue';
 import CreateOffer from './containers/CreateOffer';
 import Profile from './containers/Profile';
+import Offer from './containers/Offer';
 import PageNotFound from './containers/PageNotFound';
 import Wrapper from './containers/Wrapper';
 
@@ -24,14 +25,12 @@ export default class Routes extends React.Component {
 						<Route exact path={ROUTER_PATHS.INDEX} component={Index} />
 						<Route exact path={ROUTER_PATHS.LOGIN} component={Login} />
 						<Route exact path={ROUTER_PATHS.REGISTER} component={Register} />
+						<Route path={`${ROUTER_PATHS.OFFER}/:offerId`} component={Offer} />
 						<AuthRoute>
-							<Switch>
-								<Route exact path={ROUTER_PATHS.REGISTER_CONTINUE} component={RegisterContinue} />
-								<Route exact path={ROUTER_PATHS.PROFILE} component={Profile} />
-								<Route exact path={ROUTER_PATHS.CREATE_OFFER} component={CreateOffer} />
-							</Switch>
+							<Route exact path={ROUTER_PATHS.REGISTER_CONTINUE} component={RegisterContinue} />
+							<Route exact path={ROUTER_PATHS.PROFILE} component={Profile} />
+							<Route exact path={ROUTER_PATHS.CREATE_OFFER} component={CreateOffer} />
 						</AuthRoute>
-						<Route exact path={ROUTER_PATHS.NOT_FOUND} component={PageNotFound} />
 						<Route component={PageNotFound} />
 					</Switch>
 				</App>

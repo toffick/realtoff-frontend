@@ -9,14 +9,14 @@ import Actions from '../../actions';
 class OfferDescription extends Component {
 
 	changeDescriptionHandler = (newDescription) => {
-		this.props.updatePersonal(newDescription);
+		this.props.updateDescription(newDescription);
 	}
 
 	render() {
-		const { description } = this.props;
+		const { description, errors } = this.props;
 		return (
 			<div className="">
-				<DescriptionForm onChange={this.changeDescriptionHandler} description={description} />
+				<DescriptionForm onChange={this.changeDescriptionHandler} description={description} errors={errors}/>
 			</div>
 		);
 	}
@@ -24,19 +24,20 @@ class OfferDescription extends Component {
 }
 
 OfferDescription.propTypes = {
+	errors: PropTypes.array,
 	description: PropTypes.object.isRequired,
-	changeOfferStep: PropTypes.func.isRequired,
-	updatePersonal: PropTypes.func.isRequired,
+	updateDescription: PropTypes.func.isRequired,
 };
 
-OfferDescription.defaultProps = {};
+OfferDescription.defaultProps = {
+	errors: []
+};
 
 export default connect(
 	(state) => ({
 		description: state.offer.get('description'),
 	}),
 	(dispatch) => ({
-		changeOfferStep: (step) => dispatch(Actions.offer.changeOfferStep(step)),
-		updatePersonal: (description) => dispatch(Actions.offer.updatePersonal(description)),
+		updateDescription: (description) => dispatch(Actions.offer.updateDescription(description)),
 	}),
 )(OfferDescription);

@@ -9,6 +9,10 @@ import Actions from '../../actions';
 
 class OfferLocation extends Component {
 
+	componentWillUnmount(){
+		this.props.updateAutocompleteList([]);
+	}
+
 	changeAddressHandler = (query) => {
 		this.props.locationAutocompleteRequest(query);
 	}
@@ -29,6 +33,7 @@ class OfferLocation extends Component {
 						onAddressChange={this.changeAddressHandler}
 						onLocationChange={this.changeLocationHandler}
 						autocomleteList={autocomleteList}
+						location={location}
 					/>
 				</div>
 				<div className="map-wrap">
@@ -49,8 +54,8 @@ OfferLocation.propTypes = {
 	location: PropTypes.object,
 	coordinates: PropTypes.array,
 	autocomleteList: PropTypes.array,
-	changeOfferStep: PropTypes.func.isRequired,
 	locationAutocompleteRequest: PropTypes.func.isRequired,
+	updateAutocompleteList: PropTypes.func.isRequired,
 };
 
 OfferLocation.defaultProps = {
@@ -66,8 +71,8 @@ export default connect(
 		coordinates: state.offer.get('coordinates'),
 	}),
 	(dispatch) => ({
-		changeOfferStep: (step) => dispatch(Actions.offer.changeOfferStep(step)),
 		locationAutocompleteRequest: (query) => dispatch(Actions.offer.locationAutocompleteRequest(query)),
 		setLocation: (location) => dispatch(Actions.offer.setLocation(location)),
+		updateAutocompleteList: (list) => dispatch(Actions.offer.updateAutocompleteList(list)),
 	}),
 )(OfferLocation);

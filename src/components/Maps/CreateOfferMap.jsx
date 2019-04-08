@@ -14,7 +14,7 @@ class CreateOfferMap extends Component {
 		const [[prevLat, prevLong]] = this.props.bounds;
 		const [[nexLat, newLong]] = nextProps.bounds;
 
-		return nexLat === prevLat && newLong === prevLong;
+		return !(nexLat === prevLat && newLong === prevLong);
 	}
 
 	componentWillUpdate(nextProps) {
@@ -31,7 +31,7 @@ class CreateOfferMap extends Component {
 			<YMaps>
 				<Map
 					defaultState={mapParameters}
-					width="56vw"
+					width="46vw"
 					height="47vh"
 					instanceRef={(ref) => {
 						this.mapRef = ref;

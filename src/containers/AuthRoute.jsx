@@ -38,6 +38,5 @@ export default connect(
 	(state) => ({
 		user: state.auth.get('user'),
 	}),
-	() => ({
-	}),
+	() => ({}),
 )(AuthRoute);

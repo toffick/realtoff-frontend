@@ -18,9 +18,11 @@ const autoCompleteMenuStyles = {
 
 class LocationForm extends Component {
 
+	isChanged = false;
 	state = { value: '' }
 
 	onChange = (e) => {
+		this.isChanged = true;
 		const { value } = e.target;
 		this.setState({ value });
 		this.props.onAddressChange(value);
@@ -33,7 +35,7 @@ class LocationForm extends Component {
 
 	render() {
 
-		const { autocomleteList } = this.props;
+		const { autocomleteList, location } = this.props;
 
 		return (
 			<Form>
@@ -52,7 +54,7 @@ class LocationForm extends Component {
 									{item.description}
 								</div>)
 							}
-							value={this.state.value}
+							value={this.isChanged ? this.state.value : location.description}
 							onChange={this.onChange}
 							onSelect={this.onSelect}
 							inputProps={{ className: 'form-control' }}
@@ -67,6 +69,7 @@ class LocationForm extends Component {
 }
 
 LocationForm.propTypes = {
+	location: PropTypes.object,
 	autocomleteList: PropTypes.array,
 	onAddressChange: PropTypes.func.isRequired,
 	onLocationChange: PropTypes.func.isRequired,
@@ -74,6 +77,7 @@ LocationForm.propTypes = {
 
 LocationForm.defaultProps = {
 	autocomleteList: [],
+	location: {},
 };
 
 export default LocationForm;

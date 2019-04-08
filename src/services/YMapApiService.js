@@ -66,7 +66,7 @@ class YMapApi {
 						searchItem.description += ` ${name}`;
 						return;
 					case 'house':
-						searchItem.address.house = name;
+						searchItem.address.house_number = name;
 						searchItem.description += ` ${name}`;
 
 				}

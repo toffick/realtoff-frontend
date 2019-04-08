@@ -9,26 +9,73 @@ import OfferPersonal from './Personal';
 import Actions from '../../actions';
 import { CREATE_OFFER_STEPS } from '../../constants/OfferConstants';
 
+
+const STEPS_SCENARIO = [
+	CREATE_OFFER_STEPS.LOCATION,
+	CREATE_OFFER_STEPS.DETAILS,
+	CREATE_OFFER_STEPS.PERSONAL,
+];
+
 class CreateOffer extends Component {
 
+	componentWillUnmount() {
+		this.props.clearOfferForm();
+	}
+
+	_getNavigationHandlers = () => {
+		const { step, changeOfferStep } = this.props;
+		const stepIndex = STEPS_SCENARIO.findIndex((item) => step === item);
+
+		if (stepIndex === 0) {
+			return (
+				<React.Fragment>
+					<div className="navigate-button-wrap" />
+					<div className="navigate-button-wrap">
+						<div className="item next" onClick={() => changeOfferStep(STEPS_SCENARIO[1])}>
+							Next
+						</div>
+					</div>
+				</React.Fragment>
+			);
+		} else if (stepIndex === STEPS_SCENARIO.length - 1) {
+			return (
+				<React.Fragment>
+					<div className="navigate-button-wrap">
+						<div className="item back" onClick={() => changeOfferStep(STEPS_SCENARIO[stepIndex - 1])}>
+							Back
+						</div>
+					</div>
+					<div className="navigate-button-wrap">
+						<div className="item" onClick={this.onSubmit}>
+							Finish
+						</div>
+					</div>
+				</React.Fragment>
+			);
+		}
+
+		return (
+			<React.Fragment>
+				<div className="navigate-button-wrap">
+					<div className="item back" onClick={() => changeOfferStep(STEPS_SCENARIO[stepIndex - 1])}>
+						Back
+					</div>
+				</div>
+				<div className="navigate-button-wrap">
+					<div className="item next" onClick={() => changeOfferStep(STEPS_SCENARIO[stepIndex + 1])}>
+						Next
+					</div>
+				</div>
+			</React.Fragment>);
+
+	}
+
+	onSubmit = () => {
+		// todo validation
+		this.props.createOffer();
+	}
+
 	render() {
-
-		// city,
-		// 	street,
-		// 	houseNumber,
-		// 	currency,
-		// 	coordinates,
-
-		// 	type,
-		// 	floorNumber: Number(floorNumber),
-		// 	floorTotal: Number(floorTotal),
-		// 	roomTotal: Number(roomTotal),
-		// 	permitsMask,
-		// 	description,
-
-		// 	pricePerMonth,
-		// 	additionalTelephoneNumber,
-
 		const { step } = this.props;
 
 		const stepComponent = (() => {
@@ -51,11 +98,9 @@ class CreateOffer extends Component {
 					{stepComponent}
 				</div>
 				<div className="step-navigator">
-					<div className="back ">Back</div>
-					<div className="next">Next</div>
+					{this._getNavigationHandlers()}
 				</div>
 			</div>
-
 		);
 	}
 
@@ -64,6 +109,8 @@ class CreateOffer extends Component {
 CreateOffer.propTypes = {
 	step: PropTypes.string,
 	changeOfferStep: PropTypes.func.isRequired,
+	createOffer: PropTypes.func.isRequired,
+	clearOfferForm: PropTypes.func.isRequired,
 };
 
 CreateOffer.defaultProps = {
@@ -76,5 +123,8 @@ export default connect(
 	}),
 	(dispatch) => ({
 		changeOfferStep: (step) => dispatch(Actions.offer.changeOfferStep(step)),
+		createOffer: () => dispatch(Actions.offer.createOffer()),
+		clearOfferForm: () => dispatch(Actions.offer.clearOfferForm()),
+
 	}),
 )(CreateOffer);

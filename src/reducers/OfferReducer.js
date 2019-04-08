@@ -5,12 +5,37 @@ import {
 	UPDATE_AUTOCOMPLETE_LIST,
 	UPDATE_OFFER_DESCRIPTION,
 	UPDATE_OFFER_PERSONAL,
+	CLEAR_OFFER_FORM,
+	SET_OFFER_ERRORS,
 } from '../actions/constants';
 import { CREATE_OFFER_STEPS, CURRENCY_TYPES } from '../constants/OfferConstants';
 import { MINSK_COORDINATES, MINSK_COORDINATES_BOUNDED_BY } from '../constants/MapConstants';
 
+// const initialState = Map({
+// 	step: CREATE_OFFER_STEPS.LOCATION,
+// 	autocomleteList: [],
+// 	location: {
+// 		coordinates: MINSK_COORDINATES,
+// 		bounds: MINSK_COORDINATES_BOUNDED_BY,
+// 	},
+// 	description: {
+// 		isFlat: true,
+// 		floor: '',
+// 		totalFloorNumber: '',
+// 		totalRoomNumber: '',
+// 		description: '',
+// 		permitsMask: 0,
+// 	},
+// 	personal: {
+// 		additionalPhoneNumber: '',
+// 		currency: CURRENCY_TYPES.BYN,
+// 		pricePerMonth: '',
+// 	},
+// 	errors: []
+// });
+
 const initialState = Map({
-	step: CREATE_OFFER_STEPS.PERSONAL,
+	step: CREATE_OFFER_STEPS.LOCATION,
 	autocomleteList: [],
 	location: {
 		coordinates: MINSK_COORDINATES,
@@ -18,17 +43,18 @@ const initialState = Map({
 	},
 	description: {
 		isFlat: true,
-		floor: '',
-		totalFloorNumber: '',
-		totalRoomNumber: '',
-		description: '',
-		permitsMask: 0,
+		floor: '1',
+		totalFloorNumber: '2',
+		totalRoomNumber: '3',
+		description: 'asd',
+		permitsMask: 3,
 	},
 	personal: {
-		additionalPhoneNumber: '',
+		additionalPhoneNumber: '+375336096565',
 		currency: CURRENCY_TYPES.BYN,
-		pricePerMonth: '',
-	}
+		pricePerMonth: '111',
+	},
+	errors: []
 });
 
 function globalReducer(state = initialState, action) {
@@ -56,6 +82,14 @@ function globalReducer(state = initialState, action) {
 			const oldPersonal = state.get('personal');
 
 			return state.set('personal', { ...oldPersonal, ...personal });
+		}
+		case SET_OFFER_ERRORS: {
+			const { errors } = action.payload;
+
+			return state.set('errors', errors);
+		}
+		case CLEAR_OFFER_FORM: {
+			return initialState;
 		}
 		default:
 			return state;

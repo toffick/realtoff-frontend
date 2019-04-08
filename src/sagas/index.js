@@ -3,11 +3,13 @@ import { call, spawn, all } from 'redux-saga/effects';
 import initSaga from './GlobalSagas';
 import authSagas from './AuthSagas';
 import geoSagas from './GeoSagas';
+import offerSagas from './OfferSagas';
 
 export default function* rootSaga() {
 	const sagas = [
 		authSagas,
 		geoSagas,
+		offerSagas,
 	];
 
 	yield all(sagas.map((saga) =>

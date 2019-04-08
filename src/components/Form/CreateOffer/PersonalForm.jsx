@@ -16,21 +16,14 @@ import {
 
 class PersonalForm extends Component {
 
-	onRealtyTypeChecked = (evt) => {
-		this.props.onChange({ isFlat: evt.target.id === REALTY_TYPES.FLAT });
-	}
-
 	onChange = (e) => {
 		const { value, id } = e.target;
 		this.props.onChange({ [id]: value });
 	}
 
-	onChangePermitsMask = (mask) => {
-		this.props.onChange({ permitsMask: mask });
-	}
-
 	render() {
 
+		// TODO currency and errors
 		const {
 			additionalPhoneNumber,
 			currency,
@@ -67,9 +60,9 @@ class PersonalForm extends Component {
 							<Form.Label>Currency</Form.Label>
 							<Form.Control as="select" id="currency" onChange={this.onChange}>
 								{
-									Object.values(CURRENCY_TYPES).map((currency) =>
+									Object.values(CURRENCY_TYPES).map((currencyItem) =>
 										(
-											<option>{currency}</option>
+											<option selected={currency === currencyItem}>{currencyItem}</option>
 										))
 								}
 							</Form.Control>
@@ -86,11 +79,13 @@ class PersonalForm extends Component {
 }
 
 PersonalForm.propTypes = {
+	errors: PropTypes.array,
 	personal: PropTypes.object,
 	onChange: PropTypes.func.isRequired,
 };
 
 PersonalForm.defaultProps = {
+	errors: [],
 	description: {},
 };
 

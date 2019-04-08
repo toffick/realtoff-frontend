@@ -99,6 +99,17 @@ class ApiService {
 		});
 	}
 
+	createOffer(offerData) {
+		return this.createRequest({
+			method: 'POST',
+			url: `${this.apiUrl}/api/v1/create-offer`,
+			data: {
+				...offerData
+			},
+			enableAuthorizationHeader: true,
+		});
+	}
+
 	/**
      *
      * @param requestData

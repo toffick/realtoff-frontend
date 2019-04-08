@@ -18,6 +18,7 @@ export const ROUTER_PATHS = {
 	NOT_FOUND: '/not-found',
 	PROFILE: '/profile',
 	REGISTER_CONTINUE: '/register/set-personal-info',
-	CREATE_OFFER: '/create-offer',
+	CREATE_OFFER: '/offer-create',
+	OFFER: '/offer',
 };
 

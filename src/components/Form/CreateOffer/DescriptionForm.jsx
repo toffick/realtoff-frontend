@@ -118,11 +118,13 @@ class DescriptionForm extends Component {
 }
 
 DescriptionForm.propTypes = {
+	errors: PropTypes.array,
 	description: PropTypes.object,
 	onChange: PropTypes.func.isRequired,
 };
 
 DescriptionForm.defaultProps = {
+	errors: [],
 	description: {}
 };
 
