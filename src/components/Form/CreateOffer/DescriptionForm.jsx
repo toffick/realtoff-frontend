@@ -35,6 +35,7 @@ class DescriptionForm extends Component {
 			totalRoomNumber,
 			description,
 			permitsMask,
+			squareTotal,
 		} = this.props.description;
 
 		return (
@@ -91,6 +92,13 @@ class DescriptionForm extends Component {
 								id="totalRoomNumber"
 								onChange={this.onChange}
 								value={totalRoomNumber}
+							/>
+							<Form.Label>Square total</Form.Label>
+							<Form.Control
+								size="sm"
+								id="squareTotal"
+								onChange={this.onChange}
+								value={squareTotal}
 							/>
 						</Form.Group>
 

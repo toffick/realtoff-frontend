@@ -6,6 +6,7 @@ export const offerSelector = (state) => {
 
 	const {
 		isFlat, floor, totalFloorNumber, permitsMask, description, totalRoomNumber,
+		squareTotal,
 	} = descr;
 
 	const { pricePerMonth, currency, additionalPhoneNumber } = personal;
@@ -27,5 +28,6 @@ export const offerSelector = (state) => {
 		currency,
 		additional_telephone_number: additionalPhoneNumber,
 		room_total: totalRoomNumber,
+		square_total: squareTotal,
 	};
 };

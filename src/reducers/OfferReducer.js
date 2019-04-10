@@ -48,6 +48,7 @@ const initialState = Map({
 		totalRoomNumber: '3',
 		description: 'asd',
 		permitsMask: 3,
+		squareTotal: '',
 	},
 	personal: {
 		additionalPhoneNumber: '+375336096565',

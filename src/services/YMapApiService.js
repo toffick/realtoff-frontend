@@ -4,7 +4,7 @@ import axios from 'axios';
 class YMapApi {
 
 	constructor() {
-		this.apiUrl = 'https://geocode-maps.yandex.ru/1.x/?format=json';
+		this.apiUrl = 'https://geocode-maps.yandex.ru/1.x/?format=json&lang=en_US';
 	}
 
 
@@ -48,7 +48,7 @@ class YMapApi {
 				},
 			} = object;
 
-			const { Address: { Components: addressComponents } } = geocoderMetaData;
+			const { Address: { Components: addressComponents, country_code: countryCode } } = geocoderMetaData;
 
 			addressComponents.forEach((addressItem) => {
 				const { kind, name } = addressItem;
@@ -82,6 +82,7 @@ class YMapApi {
 			const [latUpper, longUpper] = upperCorner.split(' ');
 			const [latLower, longLower] = lowerCorner.split(' ');
 
+			searchItem.address.country_сode = countryCode;
 			searchItem.coordinates = [+long, +lat];
 			searchItem.bounds = [[+longLower, +latLower], [+longUpper, +latUpper]];
 
