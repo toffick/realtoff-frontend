@@ -6,6 +6,7 @@ import {
 	SET_SEARCHING_CITIES,
 	SET_SEARCHING_CITY,
 	CHANGE_SEARCH_FORM,
+	SET_CITY_COORDINATES
 } from './constants';
 
 export default {
@@ -14,6 +15,6 @@ export default {
 	setCountry: (country) => actionCreator(SET_SEARCHING_COUNTRY, { country }),
 	setSearchingCities: (cities) => actionCreator(SET_SEARCHING_CITIES, { cities }),
 	setCity: (city) => actionCreator(SET_SEARCHING_CITY, { city }),
-	changeSearchForm: (field,  value) => actionCreator(CHANGE_SEARCH_FORM, { field,  value }),
-
+	changeSearchForm: (field, value) => actionCreator(CHANGE_SEARCH_FORM, { field, value }),
+	setCityLocation: (location) => actionCreator(SET_CITY_COORDINATES, { location }),
 };

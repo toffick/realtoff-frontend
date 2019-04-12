@@ -12,11 +12,15 @@ class Index extends React.Component {
 	}
 
 	render() {
+		const {location} = this.props;
+
 		return (
 			<div className="search wrapper">
 				<div className="form-map-wrapper">
 					<SearchingForm />
-					<SearchMap />
+					<div className="search-map">
+						<SearchMap location={location}/>
+					</div>
 				</div>
 				<div className="results-wrapper">
 					<ul>
@@ -31,18 +35,15 @@ class Index extends React.Component {
 }
 
 Index.propTypes = {
-	availableCountries: PropTypes.array,
-	availableCities: PropTypes.array,
-	country: PropTypes.string,
-	city: PropTypes.string,
+	location: PropTypes.object
 };
 
 Index.defaultProps = {
-	availableCountries: [],
 };
 
 export default connect(
 	(state) => ({
+		location: state.search.get('location')
 	}),
 	(dispatch) => ({
 		updateAvailableCountriesRequest: () => dispatch(Actions.search.updateAvailableCountriesRequest()),

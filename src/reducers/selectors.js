@@ -37,3 +37,6 @@ export const searchCountrySelector = (state) => {
 
 	return availableCountries.find((item) => item.country === selectedCountry);
 };
+export const searchCitySelector = (state) => {
+	return state.search.get('city');
+};

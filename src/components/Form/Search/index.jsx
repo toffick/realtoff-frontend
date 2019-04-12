@@ -22,6 +22,11 @@ class SearchForm extends Component {
 		this.props.onCountryChange(value);
 	}
 
+	onCityChange = (e) => {
+		const { value } = e.target;
+		this.props.onCityChange(value);
+	}
+
 	onChangePermitsMask = (mask) => {
 		this.props.onChange('permitsMask', mask);
 	}
@@ -64,14 +69,14 @@ class SearchForm extends Component {
 						<Form.Control
 							as="select"
 							name="country"
+							value={country}
 							onChange={this.onCountryChange}
 						>
 							{
 								availableCountries.map((obj) =>
 									(<option
 										key={obj.code}
-										selected={obj.country === country}
-									>{obj.country}
+s									>{obj.country}
 									</option>))
 							}
 						</Form.Control>
@@ -81,12 +86,13 @@ class SearchForm extends Component {
 						<Form.Control
 							as="select"
 							name="city"
-							onChange={this.onChange}
+							value={city}
+							onChange={this.onCityChange}
 							disabled={!availableCities.length}
 						>
 							{
 								availableCities.map((cityItem) =>
-									(<option key={cityItem} selected={cityItem === city}>{cityItem}</option>))
+									(<option key={cityItem}>{cityItem}</option>))
 							}
 						</Form.Control>
 					</Form.Group>
@@ -119,13 +125,13 @@ class SearchForm extends Component {
 									<Form.Control
 										as="select"
 										name="currency"
+										value={currency}
 										onChange={this.onChange}
 									>
 										{
 											Object.values(CURRENCY_TYPES).map((currencyObj) =>
 												(<option
 													key={currencyObj}
-													selected={currencyObj === currency}
 												>{currencyObj}
 												</option>))
 										}
@@ -215,9 +221,10 @@ SearchForm.propTypes = {
 	country: PropTypes.string,
 	city: PropTypes.string,
 	onChange: PropTypes.func.isRequired,
-	onCountryChange: PropTypes.func.isRequired,
 	formValues: PropTypes.object.isRequired,
 	onSubmit: PropTypes.func.isRequired,
+	onCountryChange: PropTypes.func.isRequired,
+	onCityChange: PropTypes.func.isRequired,
 };
 
 SearchForm.defaultProps = {

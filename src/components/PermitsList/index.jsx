@@ -32,6 +32,7 @@ class PermitsList extends Component {
 				label={label.toLocaleLowerCase()}
 				type="checkbox"
 				id={flag}
+				key={flag}
 				onChange={this.onPermitsChange}
 				checked={permitsMask & flag}
 			/>);

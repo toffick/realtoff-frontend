@@ -8,13 +8,15 @@ import {
 } from 'redux-saga/effects';
 
 import {
+	SET_SEARCHING_CITY,
 	SET_SEARCHING_COUNTRY,
 	UPDATE_SEARCHING_COUNTRIES_REQUEST,
 } from '../actions/constants';
 import Actions from '../actions';
 import ApiService from '../services/ApiService';
 import { LOCATION_QUERY_THROTTLE_TIMEOUT } from '../constants/MapConstants';
-import { searchCountrySelector } from '../reducers/selectors';
+import { searchCountrySelector, searchCitySelector } from '../reducers/selectors';
+import YMapApiService from '../services/YMapApiService';
 
 export function* updateSearchingCountries() {
 
@@ -44,7 +46,29 @@ export function* updateSearchCities() {
 				yield put(Actions.search.setSearchingCities(updatedList.data));
 			}
 
-		} catch(e) {
+		} catch (e) {
+			yield put(Actions.search.setSearchingCities([]));
+		}
+	});
+
+}
+
+export function* findCityCenter() {
+
+	yield throttle(LOCATION_QUERY_THROTTLE_TIMEOUT, SET_SEARCHING_CITY, function* () {
+
+		try {
+			const countryObj = yield select(searchCountrySelector);
+			const city = yield select(searchCitySelector);
+
+			if (countryObj && countryObj.code && city) {
+				const updatedList = yield call([YMapApiService, YMapApiService.getCityCoordintes], countryObj.country, city);
+				if (updatedList.length) {
+					yield put(Actions.search.setCityLocation(updatedList[0]));
+				}
+			}
+
+		} catch (e) {
 			yield put(Actions.search.setSearchingCities([]));
 		}
 	});
@@ -54,4 +78,5 @@ export function* updateSearchCities() {
 export default function* root() {
 	yield fork(updateSearchingCountries);
 	yield fork(updateSearchCities);
+	yield fork(findCityCenter);
 }

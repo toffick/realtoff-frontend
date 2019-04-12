@@ -5,18 +5,23 @@ import {
 	SET_SEARCHING_COUNTRY,
 	SET_SEARCHING_CITY,
 	CHANGE_SEARCH_FORM,
+	SET_CITY_COORDINATES,
 } from '../actions/constants';
 import { CURRENCY_TYPES } from '../constants/OfferConstants';
+import {
+	MINSK_COORDINATES,
+	MINSK_COORDINATES_BOUNDED_BY,
+} from '../constants/MapConstants';
 
 const DEFAULT_FORM_VALUE = {
 	currency: CURRENCY_TYPES.BYN,
 	permitsMask: 0,
-	priceFrom: null,
-	priceTo: null,
-	squareFrom: null,
-	squareTo: null,
-	roomTotal: null,
-	isFlat: true
+	priceFrom: undefined,
+	priceTo: undefined,
+	squareFrom: undefined,
+	squareTo: undefined,
+	roomTotal: undefined,
+	isFlat: true,
 };
 
 const initialState = Map({
@@ -25,7 +30,10 @@ const initialState = Map({
 	country: '',
 	city: '',
 	form: DEFAULT_FORM_VALUE,
-
+	location: {
+		coordinates: MINSK_COORDINATES,
+		bounds: MINSK_COORDINATES_BOUNDED_BY,
+	},
 });
 
 function globalReducer(state = initialState, action) {
@@ -50,6 +58,10 @@ function globalReducer(state = initialState, action) {
 			const { field, value } = action.payload;
 			const oldForm = state.get('form');
 			return state.set('form', { ...oldForm, [field]: value });
+		}
+		case SET_CITY_COORDINATES: {
+			const { location } = action.payload;
+			return state.set('location', location);
 		}
 		default:
 			return state;

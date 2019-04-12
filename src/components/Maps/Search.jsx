@@ -10,17 +10,30 @@ class SearchMap extends Component {
 
 	mapRef = null;
 
-	render() {
-		const { bounds, coordinates } = this.props;
 
-		const mapParameters = { center: [53.9, 27.56659] };
+	shouldComponentUpdate(nextProps) {
+		const [[prevLat, prevLong]] = this.props.location.bounds;
+		const [[nexLat, newLong]] = nextProps.location.bounds;
+
+		return !(nexLat === prevLat && newLong === prevLong);
+	}
+
+	componentWillUpdate(nextProps) {
+		this.mapRef.setBounds(nextProps.location.bounds);
+	}
+
+
+	render() {
+		const { bounds, coordinates } = this.props.location;
+
+		const mapParameters = { center: coordinates, bounds };
 
 		return (
 
 			<YMaps>
 				<Map
 					defaultState={mapParameters}
-					width="35vw"
+					width="40vw"
 					height="40vh"
 					instanceRef={(ref) => {
 						this.mapRef = ref;
