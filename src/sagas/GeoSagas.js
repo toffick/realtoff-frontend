@@ -2,17 +2,17 @@ import {
 	call,
 	put,
 	fork,
-	race,
-	take,
 	throttle,
 } from 'redux-saga/effects';
 
 import { LOCATION_QUERY_THROTTLE_TIMEOUT } from '../constants/MapConstants';
 import YMapApiService from '../services/YMapApiService';
-import { LOCATION_AUTOCOMPLETE_REQUEST } from '../actions/constants';
+import {
+	LOCATION_AUTOCOMPLETE_REQUEST,
+} from '../actions/constants';
 import Actions from '../actions';
 
-export function* updateQueryAuto() {
+export function* updateAddressQueryAuto() {
 
 	yield throttle(LOCATION_QUERY_THROTTLE_TIMEOUT, LOCATION_AUTOCOMPLETE_REQUEST, function* (action) {
 
@@ -21,6 +21,7 @@ export function* updateQueryAuto() {
 			const { query } = action.payload;
 
 			if (query.length) {
+
 				updatedList = yield call([YMapApiService, YMapApiService.getAutocompleteListByQuery], query);
 			}
 
@@ -33,5 +34,5 @@ export function* updateQueryAuto() {
 
 
 export default function* root() {
-	yield fork(updateQueryAuto);
+	yield fork(updateAddressQueryAuto);
 }

@@ -6,7 +6,7 @@ import {
 } from 'react-yandex-maps';
 import PropTypes from 'prop-types';
 
-class CreateOfferMap extends Component {
+class CreateOffer extends Component {
 
 	mapRef = null;
 
@@ -46,14 +46,14 @@ class CreateOfferMap extends Component {
 
 }
 
-CreateOfferMap.propTypes = {
+CreateOffer.propTypes = {
 	bounds: PropTypes.array,
 	coordinates: PropTypes.array,
 };
 
-CreateOfferMap.defaultProps = {
+CreateOffer.defaultProps = {
 	bounds: [[], []],
 	coordinates: [],
 };
 
-export default CreateOfferMap;
+export default CreateOffer;

@@ -104,11 +104,27 @@ class ApiService {
 			method: 'POST',
 			url: `${this.apiUrl}/api/v1/create-offer`,
 			data: {
-				...offerData
+				...offerData,
 			},
 			enableAuthorizationHeader: true,
 		});
 	}
+
+	getActiveOffersCountries() {
+		return axios.request({
+			method: 'GET',
+			url: `${this.apiUrl}/api/v1/available-countries`,
+		});
+	}
+
+	getActiveOffersCitiesByCountry(countryCode) {
+		return axios.request({
+			method: 'GET',
+			url: `${this.apiUrl}/api/v1/available-cities`,
+			params: { country_code: countryCode },
+		});
+	}
+
 
 	/**
      *

@@ -31,3 +31,9 @@ export const offerSelector = (state) => {
 		square_total: squareTotal,
 	};
 };
+export const searchCountrySelector = (state) => {
+	const availableCountries = state.search.get('availableCountries');
+	const selectedCountry = state.search.get('country');
+
+	return availableCountries.find((item) => item.country === selectedCountry);
+};

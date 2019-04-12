@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import CreateOfferMap from '../../components/Maps/CreateOfferMap';
+import CreateOfferMap from '../../components/Maps/CreateOffer';
 import LocationForm from '../../components/Form/CreateOffer/LocationForm';
 
 import Actions from '../../actions';

@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import AuthRoute from './containers/AuthRoute';
 import App from './containers/App';
-import Index from './containers/Index';
+import Index from './containers/Search';
 import Login from './containers/Login';
 import Register from './containers/Register';
 import RegisterContinue from './containers/Register/RegisterContinue';

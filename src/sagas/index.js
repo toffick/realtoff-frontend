@@ -4,12 +4,14 @@ import initSaga from './GlobalSagas';
 import authSagas from './AuthSagas';
 import geoSagas from './GeoSagas';
 import offerSagas from './OfferSagas';
+import searchSagas from './SearchSagas';
 
 export default function* rootSaga() {
 	const sagas = [
 		authSagas,
 		geoSagas,
 		offerSagas,
+		searchSagas,
 	];
 
 	yield all(sagas.map((saga) =>

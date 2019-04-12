@@ -32,11 +32,14 @@ class Header extends Component {
 
 		return (
 			<Navbar collapseOnSelect expand="lg" bg="light" variant="dark" fixed="top">
-				<Nav.Item href="#home" className="logo">RealtOff</Nav.Item>
+				<Nav.Item href="/" className="logo">
+					{/* TODO class */}
+					<Link  to={ROUTER_PATHS.INDEX}>
+						RealtOff
+					</Link>
+				</Nav.Item>
 				<Navbar.Collapse id="responsive-navbar-nav">
-					<Nav className="mr-auto">
-
-					</Nav>
+					<Nav className="mr-auto" />
 					<Nav>
 						{navButtons}
 					</Nav>

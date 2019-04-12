@@ -7,6 +7,23 @@ class YMapApi {
 		this.apiUrl = 'https://geocode-maps.yandex.ru/1.x/?format=json&lang=en_US';
 	}
 
+	async getAutocompleteCitiesListByCountry(country, query) {
+		const normalizedQuery = query.replace(/[\s,]/g, '+');
+		const result = await axios.request({
+			method: 'GET',
+			url: this.apiUrl,
+			params: {
+				format: 'json',
+				geocode: normalizedQuery,
+			},
+		});
+
+		const { data: { response } } = result;
+
+		const coordinatesResults = this._deserializeQueryResponse(response);
+
+		return coordinatesResults;
+	}
 
 	/**
 	 *
