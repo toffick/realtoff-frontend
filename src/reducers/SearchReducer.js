@@ -11,7 +11,9 @@ import {
 	UPDATE_URI_QUERY,
 	SET_SEARCH_FORM,
 	CHANGE_SEARCH_MAP_STATE,
-	SET_SEARCH_ERROR_OBJECT
+	SET_SEARCH_ERROR_OBJECT,
+	CLEAR_SEARCH_PAGE,
+	SET_SELECTED_OFFER_ID
 } from '../actions/constants';
 import {
 	CURRENCY_TYPES,
@@ -48,6 +50,7 @@ const initialState = Map({
 	queryUri: '',
 	isMapReady: false,
 	errorObject: {},
+	selectedOfferId: null,
 });
 
 function globalReducer(state = initialState, action) {
@@ -95,12 +98,18 @@ function globalReducer(state = initialState, action) {
 		}
 		case SET_SEARCH_FORM: {
 			const { formObject } = action.payload;
-			return state.set('form', {...DEFAULT_FORM_VALUE, ...formObject});
+			return state.set('form', { ...DEFAULT_FORM_VALUE, ...formObject });
 		}
 		case CHANGE_SEARCH_MAP_STATE: {
 			const { isMapReady } = action.payload;
 			return state.set('isMapReady', isMapReady);
 		}
+		case CLEAR_SEARCH_PAGE: {
+			return initialState;
+		}
+		case SET_SELECTED_OFFER_ID: {
+			const { offerId } = action.payload;
+			return state.set('selectedOfferId', offerId);		}
 		default:
 			return state;
 	}

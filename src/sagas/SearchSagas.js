@@ -33,10 +33,6 @@ import {
 	searchRequestSelector,
 } from '../reducers/selectors';
 import YMapApiService from '../services/YMapApiService';
-import {
-	CURRENCY_TYPES,
-	REALTY_TYPES,
-} from '../constants/OfferConstants';
 import NormalizeHelper from '../helpers/NormalizeHelper';
 
 export function* updateSearchingCountries() {
@@ -92,6 +88,8 @@ export function* findCityCenter() {
 				if (updatedList.length) {
 					yield put(Actions.search.setCityLocation(updatedList[0]));
 				}
+
+				yield put(Actions.search.setSelectedOfferId(null));
 			}
 
 		} catch (e) {
@@ -115,6 +113,8 @@ export function* search() {
 			const normalizedQueryObject = NormalizeHelper.removeEmptyValuesField(queryObject);
 			const queryUri = qs.stringify(normalizedQueryObject);
 			yield put({ type: UPDATE_URI_QUERY, payload: { queryUri } });
+
+			yield put(Actions.search.setSelectedOfferId(null));
 
 		} catch (e) {
 			yield put(Actions.search.setOffers([]));

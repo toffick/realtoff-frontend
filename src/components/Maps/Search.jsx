@@ -10,28 +10,32 @@ class SearchMap extends Component {
 
 	mapRef = null;
 
-
 	shouldComponentUpdate(nextProps) {
-		const [[prevLat, prevLong]] = this.props.location.bounds;
-		const [[nexLat, newLong]] = nextProps.location.bounds;
+		const [[prevLat, prevLong]] = this.props.bounds;
+		const [[nexLat, newLong]] = nextProps.bounds;
 
-		return !(nexLat === prevLat && newLong === prevLong);
+		return !(nexLat === prevLat && newLong === prevLong)
+			|| this.props.queryUri !== nextProps.queryUri;
 	}
 
 	componentWillUpdate(nextProps) {
 		this.mapRef.setBounds(nextProps.location.bounds);
 	}
 
+	renderPlacemark = (offers) => offers.map((offer, i) =>
+		(<Placemark
+			key={i}
+			geometry={offer.coordinates.coordinates}
+			onClick={() => this.props.onSelectOffer(offer.id)}
+		/>))
 
 	render() {
-		const { location, onInit } = this.props;
-		const { bounds, coordinates, offers } = location;
+		const { location, offers, onInit } = this.props;
+		const { bounds, coordinates } = location;
 
-		// TODO
-		const mapParameters = { center: coordinates, bounds };
+		const mapParameters = { center: coordinates, bounds, zoom: 11 };
 
 		return (
-
 			<YMaps>
 				<Map
 					defaultState={mapParameters}
@@ -43,10 +47,10 @@ class SearchMap extends Component {
 					}}
 				>
 					{
-						offers && offers.length && offers.map((item) =>
-							(
-								<Placemark geometry={item.coordinates} />
-							))
+						offers.length ?
+							this.renderPlacemark(offers)
+							:
+							null
 					}
 				</Map>
 			</YMaps>
@@ -59,13 +63,16 @@ class SearchMap extends Component {
 SearchMap.propTypes = {
 	bounds: PropTypes.array,
 	coordinates: PropTypes.array,
+	location: PropTypes.object,
 	onInit: PropTypes.func,
+	onSelectOffer: PropTypes.func.isRequired,
 };
 
 SearchMap.defaultProps = {
 	bounds: [[], []],
 	coordinates: [],
-	onInit: () => {},
+	onInit: () => {
+	},
 };
 
 export default SearchMap;

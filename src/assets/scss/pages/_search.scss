@@ -24,7 +24,59 @@
   }
 
   .results-wrapper{
-    width: 95%;
+    width: 60%;
+    padding-top: 30px;
+    margin-bottom: 50px;
+
+    .offer-link{
+      text-decoration: none;
+      color: #2f2d2d;
+
+
+    }
+
+    .offer-preview-wrapper{
+      height: 150px;
+      max-height: 150px;
+      margin-bottom: 20px;
+      padding: 10px;
+
+      .card-wrapper {
+        display: flex;
+        flex-direction: row;
+
+        .selected-placemark{
+          background: rgba(255, 253, 128, 0.75);
+        }
+
+        .main{
+          .title {
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+          }
+          max-height: 140px;
+          height: 140px;
+
+          &:hover{
+            background: #f7f7f7;
+          }
+
+
+        }
+
+        .preview-img{
+          max-width: 140px;
+          min-width: 140px;
+        }
+
+        .created-at{
+          max-width: 100px;
+        }
+
+      }
+    }
+
   }
 
   .form-group-padding{

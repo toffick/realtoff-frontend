@@ -14,6 +14,8 @@ import {
 	SET_SEARCH_FORM,
 	CHANGE_SEARCH_MAP_STATE,
 	SET_SEARCH_ERROR_OBJECT,
+	CLEAR_SEARCH_PAGE,
+	SET_SELECTED_OFFER_ID
 } from './constants';
 
 export default {
@@ -31,4 +33,6 @@ export default {
 	setForm: (formObject) => actionCreator(SET_SEARCH_FORM, { formObject }),
 	changeMapState: (isMapReady) => actionCreator(CHANGE_SEARCH_MAP_STATE, { isMapReady }),
 	setErrorObject: (errorObject) => actionCreator(SET_SEARCH_ERROR_OBJECT, { errorObject }),
+	clearSearchPage: () => actionCreator(CLEAR_SEARCH_PAGE),
+	setSelectedOfferId: (offerId) => actionCreator(SET_SELECTED_OFFER_ID, {offerId}),
 };
