@@ -11,6 +11,7 @@ import {
 	LOGOUT_REQUEST,
 	LOGIN_REQUEST,
 	REGISTER_REQUEST,
+	SET_PERSONAL_INFO,
 } from '../actions/constants';
 import {
 	LOCAL_STORAGE_PATHS,
@@ -32,6 +33,49 @@ export function* authSaga() {
 		return false;
 	}
 
+}
+
+
+/**
+ *
+ * @return {IterableIterator<*>}
+ */
+export function* setPersonalInfo(firstName, telephoneNumber, isPersonalLessor) {
+
+	yield put(Actions.auth.setRequestProcessStatus(true));
+
+	try {
+		const authResult = yield call([ApiService, ApiService.setPersonalInfo], firstName, telephoneNumber, isPersonalLessor);
+
+		return authResult.data.success;
+	} catch (error) {
+		const [errorObject] = ErrorsHelper.processServerErrors(error);
+		yield put(Actions.auth.setAuthError(errorObject.message));
+
+		return false;
+	} finally {
+		yield put(Actions.auth.setRequestProcessStatus(false));
+	}
+}
+
+/**
+ *
+ * @return {IterableIterator<*>}
+ */
+export function* setPersonalInfoFlow() {
+	while (true) {
+		const { payload } = yield take(SET_PERSONAL_INFO);
+
+		const { firstName, telephoneNumber, isPersonalLessor} = payload;
+
+		const result = yield call(setPersonalInfo, firstName, telephoneNumber, isPersonalLessor);
+
+		if (result) {
+			yield put(Actions.navigate.navigateTo(ROUTER_PATHS.INDEX));
+			yield put(Actions.auth.clearError());
+		}
+
+	}
 }
 
 
@@ -181,4 +225,5 @@ export default function* root() {
 	yield fork(registerFlow);
 	yield fork(loginFlow);
 	yield fork(logoutFlow);
+	yield fork(setPersonalInfoFlow);
 }

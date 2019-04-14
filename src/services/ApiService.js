@@ -126,6 +126,14 @@ class ApiService {
 	}
 
 
+	search(queryParams){
+		return axios.request({
+			method: 'GET',
+			url: `${this.apiUrl}/api/v1/search-offers`,
+			params: queryParams,
+		});
+	}
+
 	/**
      *
      * @param requestData

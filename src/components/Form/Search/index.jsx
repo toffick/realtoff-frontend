@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 import {
 	Form,
 	Col,
-	Row,
 	Button,
 } from 'react-bootstrap';
 
-import { CURRENCY_TYPES, REALTY_TYPES } from '../../../constants/OfferConstants';
+import {
+	CURRENCY_TYPES,
+	REALTY_TYPES,
+} from '../../../constants/OfferConstants';
 import PermitsList from '../../PermitsList';
 
 class SearchForm extends Component {
@@ -19,7 +21,7 @@ class SearchForm extends Component {
 
 	onCountryChange = (e) => {
 		const { value } = e.target;
-		this.props.onCountryChange(value);
+		this.props.onCountryChange(this.props.availableCountries[value]);
 	}
 
 	onCityChange = (e) => {
@@ -31,15 +33,8 @@ class SearchForm extends Component {
 		this.props.onChange('permitsMask', mask);
 	}
 
-	onRealtyTypeChange = (e) => {
-		const { value } = e.target;
-		this.props.onChange('isFlat', value === REALTY_TYPES.FLAT);
-	}
-
 	onSubmit = (e) => {
 		e.preventDefault();
-
-		// TODO validation
 		this.props.onSubmit();
 	}
 
@@ -47,7 +42,6 @@ class SearchForm extends Component {
 		const {
 			availableCountries,
 			availableCities,
-			country,
 			city,
 			formValues: {
 				priceFrom,
@@ -57,9 +51,12 @@ class SearchForm extends Component {
 				squareTo,
 				roomTotal,
 				permitsMask,
-				isFlat,
+				type,
 			},
+			errorObject,
 		} = this.props;
+
+		const isSubmitDisabled = !city;
 
 		return (
 			<Form>
@@ -69,15 +66,18 @@ class SearchForm extends Component {
 						<Form.Control
 							as="select"
 							name="country"
-							value={country}
 							onChange={this.onCountryChange}
 						>
 							{
-								availableCountries.map((obj) =>
-									(<option
-										key={obj.code}
-s									>{obj.country}
-									</option>))
+								availableCountries.map((obj, index) =>
+									(
+										<option
+											key={obj.code}
+											value={index}
+										>
+											{obj.country}
+										</option>
+									))
 							}
 						</Form.Control>
 					</Form.Group>
@@ -86,10 +86,11 @@ s									>{obj.country}
 						<Form.Control
 							as="select"
 							name="city"
-							value={city}
+							value={city || ''}
 							onChange={this.onCityChange}
 							disabled={!availableCities.length}
 						>
+							<option value="" disabled>Select city...</option>
 							{
 								availableCities.map((cityItem) =>
 									(<option key={cityItem}>{cityItem}</option>))
@@ -111,7 +112,11 @@ s									>{obj.country}
 										name="priceFrom"
 										value={priceFrom}
 										onChange={this.onChange}
+										isInvalid={errorObject.priceFrom}
 									/>
+									<Form.Control.Feedback type="invalid">
+										{errorObject.priceFrom}
+									</Form.Control.Feedback>
 								</Form.Group>
 								<Form.Group as={Col}>
 									<Form.Control
@@ -119,7 +124,11 @@ s									>{obj.country}
 										name="priceTo"
 										value={priceTo}
 										onChange={this.onChange}
+										isInvalid={errorObject.priceTo}
 									/>
+									<Form.Control.Feedback type="invalid">
+										{errorObject.priceTo}
+									</Form.Control.Feedback>
 								</Form.Group>
 								<Form.Group as={Col}>
 									<Form.Control
@@ -132,7 +141,8 @@ s									>{obj.country}
 											Object.values(CURRENCY_TYPES).map((currencyObj) =>
 												(<option
 													key={currencyObj}
-												>{currencyObj}
+												>
+													{currencyObj}
 												</option>))
 										}
 									</Form.Control>
@@ -142,7 +152,7 @@ s									>{obj.country}
 
 						<Form.Group as={Col}>
 							<PermitsList
-								nChangeMask={this.onChangePermitsMask}
+								onChangeMask={this.onChangePermitsMask}
 								permitsMask={permitsMask}
 							/>
 						</Form.Group>
@@ -151,7 +161,7 @@ s									>{obj.country}
 					<Form.Group as={Col}>
 						<Form.Row>
 							<Form.Group as={Col}>
-								<Form.Label>Square total</Form.Label>
+								<Form.Label>Square total(m²)</Form.Label>
 								<Form.Row>
 									<Form.Group as={Col}>
 										<Form.Control
@@ -159,7 +169,11 @@ s									>{obj.country}
 											name="squareFrom"
 											value={squareFrom}
 											onChange={this.onChange}
+											isInvalid={errorObject.squareFrom}
 										/>
+										<Form.Control.Feedback type="invalid">
+											{errorObject.squareFrom}
+										</Form.Control.Feedback>
 									</Form.Group>
 									<Form.Group as={Col}>
 										<Form.Control
@@ -167,20 +181,28 @@ s									>{obj.country}
 											name="squareTo"
 											value={squareTo}
 											onChange={this.onChange}
+											isInvalid={errorObject.squareTo}
 										/>
+										<Form.Control.Feedback type="invalid">
+											{errorObject.squareTo}
+										</Form.Control.Feedback>
 									</Form.Group>
 								</Form.Row>
 							</Form.Group>
 							<Form.Group as={Col}>
 								<Form.Label>Room total</Form.Label>
 								<Form.Row>
-									<Form.Group as={Col}>
+									<Form.Group as={Col} className="form-group-padding">
 										<Form.Control
 											type="text"
 											name="roomTotal"
 											value={roomTotal}
 											onChange={this.onChange}
+											isInvalid={errorObject.roomTotal}
 										/>
+										<Form.Control.Feedback type="invalid">
+											{errorObject.roomTotal}
+										</Form.Control.Feedback>
 									</Form.Group>
 								</Form.Row>
 							</Form.Group>
@@ -191,18 +213,25 @@ s									>{obj.country}
 								label="Flat"
 								type="radio"
 								value={REALTY_TYPES.FLAT}
-								onChange={this.onRealtyTypeChange}
-								checked={isFlat}
+								onChange={this.onChange}
+								name="type"
+								checked={REALTY_TYPES.FLAT === type}
 							/>
 							<Form.Check
 								label="House"
 								type="radio"
 								value={REALTY_TYPES.HOUSE}
-								onChange={this.onRealtyTypeChange}
-								checked={!isFlat}
+								onChange={this.onChange}
+								name="type"
+								checked={REALTY_TYPES.HOUSE === type}
 							/>
 						</Form.Group>
-						<Button type="submit" onClick={this.onSubmit}>Submit</Button>
+						<Button
+							type="submit"
+							onClick={this.onSubmit}
+							disabled={isSubmitDisabled}
+						>Search
+						</Button>
 
 					</Form.Group>
 
@@ -218,8 +247,9 @@ SearchForm.propTypes = {
 	errors: PropTypes.array,
 	availableCountries: PropTypes.array,
 	availableCities: PropTypes.array,
-	country: PropTypes.string,
+	countryMeta: PropTypes.object,
 	city: PropTypes.string,
+	errorObject: PropTypes.object,
 	onChange: PropTypes.func.isRequired,
 	formValues: PropTypes.object.isRequired,
 	onSubmit: PropTypes.func.isRequired,

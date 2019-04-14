@@ -4,10 +4,19 @@ import {
 	SET_SEARCHING_COUNTRIES,
 	SET_SEARCHING_COUNTRY,
 	SET_SEARCHING_CITY,
-	CHANGE_SEARCH_FORM,
+	UPDATE_SEARCH_FORM,
 	SET_CITY_COORDINATES,
+	SET_SEARCHING_PROCESS_STATUS,
+	SET_OFFERS,
+	UPDATE_URI_QUERY,
+	SET_SEARCH_FORM,
+	CHANGE_SEARCH_MAP_STATE,
+	SET_SEARCH_ERROR_OBJECT
 } from '../actions/constants';
-import { CURRENCY_TYPES } from '../constants/OfferConstants';
+import {
+	CURRENCY_TYPES,
+	REALTY_TYPES,
+} from '../constants/OfferConstants';
 import {
 	MINSK_COORDINATES,
 	MINSK_COORDINATES_BOUNDED_BY,
@@ -16,35 +25,44 @@ import {
 const DEFAULT_FORM_VALUE = {
 	currency: CURRENCY_TYPES.BYN,
 	permitsMask: 0,
-	priceFrom: undefined,
-	priceTo: undefined,
-	squareFrom: undefined,
-	squareTo: undefined,
-	roomTotal: undefined,
-	isFlat: true,
+	priceFrom: '',
+	priceTo: '',
+	squareFrom: '',
+	squareTo: '',
+	roomTotal: '',
+	type: REALTY_TYPES.FLAT,
 };
 
 const initialState = Map({
 	availableCountries: [],
 	availableCities: [],
-	country: '',
+	countryMeta: {},
 	city: '',
 	form: DEFAULT_FORM_VALUE,
-	location: {
+	mapMeta: {
 		coordinates: MINSK_COORDINATES,
 		bounds: MINSK_COORDINATES_BOUNDED_BY,
 	},
+	isSearchingInProgress: false,
+	offers: [],
+	queryUri: '',
+	isMapReady: false,
+	errorObject: {},
 });
 
 function globalReducer(state = initialState, action) {
 	switch (action.type) {
+		case SET_SEARCH_ERROR_OBJECT: {
+			const { errorObject } = action.payload;
+			return state.set('errorObject', errorObject);
+		}
 		case SET_SEARCHING_COUNTRIES: {
 			const { countries } = action.payload;
 			return state.set('availableCountries', countries);
 		}
 		case SET_SEARCHING_COUNTRY: {
-			const { country } = action.payload;
-			return state.set('country', country);
+			const { countryMeta } = action.payload;
+			return state.set('countryMeta', countryMeta);
 		}
 		case SET_SEARCHING_CITIES: {
 			const { cities } = action.payload;
@@ -54,14 +72,34 @@ function globalReducer(state = initialState, action) {
 			const { city } = action.payload;
 			return state.set('city', city);
 		}
-		case CHANGE_SEARCH_FORM: {
+		case UPDATE_SEARCH_FORM: {
 			const { field, value } = action.payload;
 			const oldForm = state.get('form');
 			return state.set('form', { ...oldForm, [field]: value });
 		}
 		case SET_CITY_COORDINATES: {
-			const { location } = action.payload;
-			return state.set('location', location);
+			const { mapMeta } = action.payload;
+			return state.set('mapMeta', mapMeta);
+		}
+		case SET_SEARCHING_PROCESS_STATUS: {
+			const { status } = action.payload;
+			return state.set('isSearchingInProgress', status);
+		}
+		case SET_OFFERS: {
+			const { offers } = action.payload;
+			return state.set('offers', offers);
+		}
+		case UPDATE_URI_QUERY: {
+			const { queryUri } = action.payload;
+			return state.set('queryUri', queryUri);
+		}
+		case SET_SEARCH_FORM: {
+			const { formObject } = action.payload;
+			return state.set('form', {...DEFAULT_FORM_VALUE, ...formObject});
+		}
+		case CHANGE_SEARCH_MAP_STATE: {
+			const { isMapReady } = action.payload;
+			return state.set('isMapReady', isMapReady);
 		}
 		default:
 			return state;

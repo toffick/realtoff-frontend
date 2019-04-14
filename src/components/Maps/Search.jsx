@@ -24,8 +24,10 @@ class SearchMap extends Component {
 
 
 	render() {
-		const { bounds, coordinates } = this.props.location;
+		const { location, onInit } = this.props;
+		const { bounds, coordinates, offers } = location;
 
+		// TODO
 		const mapParameters = { center: coordinates, bounds };
 
 		return (
@@ -37,8 +39,16 @@ class SearchMap extends Component {
 					height="40vh"
 					instanceRef={(ref) => {
 						this.mapRef = ref;
+						onInit();
 					}}
-				/>
+				>
+					{
+						offers && offers.length && offers.map((item) =>
+							(
+								<Placemark geometry={item.coordinates} />
+							))
+					}
+				</Map>
 			</YMaps>
 
 		);
@@ -49,11 +59,13 @@ class SearchMap extends Component {
 SearchMap.propTypes = {
 	bounds: PropTypes.array,
 	coordinates: PropTypes.array,
+	onInit: PropTypes.func,
 };
 
 SearchMap.defaultProps = {
 	bounds: [[], []],
 	coordinates: [],
+	onInit: () => {},
 };
 
 export default SearchMap;

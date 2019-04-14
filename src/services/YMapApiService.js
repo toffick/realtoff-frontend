@@ -91,8 +91,9 @@ class YMapApi {
 						searchItem.description += ` ${name}`;
 						return;
 					case 'street':
-						searchItem.address.street = name;
-						searchItem.description += ` ${name}`;
+						const streetNormalized = name.replace(' ulitcsa', '')
+						searchItem.address.street = streetNormalized;
+						searchItem.description += ` ${streetNormalized}`;
 						return;
 					case 'house':
 						searchItem.address.house_number = name;
@@ -111,7 +112,7 @@ class YMapApi {
 			const [latUpper, longUpper] = upperCorner.split(' ');
 			const [latLower, longLower] = lowerCorner.split(' ');
 
-			searchItem.address.country_сode = countryCode;
+			searchItem.address.country_code = countryCode;
 			searchItem.coordinates = [+long, +lat];
 			searchItem.bounds = [[+longLower, +latLower], [+longUpper, +latUpper]];
 

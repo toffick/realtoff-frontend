@@ -35,7 +35,7 @@
 		"node-sass": "^4.11.0",
 		"npm": "^6.9.0",
 		"prop-types": "^15.6.1",
-		"qs": "^6.5.2",
+		"qs": "^6.7.0",
 		"randomstring": "^1.1.5",
 		"react": "^16.2.0",
 		"react-autocomplete": "^1.8.1",
@@ -53,7 +53,8 @@
 		"redux-modules": "^1.1.0",
 		"redux-modules-middleware": "^1.2.0",
 		"redux-saga": "^1.0.2",
-		"redux-thunk": "^2.3.0"
+		"redux-thunk": "^2.3.0",
+		"validator": "^10.11.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.1.0",

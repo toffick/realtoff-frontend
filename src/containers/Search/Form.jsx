@@ -1,38 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import connect from 'react-redux/es/connect/connect';
-import Actions from '../../actions';
+import { connect } from 'react-redux';
+
 import SearchForm from '../../components/Form/Search';
+
+import Actions from '../../actions';
+import ValidationHelper from '../../helpers/ValidationHelper';
 
 class SearchFormContainer extends React.Component {
 
-	componentDidMount() {
-		this.props.updateAvailableCountriesRequest();
-	}
-
 	changeFormHandler = (field, value) => {
-		this.props.changeSearchForm(field, value);
+		this.props.updateForm(field, value);
 	}
 
 	onCountryChangeHandler = (country) => {
 		this.props.setCountry(country);
 	}
 
-	onCityChangeHandler = (city)=>{
+	onCityChangeHandler = (city) => {
 		this.props.setCity(city);
+		this.props.searchRequest();
 	}
 
-	onSubmitHandler = ()=>{
-
+	onSubmitHandler = () => {
+		const validInfo = ValidationHelper.validateOfferSearchRequest(this.props.form);
+		if (validInfo.isValid) {
+			this.props.setErrorObject({});
+			this.props.searchRequest();
+		} else {
+			this.props.setErrorObject(validInfo.errorsMap);
+		}
 	}
 
 	render() {
 		const {
 			availableCountries,
 			availableCities,
-			country,
+			countryMeta,
 			city,
-			form
+			form,
+			errorObject,
 		} = this.props;
 
 		return (
@@ -40,13 +47,14 @@ class SearchFormContainer extends React.Component {
 				<SearchForm
 					availableCountries={availableCountries}
 					availableCities={availableCities}
-					country={country}
+					countryMeta={countryMeta}
 					city={city}
 					onChange={this.changeFormHandler}
 					onCountryChange={this.onCountryChangeHandler}
 					onCityChange={this.onCityChangeHandler}
 					formValues={form}
 					onSubmit={this.onSubmitHandler}
+					errorObject={errorObject}
 				/>
 			</div>
 		);
@@ -57,12 +65,15 @@ class SearchFormContainer extends React.Component {
 SearchFormContainer.propTypes = {
 	availableCountries: PropTypes.array,
 	availableCities: PropTypes.array,
-	country: PropTypes.string,
+	countryMeta: PropTypes.object,
 	city: PropTypes.string,
+	errorObject: PropTypes.object,
+	form: PropTypes.object.isRequired,
 	updateAvailableCountriesRequest: PropTypes.func.isRequired,
 	setCountry: PropTypes.func.isRequired,
 	setCity: PropTypes.func.isRequired,
-	form: PropTypes.object.isRequired,
+	searchRequest: PropTypes.func.isRequired,
+	setErrorObject: PropTypes.func.isRequired,
 };
 
 SearchFormContainer.defaultProps = {
@@ -73,14 +84,16 @@ export default connect(
 	(state) => ({
 		availableCountries: state.search.get('availableCountries'),
 		availableCities: state.search.get('availableCities'),
-		country: state.search.get('country'),
+		countryMeta: state.search.get('countryMeta'),
 		city: state.search.get('city'),
 		form: state.search.get('form'),
+		errorObject: state.search.get('errorObject'),
 	}),
 	(dispatch) => ({
-		updateAvailableCountriesRequest: () => dispatch(Actions.search.updateAvailableCountriesRequest()),
 		setCountry: (country) => dispatch(Actions.search.setCountry(country)),
 		setCity: (city) => dispatch(Actions.search.setCity(city)),
-		changeSearchForm: (field, value) => dispatch(Actions.search.changeSearchForm(field, value)),
+		updateForm: (field, value) => dispatch(Actions.search.updateForm(field, value)),
+		searchRequest: () => dispatch(Actions.search.searchRequest()),
+		setErrorObject: (errorObject) => dispatch(Actions.search.setErrorObject(errorObject)),
 	}),
 )(SearchFormContainer);
