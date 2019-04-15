@@ -48,7 +48,7 @@ class LoginForm extends Component {
 						spellCheck="false"
 					/>
 					<label className="form__field-label" htmlFor="username">
-						Email
+						Электронная почта
 					</label>
 				</div>
 				<div className="form__field-wrapper">
@@ -61,7 +61,7 @@ class LoginForm extends Component {
 						onChange={this._emitChange}
 					/>
 					<label className="form__field-label" htmlFor="password">
-						Password
+						Пароль
 					</label>
 				</div>
 				<div className="form__submit-btn-wrapper">
@@ -69,7 +69,7 @@ class LoginForm extends Component {
 						<LoadingButton />
 					) : (
 						<Button className="form__submit-btn" type="submit">
-							Login
+							Войти
 						</Button>
 					)}
 				</div>

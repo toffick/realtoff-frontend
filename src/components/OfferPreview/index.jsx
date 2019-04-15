@@ -27,7 +27,7 @@ class OfferPreview extends Component {
 					<Card.Title>
 						<div className="title">
 							<div>{this.getTitleByAddress()} {isActive}</div>
-							<div>{pricePerMonth} {currency} / month</div>
+							<div>{pricePerMonth} {currency} / месяц</div>
 						</div>
 
 					</Card.Title>
@@ -36,7 +36,7 @@ class OfferPreview extends Component {
 					</Card.Text>
 				</Card.Body>
 				<Card.Footer className="created-at">
-					<small className="text-muted">Created {timeAgo.ago(new Date(offer.created_at))}</small>
+					<small className="text-muted">Создано {timeAgo.ago(new Date(offer.created_at))}</small>
 				</Card.Footer>
 			</Card>
 

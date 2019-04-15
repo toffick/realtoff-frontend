@@ -9,13 +9,17 @@ import RegisterContinueForm from '../../components/Form/RegisterContinueForm';
 
 class RegisterContinue extends Component {
 
-	_setPersonalInfo = (username, password, nickname) => {
-		this.props.setPersonalInfo(username, password, nickname);
+	_setPersonalInfo = (firstName, telephoneNumber, isPersonalLessor) => {
+		this.props.setPersonalInfo(firstName, telephoneNumber, isPersonalLessor);
 	}
 
 	render() {
 
 		const { authRequestStatus, authError, user } = this.props;
+
+		if (!user) {
+			return <Redirect to={ROUTER_PATHS.LOGIN} />;
+		}
 
 		if (user.telephone_number) {
 			return <Redirect to={ROUTER_PATHS.INDEX} />;
@@ -25,7 +29,7 @@ class RegisterContinue extends Component {
 			<div className="form-page__wrapper">
 				<div className="form-page__form-wrapper">
 					<div className="form-page__form-header">
-						<h2 className="form-page__form-heading">Set personal info</h2>
+						<h2 className="form-page__form-heading">Завершите регистрацию</h2>
 						<RegisterContinueForm
 							onSubmit={this._setPersonalInfo}
 							btnText="Register"

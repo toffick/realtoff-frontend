@@ -20,7 +20,7 @@ class Register extends Component {
 
 		if (user) {
 			if (!user.telephone_number) {
-				return (<Redirect to={ROUTER_PATHS.REGISTER_CONTINUE} />);
+				return (<Redirect to={ROUTER_PATHS.FINISH_REGISTRATION} />);
 			}
 			return (<Redirect to={ROUTER_PATHS.INDEX} />);
 		}
@@ -29,7 +29,7 @@ class Register extends Component {
 			<div className="form-page__wrapper">
 				<div className="form-page__form-wrapper">
 					<div className="form-page__form-header">
-						<h2 className="form-page__form-heading">Register</h2>
+						<h2 className="form-page__form-heading">Регистрация</h2>
 					</div>
 					<RegisterForm
 						onSubmit={this._register}

@@ -40,7 +40,7 @@ class LocationForm extends Component {
 		return (
 			<Form>
 				<Form.Group controlId="exampleForm.ControlInput1">
-					<Form.Label>Enter address</Form.Label>
+					<Form.Label>Введите полный адрес (страна, город, улица, номер дома)</Form.Label>
 					<Form.Row>
 						<ReactAutocomplete
 							wrapperStyle={autoCompleteMenuStyles}

@@ -62,7 +62,7 @@ class SearchForm extends Component {
 			<Form>
 				<Form.Row>
 					<Form.Group as={Col}>
-						<Form.Label>Country</Form.Label>
+						<Form.Label>Страна</Form.Label>
 						<Form.Control
 							as="select"
 							name="country"
@@ -82,7 +82,7 @@ class SearchForm extends Component {
 						</Form.Control>
 					</Form.Group>
 					<Form.Group as={Col}>
-						<Form.Label>City</Form.Label>
+						<Form.Label>Город</Form.Label>
 						<Form.Control
 							as="select"
 							name="city"
@@ -90,7 +90,7 @@ class SearchForm extends Component {
 							onChange={this.onCityChange}
 							disabled={!availableCities.length}
 						>
-							<option value="" disabled>Select city...</option>
+							<option value="" disabled>Выберите город...</option>
 							{
 								availableCities.map((cityItem) =>
 									(<option key={cityItem}>{cityItem}</option>))
@@ -104,12 +104,13 @@ class SearchForm extends Component {
 					<Form.Group as={Col}>
 
 						<Form.Group>
-							<Form.Label>Price</Form.Label>
+							<Form.Label>Цена</Form.Label>
 							<Form.Row>
 								<Form.Group as={Col}>
 									<Form.Control
 										type="text"
 										name="priceFrom"
+										placeholder="от"
 										value={priceFrom}
 										onChange={this.onChange}
 										isInvalid={errorObject.priceFrom}
@@ -123,6 +124,7 @@ class SearchForm extends Component {
 										type="text"
 										name="priceTo"
 										value={priceTo}
+										placeholder="до"
 										onChange={this.onChange}
 										isInvalid={errorObject.priceTo}
 									/>
@@ -151,6 +153,7 @@ class SearchForm extends Component {
 						</Form.Group>
 
 						<Form.Group as={Col}>
+							<Form.Label>Условия</Form.Label>
 							<PermitsList
 								onChangeMask={this.onChangePermitsMask}
 								permitsMask={permitsMask}
@@ -161,12 +164,13 @@ class SearchForm extends Component {
 					<Form.Group as={Col}>
 						<Form.Row>
 							<Form.Group as={Col}>
-								<Form.Label>Square total(m²)</Form.Label>
+								<Form.Label>Площадь(м²)</Form.Label>
 								<Form.Row>
 									<Form.Group as={Col}>
 										<Form.Control
 											type="text"
 											name="squareFrom"
+											placeholder="от"
 											value={squareFrom}
 											onChange={this.onChange}
 											isInvalid={errorObject.squareFrom}
@@ -179,6 +183,7 @@ class SearchForm extends Component {
 										<Form.Control
 											type="text"
 											name="squareTo"
+											placeholder="до"
 											value={squareTo}
 											onChange={this.onChange}
 											isInvalid={errorObject.squareTo}
@@ -190,9 +195,9 @@ class SearchForm extends Component {
 								</Form.Row>
 							</Form.Group>
 							<Form.Group as={Col}>
-								<Form.Label>Room total</Form.Label>
+								<Form.Label>Кол-во комнат</Form.Label>
 								<Form.Row>
-									<Form.Group as={Col} className="form-group-padding">
+									<Form.Group as={Col}>
 										<Form.Control
 											type="text"
 											name="roomTotal"
@@ -208,9 +213,9 @@ class SearchForm extends Component {
 							</Form.Group>
 						</Form.Row>
 						<Form.Group as={Col}>
-							<Form.Label>Choose realty type</Form.Label>
+							<Form.Label>Тип недвижимости</Form.Label>
 							<Form.Check
-								label="Flat"
+								label="Квартира"
 								type="radio"
 								value={REALTY_TYPES.FLAT}
 								onChange={this.onChange}
@@ -218,7 +223,7 @@ class SearchForm extends Component {
 								checked={REALTY_TYPES.FLAT === type}
 							/>
 							<Form.Check
-								label="House"
+								label="Дом"
 								type="radio"
 								value={REALTY_TYPES.HOUSE}
 								onChange={this.onChange}
@@ -230,7 +235,7 @@ class SearchForm extends Component {
 							type="submit"
 							onClick={this.onSubmit}
 							disabled={isSubmitDisabled}
-						>Search
+						>Найти
 						</Button>
 
 					</Form.Group>

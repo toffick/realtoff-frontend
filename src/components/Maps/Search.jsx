@@ -11,29 +11,31 @@ class SearchMap extends Component {
 	mapRef = null;
 
 	shouldComponentUpdate(nextProps) {
-		const [[prevLat, prevLong]] = this.props.bounds;
-		const [[nexLat, newLong]] = nextProps.bounds;
+		const [prevLat, prevLong] = this.props.location.coordinates;
+		const [nexLat, newLong] = nextProps.location.coordinates;
 
 		return !(nexLat === prevLat && newLong === prevLong)
 			|| this.props.queryUri !== nextProps.queryUri;
 	}
 
 	componentWillUpdate(nextProps) {
-		this.mapRef.setBounds(nextProps.location.bounds);
+		// TODO тут ошибка вылетела setZoom is undefined
+		this.mapRef.setZoom(11);
+		this.mapRef.setCenter(nextProps.location.coordinates);
 	}
 
-	renderPlacemark = (offers) => offers.map((offer, i) =>
+	renderPlacemarks = (offers) => offers.map((offer) =>
 		(<Placemark
-			key={i}
+			key={offer.id}
 			geometry={offer.coordinates.coordinates}
 			onClick={() => this.props.onSelectOffer(offer.id)}
 		/>))
 
 	render() {
 		const { location, offers, onInit } = this.props;
-		const { bounds, coordinates } = location;
+		const { coordinates } = location;
 
-		const mapParameters = { center: coordinates, bounds, zoom: 11 };
+		const mapParameters = { center: coordinates, zoom: 11 };
 
 		return (
 			<YMaps>
@@ -48,7 +50,7 @@ class SearchMap extends Component {
 				>
 					{
 						offers.length ?
-							this.renderPlacemark(offers)
+							this.renderPlacemarks(offers)
 							:
 							null
 					}
@@ -61,16 +63,16 @@ class SearchMap extends Component {
 }
 
 SearchMap.propTypes = {
-	bounds: PropTypes.array,
-	coordinates: PropTypes.array,
-	location: PropTypes.object,
+	offers: PropTypes.array,
+	queryUri: PropTypes.string,
 	onInit: PropTypes.func,
+	location: PropTypes.object.isRequired,
 	onSelectOffer: PropTypes.func.isRequired,
 };
 
 SearchMap.defaultProps = {
-	bounds: [[], []],
-	coordinates: [],
+	queryUri: '',
+	offers: [],
 	onInit: () => {
 	},
 };

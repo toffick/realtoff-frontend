@@ -13,6 +13,7 @@
 .btn_header:hover {
   color: white;
   background-color: #6CC0E5;
+  text-decoration: none;
 }
 
 .btn_header + .btn_header {

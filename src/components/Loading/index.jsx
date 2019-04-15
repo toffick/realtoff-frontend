@@ -1,5 +1,4 @@
 import React from 'react';
+import { Spinner } from 'react-bootstrap';
 
-export default () => {
-	return (<div className="centered">Loading...</div>)
-};
+export default () => (<div className="centered"><Spinner animation="border" /></div>);

@@ -6,13 +6,9 @@ import {
 	Row,
 } from 'react-bootstrap';
 
-import PermitsForm from './PermitsForm';
-
 import {
 	CURRENCY_TYPES,
-	REALTY_TYPES,
 } from '../../../constants/OfferConstants';
-
 
 class PersonalForm extends Component {
 
@@ -34,21 +30,21 @@ class PersonalForm extends Component {
 			<div className="personal-form-wrapper">
 				<Form>
 					<Form.Group>
-						<Form.Label>Enter additional phone number</Form.Label>
+						<Form.Label>Дополнительный номер телефона</Form.Label>
 						<Form.Control
 							id="additionalPhoneNumber"
 							value={additionalPhoneNumber}
 							onChange={this.onChange}
 						/>
 						<Form.Text className="text-muted">
-						(in international format)
+						(в международном формате)
 						</Form.Text>
 					</Form.Group>
 
 					<Form.Group as={Row}>
 
 						<Form.Group as={Col}>
-							<Form.Label>Price per month</Form.Label>
+							<Form.Label>Плата в месяц</Form.Label>
 							<Form.Control
 								id="pricePerMonth"
 								value={pricePerMonth}
@@ -57,7 +53,7 @@ class PersonalForm extends Component {
 						</Form.Group>
 
 						<Form.Group as={Col}>
-							<Form.Label>Currency</Form.Label>
+							<Form.Label>Валюта</Form.Label>
 							<Form.Control as="select" id="currency" onChange={this.onChange}>
 								{
 									Object.values(CURRENCY_TYPES).map((currencyItem) =>

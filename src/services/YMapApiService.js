@@ -4,7 +4,7 @@ import axios from 'axios';
 class YMapApi {
 
 	constructor() {
-		this.apiUrl = 'https://geocode-maps.yandex.ru/1.x/?format=json&lang=en_US';
+		this.apiUrl = 'https://geocode-maps.yandex.ru/1.x/?format=json&lang=ru_RU';
 	}
 
 	/**

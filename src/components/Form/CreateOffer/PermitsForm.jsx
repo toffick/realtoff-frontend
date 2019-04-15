@@ -13,7 +13,7 @@ class PermitsForm extends Component {
 		return (
 			<Form>
 				<Form.Group>
-					<Form.Label>Check the advantages of your realty</Form.Label>
+					<Form.Label>Выберите предложения сдачи</Form.Label>
 					<PermitsList permitsMask={permitsMask} onChangeMask={onChangeMask} />
 				</Form.Group>
 			</Form>

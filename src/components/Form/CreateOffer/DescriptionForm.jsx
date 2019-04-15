@@ -42,7 +42,7 @@ class DescriptionForm extends Component {
 			<Form>
 				<Form.Row>
 					<Form.Group as={Col}>
-						<Form.Label>Choose realty type</Form.Label>
+						<Form.Label>Тип жилой недвижимости</Form.Label>
 						<Form.Check
 							label="Flat"
 							type="radio"
@@ -64,7 +64,7 @@ class DescriptionForm extends Component {
 							isFlat ?
 								(<React.Fragment>
 									<Form.Group as={Col}>
-										<Form.Label>Floor</Form.Label>
+										<Form.Label>Этаж</Form.Label>
 										<Form.Control
 											size="sm"
 											id="floor"
@@ -73,7 +73,7 @@ class DescriptionForm extends Component {
 										/>
 									</Form.Group>
 									<Form.Group as={Col}>
-										<Form.Label>Total floors number</Form.Label>
+										<Form.Label>Этажность</Form.Label>
 										<Form.Control
 											size="sm"
 											id="totalFloorNumber"
@@ -86,14 +86,14 @@ class DescriptionForm extends Component {
 								null
 						}
 						<Form.Group as={Col}>
-							<Form.Label>Total room number</Form.Label>
+							<Form.Label>Количество комнат</Form.Label>
 							<Form.Control
 								size="sm"
 								id="totalRoomNumber"
 								onChange={this.onChange}
 								value={totalRoomNumber}
 							/>
-							<Form.Label>Square total</Form.Label>
+							<Form.Label>Общая площадь</Form.Label>
 							<Form.Control
 								size="sm"
 								id="squareTotal"
@@ -110,7 +110,7 @@ class DescriptionForm extends Component {
 				</Form.Group>
 
 				<Form.Group>
-					<Form.Label>Describe you rent</Form.Label>
+					<Form.Label>Добавьте описание вашего предложения</Form.Label>
 					<Form.Control
 						as="textarea"
 						id="description"

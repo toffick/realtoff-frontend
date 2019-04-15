@@ -25,9 +25,9 @@ export default class Routes extends React.Component {
 						<Route exact path={ROUTER_PATHS.INDEX} component={Index} />
 						<Route exact path={ROUTER_PATHS.LOGIN} component={Login} />
 						<Route exact path={ROUTER_PATHS.REGISTER} component={Register} />
+						<Route exact path={ROUTER_PATHS.FINISH_REGISTRATION} component={RegisterContinue} />
 						<Route path={`${ROUTER_PATHS.OFFER}/:offerId`} component={Offer} />
 						<AuthRoute>
-							<Route exact path={ROUTER_PATHS.REGISTER_CONTINUE} component={RegisterContinue} />
 							<Route exact path={ROUTER_PATHS.PROFILE} component={Profile} />
 							<Route exact path={ROUTER_PATHS.CREATE_OFFER} component={CreateOffer} />
 						</AuthRoute>

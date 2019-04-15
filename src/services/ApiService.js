@@ -43,7 +43,7 @@ class ApiService {
 	 * @returns {AxiosPromise<any>}
 	 */
 	setPersonalInfo(firstName, telephoneNumber, isPersonalLessor) {
-		return axios.request({
+		return this.createRequest({
 			method: 'POST',
 			url: `${this.apiUrl}/api/v1/sign-up/continue`,
 			data: {

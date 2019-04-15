@@ -53,7 +53,7 @@ class RegisterForm extends Component {
 						spellCheck="false"
 					/>
 					<label className="form__field-label" htmlFor="username">
-						Username
+						Имя пользователя
 					</label>
 				</div>
 				<div className="form__field-wrapper">
@@ -66,7 +66,7 @@ class RegisterForm extends Component {
 						onChange={this._emitChange}
 					/>
 					<label className="form__field-label" htmlFor="password">
-						Password
+						Пароль
 					</label>
 				</div>
 				<div className="form__field-wrapper">
@@ -79,7 +79,7 @@ class RegisterForm extends Component {
 						onChange={this._emitChange}
 					/>
 					<label className="form__field-label" htmlFor="password">
-						Password repeat
+						Повторите пароль
 					</label>
 				</div>
 				<div className="form__field-wrapper">
@@ -95,7 +95,7 @@ class RegisterForm extends Component {
 						spellCheck="false"
 					/>
 					<label className="form__field-label" htmlFor="password">
-						Nickname
+						Логин
 					</label>
 				</div>
 				<div className="form__submit-btn-wrapper">
@@ -103,7 +103,7 @@ class RegisterForm extends Component {
 						<LoadingButton />
 					) : (
 						<Button className="form__submit-btn" type="submit">
-							Register
+							Зарегистрироваться
 						</Button>
 					)}
 				</div>

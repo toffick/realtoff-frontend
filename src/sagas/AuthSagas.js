@@ -19,6 +19,7 @@ import {
 } from '../constants/GlobalConstants';
 import Actions from '../actions';
 import ErrorsHelper from '../helpers/ErrorsHelper';
+import ToastWrapper from '../helpers/ToastHelper';
 
 export function* authSaga() {
 
@@ -47,7 +48,7 @@ export function* setPersonalInfo(firstName, telephoneNumber, isPersonalLessor) {
 	try {
 		const authResult = yield call([ApiService, ApiService.setPersonalInfo], firstName, telephoneNumber, isPersonalLessor);
 
-		return authResult.data.success;
+		return authResult.data;
 	} catch (error) {
 		const [errorObject] = ErrorsHelper.processServerErrors(error);
 		yield put(Actions.auth.setAuthError(errorObject.message));
@@ -66,11 +67,12 @@ export function* setPersonalInfoFlow() {
 	while (true) {
 		const { payload } = yield take(SET_PERSONAL_INFO);
 
-		const { firstName, telephoneNumber, isPersonalLessor} = payload;
+		const { firstName, telephoneNumber, isPersonalLessor } = payload;
 
 		const result = yield call(setPersonalInfo, firstName, telephoneNumber, isPersonalLessor);
 
 		if (result) {
+			yield put(Actions.auth.setAuth(result));
 			yield put(Actions.navigate.navigateTo(ROUTER_PATHS.INDEX));
 			yield put(Actions.auth.clearError());
 		}
@@ -117,9 +119,10 @@ export function* registerFlow() {
 		const result = yield call(registerSaga, email, password, nickname);
 
 		if (result) {
-			yield put(Actions.auth.setAuth(result.user));
-			yield put(Actions.navigate.navigateTo(ROUTER_PATHS.REGISTER_CONTINUE));
+			yield put(Actions.auth.setAuth(result));
+			yield put(Actions.navigate.navigateTo(ROUTER_PATHS.INDEX));
 			yield put(Actions.auth.clearError());
+			ToastWrapper.success('Подтвердите почту. Перейдите по ссылке, которую мы Вам отправили.', 6000);
 		}
 
 	}

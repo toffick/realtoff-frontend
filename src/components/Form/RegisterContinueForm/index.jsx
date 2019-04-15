@@ -8,30 +8,29 @@ import LoadingButton from '../../Elements/LoadingButton';
 class RegisterForm extends Component {
 
 	state = {
-		email: 'www@mail.com',
-		password: '123456',
-		passwordRepeat: '123456',
-		nickname: '',
+		firstName: 'Неколян',
+		telephoneNumber: '+375336698055',
+		isPersonalLessor: false,
 		formErrors: null,
 	}
 
 	_emitChange =(e) => {
-		const { value, id } = e.target;
-		this.setState({ [id]: value });
+		const { value, name } = e.target;
+		this.setState({ [name]: value });
 	}
 
 	_onSubmit =(event) => {
 		event.preventDefault();
 		// TODO validation
 		// TODO add to errors
-		const { email, password, passwordRepeat, nickname } = this.state;
-		this.props.onSubmit(email, password, nickname);
+		const { firstName, telephoneNumber, isPersonalLessor } = this.state;
+		this.props.onSubmit(firstName, telephoneNumber, isPersonalLessor);
 	}
 
 	render() {
 		const { error, currentlySending } = this.props;
 		const {
-			email, password, passwordRepeat, nickname, formErrors,
+			firstName, telephoneNumber, isPersonalLessor, formErrors,
 		} = this.state;
 
 		const mainError = formErrors || error;
@@ -42,58 +41,48 @@ class RegisterForm extends Component {
 					<input
 						className="form__field-input"
 						type="text"
-						id="username"
-						value={email}
-						placeholder="Email"
+						name="firstName"
+						value={firstName}
 						onChange={this._emitChange}
 						autoCorrect="off"
 						autoCapitalize="off"
 						spellCheck="false"
 					/>
 					<label className="form__field-label" htmlFor="username">
-						Username
-					</label>
-				</div>
-				<div className="form__field-wrapper">
-					<input
-						className="form__field-input"
-						id="password"
-						type="password"
-						value={password}
-						placeholder="••••••••••"
-						onChange={this._emitChange}
-					/>
-					<label className="form__field-label" htmlFor="password">
-						Password
-					</label>
-				</div>
-				<div className="form__field-wrapper">
-					<input
-						className="form__field-input"
-						id="password-repeat"
-						type="password"
-						value={passwordRepeat}
-						placeholder="••••••••••"
-						onChange={this._emitChange}
-					/>
-					<label className="form__field-label" htmlFor="password">
-						Password repeat
+						Имя пользователя
 					</label>
 				</div>
 				<div className="form__field-wrapper">
 					<input
 						className="form__field-input"
 						type="text"
-						id="nickname"
-						value={nickname}
-						placeholder="Nickname"
+						name="telephoneNumber"
+						value={telephoneNumber}
 						onChange={this._emitChange}
 						autoCorrect="off"
 						autoCapitalize="off"
 						spellCheck="false"
 					/>
-					<label className="form__field-label" htmlFor="password">
-						Nickname
+					<label className="form__field-label" htmlFor="username">
+						Мобильный телефон
+					</label>
+				</div>
+				{
+					/* TODO чекбокс */
+				}
+				<div className="form__field-wrapper">
+					<input
+						className="form__field-input"
+						type="text"
+						name="isPersonalLessor"
+						value={isPersonalLessor}
+						onChange={this._emitChange}
+						autoCorrect="off"
+						autoCapitalize="off"
+						spellCheck="false"
+					/>
+					<label className="form__field-label" htmlFor="username">
+						Имя пользователя
 					</label>
 				</div>
 				<div className="form__submit-btn-wrapper">
@@ -101,7 +90,7 @@ class RegisterForm extends Component {
 						<LoadingButton />
 					) : (
 						<Button className="form__submit-btn" type="submit">
-							Register
+							Сохранить личные данные
 						</Button>
 					)}
 				</div>
@@ -111,16 +100,16 @@ class RegisterForm extends Component {
 
 }
 
-RegisterForm .propTypes = {
+RegisterForm.propTypes = {
 	error: PropTypes.any,
 	currentlySending: PropTypes.bool,
 	onSubmit: PropTypes.func,
 };
 
-RegisterForm .defaultProps = {
+RegisterForm.defaultProps = {
 	error: null,
 	currentlySending: false,
 	onSubmit: () => {},
 };
 
-export default RegisterForm ;
+export default RegisterForm;

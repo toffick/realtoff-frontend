@@ -32,7 +32,7 @@ class CreateOffer extends Component {
 					<div className="navigate-button-wrap" />
 					<div className="navigate-button-wrap">
 						<div className="item next" onClick={() => changeOfferStep(STEPS_SCENARIO[1])}>
-							Next
+							Далее
 						</div>
 					</div>
 				</React.Fragment>
@@ -42,12 +42,12 @@ class CreateOffer extends Component {
 				<React.Fragment>
 					<div className="navigate-button-wrap">
 						<div className="item back" onClick={() => changeOfferStep(STEPS_SCENARIO[stepIndex - 1])}>
-							Back
+							Назад
 						</div>
 					</div>
 					<div className="navigate-button-wrap">
 						<div className="item" onClick={this.onSubmit}>
-							Finish
+							Создать
 						</div>
 					</div>
 				</React.Fragment>
@@ -58,12 +58,12 @@ class CreateOffer extends Component {
 			<React.Fragment>
 				<div className="navigate-button-wrap">
 					<div className="item back" onClick={() => changeOfferStep(STEPS_SCENARIO[stepIndex - 1])}>
-						Back
+						Назад
 					</div>
 				</div>
 				<div className="navigate-button-wrap">
 					<div className="item next" onClick={() => changeOfferStep(STEPS_SCENARIO[stepIndex + 1])}>
-						Next
+						Далее
 					</div>
 				</div>
 			</React.Fragment>);
@@ -93,7 +93,7 @@ class CreateOffer extends Component {
 
 		return (
 			<div className="offer">
-				<h2>{step}</h2>
+				<h2>{step.title}</h2>
 				<div className="step-wrap">
 					{stepComponent}
 				</div>

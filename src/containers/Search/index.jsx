@@ -11,10 +11,11 @@ import OfferPreview from '../../components/OfferPreview';
 
 import Actions from '../../actions';
 import { ROUTER_PATHS } from '../../constants/GlobalConstants';
+import { Spinner } from 'react-bootstrap';
 
 class Index extends React.Component {
 
-	anchorsMap = {}
+	anchorsMap = {};
 
 	componentDidMount() {
 		this.props.updateAvailableCountriesRequest();
@@ -67,19 +68,24 @@ class Index extends React.Component {
 				</div>
 				<div className="results-wrapper">
 					{
-						this.props.offers.map((item) =>
-							(
-								<div
-									className="offer-preview-wrapper"
-									ref={(ref) => {
-										this.anchorsMap[item.id] = ref;
-									}}
-								>
-									<NavLink to={`${ROUTER_PATHS.OFFER}/${item.id}`} className="offer-link">
-										<OfferPreview offer={item} isActive={selectedOfferId === item.id} />
-									</NavLink>
-								</div>
-							))
+						this.props.isSearchingInProgress ?
+							<div className="search-spinner">
+							<Spinner animation="border" />
+							</div>
+							:
+							this.props.offers.map((item) =>
+								(
+									<div
+										className="offer-preview-wrapper"
+										ref={(ref) => {
+											this.anchorsMap[item.id] = ref;
+										}}
+									>
+										<NavLink to={`${ROUTER_PATHS.OFFER}/${item.id}`} className="offer-link">
+											<OfferPreview offer={item} isActive={selectedOfferId === item.id} />
+										</NavLink>
+									</div>
+								))
 					}
 				</div>
 			</div>
@@ -93,13 +99,16 @@ Index.propTypes = {
 	mapMeta: PropTypes.object,
 	offers: PropTypes.array,
 	queryUri: PropTypes.string,
-	changeSearchMapState: PropTypes.func.isRequired,
+	isSearchingInProgress: PropTypes.bool,
 	startWithQuery: PropTypes.func.isRequired,
 	clearSearchPage: PropTypes.func.isRequired,
 	setSelectedOfferId: PropTypes.func.isRequired,
+	updateAvailableCountriesRequest: PropTypes.func.isRequired,
+	changeMapState: PropTypes.func.isRequired,
 };
 
 Index.defaultProps = {
+	isSearchingInProgress: false,
 	selectedOfferId: null,
 	mapMeta: {},
 	offers: [],
@@ -112,6 +121,7 @@ export default connect(
 		selectedOfferId: state.search.get('selectedOfferId'),
 		offers: state.search.get('offers'),
 		queryUri: state.search.get('queryUri'),
+		isSearchingInProgress: state.search.get('isSearchingInProgress'),
 	}),
 	(dispatch) => ({
 		updateAvailableCountriesRequest: () => dispatch(Actions.search.updateAvailableCountriesRequest()),

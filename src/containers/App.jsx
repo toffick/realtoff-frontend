@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Header from '../components/Layout/Header';
-import Toast from '../components/Toast';
 import Loading from '../components/Loading';
 
 import Actions from '../actions';
@@ -22,6 +21,7 @@ class App extends React.Component {
 		return (
 			<div className="wrapper">
 				<Header
+					user={user}
 					loggedIn={loggedIn}
 					onLogout={logout}
 					clearError={clearAuthError}
