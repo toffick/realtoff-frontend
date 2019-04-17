@@ -4,6 +4,7 @@ import NavigateActions from './NavigateActions';
 import UserActions from './UserActions';
 import OfferActions from './OfferActions';
 import SearchActions from './SearchActions';
+import FilterActions from './FilterActions';
 
 export default {
 	auth: AuthActions,
@@ -12,4 +13,5 @@ export default {
 	user: UserActions,
 	offer: OfferActions,
 	search: SearchActions,
+	filter: FilterActions,
 };

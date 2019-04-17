@@ -28,7 +28,7 @@ class YMapApi {
 
 		const coordinatesResults = this._deserializeQueryResponse(response);
 
-		return coordinatesResults;
+		return coordinatesResults[0];
 	}
 
 	/**
@@ -61,7 +61,7 @@ class YMapApi {
 	 * @returns {Promise<[Location]>}
 	 * @private
 	 */
-	async _deserializeQueryResponse(response) {
+	_deserializeQueryResponse(response) {
 		const { GeoObjectCollection: { featureMember } } = response;
 
 		const filteredValues = featureMember.slice(0, 5);

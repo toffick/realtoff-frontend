@@ -15,7 +15,10 @@ import {
 	CHANGE_SEARCH_MAP_STATE,
 	SET_SEARCH_ERROR_OBJECT,
 	CLEAR_SEARCH_PAGE,
-	SET_SELECTED_OFFER_ID
+	SET_SELECTED_OFFER_ID,
+	UPDATE_SEARCH_AUTOCOMPLETE_LIST,
+	LOCATION_SEARCH_AUTOCOMPLETE_REQUEST,
+	SET_SEARCH_LOCATION,
 } from './constants';
 
 export default {
@@ -34,5 +37,8 @@ export default {
 	changeMapState: (isMapReady) => actionCreator(CHANGE_SEARCH_MAP_STATE, { isMapReady }),
 	setErrorObject: (errorObject) => actionCreator(SET_SEARCH_ERROR_OBJECT, { errorObject }),
 	clearSearchPage: () => actionCreator(CLEAR_SEARCH_PAGE),
-	setSelectedOfferId: (offerId) => actionCreator(SET_SELECTED_OFFER_ID, {offerId}),
+	setSelectedOfferId: (offerId) => actionCreator(SET_SELECTED_OFFER_ID, { offerId }),
+	updateAutocompleteList: (list) => actionCreator(UPDATE_SEARCH_AUTOCOMPLETE_LIST, { list }),
+	locationAutocompleteRequest: (query) => actionCreator(LOCATION_SEARCH_AUTOCOMPLETE_REQUEST, { query }),
+	setLocation: (location) => actionCreator(SET_SEARCH_LOCATION, { location }),
 };

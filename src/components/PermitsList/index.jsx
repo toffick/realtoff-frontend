@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Form } from 'react-bootstrap';
 
 import { RENT_PERMITS } from '../../constants/OfferConstants';
+import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
 
 class PermitsList extends Component {
 
@@ -12,10 +13,7 @@ class PermitsList extends Component {
 		const numberId = Number(id);
 		const { permitsMask } = this.props;
 
-		const newMask = permitsMask & numberId ?
-			permitsMask ^ numberId
-			:
-			permitsMask | numberId;
+		const newMask = PermitsMaskHelper.mergeMask(permitsMask, numberId);
 
 		this.props.onChangeMask(newMask);
 	}

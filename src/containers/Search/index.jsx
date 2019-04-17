@@ -4,14 +4,14 @@ import qs from 'qs';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import scrollToComponent from 'react-scroll-to-component';
+import { Spinner } from 'react-bootstrap';
 
-import SearchingForm from './Form';
+import SearchingForm from './Searcher';
 import SearchMap from '../../components/Maps/Search';
 import OfferPreview from '../../components/OfferPreview';
 
 import Actions from '../../actions';
 import { ROUTER_PATHS } from '../../constants/GlobalConstants';
-import { Spinner } from 'react-bootstrap';
 
 class Index extends React.Component {
 
@@ -49,17 +49,17 @@ class Index extends React.Component {
 
 	render() {
 		const {
-			mapMeta, offers, selectedOfferId, queryUri,
+			cityLocation, offers, selectedOfferId, queryUri,
 		} = this.props;
-
+		console.log(cityLocation);
 		return (
-			<div className="search wrapper" >
-				<div className="form-map-wrapper" >
+			<div className="search wrapper">
+				<div className="form-map-wrapper">
 					<SearchingForm />
 					<div className="search-map">
 						<SearchMap
 							queryUri={queryUri}
-							location={mapMeta}
+							coordinates={cityLocation && cityLocation.coordinates}
 							offers={offers}
 							onInit={this.onMapInitHandler}
 							onSelectOffer={this.onSelectOfferHandler}
@@ -70,22 +70,27 @@ class Index extends React.Component {
 					{
 						this.props.isSearchingInProgress ?
 							<div className="search-spinner">
-							<Spinner animation="border" />
+								<Spinner animation="border" />
 							</div>
 							:
-							this.props.offers.map((item) =>
+							this.props.offers.length ?
+								this.props.offers.map((item) =>
+									(
+										<div
+											className="offer-preview-wrapper"
+											ref={(ref) => {
+												this.anchorsMap[item.id] = ref;
+											}}
+										>
+											<NavLink to={`${ROUTER_PATHS.OFFER}/${item.id}`} className="offer-link">
+												<OfferPreview offer={item} isActive={selectedOfferId === item.id} />
+											</NavLink>
+										</div>
+									))
+								:
 								(
-									<div
-										className="offer-preview-wrapper"
-										ref={(ref) => {
-											this.anchorsMap[item.id] = ref;
-										}}
-									>
-										<NavLink to={`${ROUTER_PATHS.OFFER}/${item.id}`} className="offer-link">
-											<OfferPreview offer={item} isActive={selectedOfferId === item.id} />
-										</NavLink>
-									</div>
-								))
+									<div className="search-spinner">{`${cityLocation? 'Ничего не найдено': ''}`}</div>
+								)
 					}
 				</div>
 			</div>
@@ -95,6 +100,7 @@ class Index extends React.Component {
 }
 
 Index.propTypes = {
+	isShowFilterModal: PropTypes.bool,
 	selectedOfferId: PropTypes.number,
 	mapMeta: PropTypes.object,
 	offers: PropTypes.array,
@@ -108,15 +114,17 @@ Index.propTypes = {
 };
 
 Index.defaultProps = {
+	isShowFilterModal: false,
 	isSearchingInProgress: false,
 	selectedOfferId: null,
-	mapMeta: {},
+	cityLocation: undefined,
 	offers: [],
 	queryUri: '',
 };
 
 export default connect(
 	(state) => ({
+		cityLocation: state.search.get('location'),
 		mapMeta: state.search.get('mapMeta'),
 		selectedOfferId: state.search.get('selectedOfferId'),
 		offers: state.search.get('offers'),

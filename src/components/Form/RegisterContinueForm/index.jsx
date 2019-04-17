@@ -73,7 +73,7 @@ class RegisterForm extends Component {
 				<div className="form__field-wrapper">
 					<input
 						className="form__field-input"
-						type="text"
+						type="checkbox"
 						name="isPersonalLessor"
 						value={isPersonalLessor}
 						onChange={this._emitChange}
@@ -82,7 +82,7 @@ class RegisterForm extends Component {
 						spellCheck="false"
 					/>
 					<label className="form__field-label" htmlFor="username">
-						Имя пользователя
+						Частное лицо
 					</label>
 				</div>
 				<div className="form__submit-btn-wrapper">

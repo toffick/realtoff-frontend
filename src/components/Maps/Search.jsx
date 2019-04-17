@@ -6,13 +6,15 @@ import {
 } from 'react-yandex-maps';
 import PropTypes from 'prop-types';
 
+import { MINSK_COORDINATES } from '../../constants/MapConstants';
+
 class SearchMap extends Component {
 
 	mapRef = null;
 
 	shouldComponentUpdate(nextProps) {
-		const [prevLat, prevLong] = this.props.location.coordinates;
-		const [nexLat, newLong] = nextProps.location.coordinates;
+		const [prevLat, prevLong] = this.props.coordinates;
+		const [nexLat, newLong] = nextProps.coordinates;
 
 		return !(nexLat === prevLat && newLong === prevLong)
 			|| this.props.queryUri !== nextProps.queryUri;
@@ -20,8 +22,8 @@ class SearchMap extends Component {
 
 	componentWillUpdate(nextProps) {
 		// TODO тут ошибка вылетела setZoom is undefined
-		this.mapRef.setZoom(11);
-		this.mapRef.setCenter(nextProps.location.coordinates);
+		this.mapRef.setZoom(12);
+		this.mapRef.setCenter(nextProps.coordinates);
 	}
 
 	renderPlacemarks = (offers) => offers.map((offer) =>
@@ -32,10 +34,9 @@ class SearchMap extends Component {
 		/>))
 
 	render() {
-		const { location, offers, onInit } = this.props;
-		const { coordinates } = location;
+		const { coordinates, offers, onInit } = this.props;
 
-		const mapParameters = { center: coordinates, zoom: 11 };
+		const mapParameters = { center: coordinates, zoom: 12 };
 
 		return (
 			<YMaps>
@@ -66,13 +67,14 @@ SearchMap.propTypes = {
 	offers: PropTypes.array,
 	queryUri: PropTypes.string,
 	onInit: PropTypes.func,
-	location: PropTypes.object.isRequired,
+	coordinates: PropTypes.object,
 	onSelectOffer: PropTypes.func.isRequired,
 };
 
 SearchMap.defaultProps = {
 	queryUri: '',
 	offers: [],
+	coordinates: MINSK_COORDINATES,
 	onInit: () => {
 	},
 };

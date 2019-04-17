@@ -13,7 +13,9 @@ import {
 	CHANGE_SEARCH_MAP_STATE,
 	SET_SEARCH_ERROR_OBJECT,
 	CLEAR_SEARCH_PAGE,
-	SET_SELECTED_OFFER_ID
+	SET_SELECTED_OFFER_ID,
+	UPDATE_SEARCH_AUTOCOMPLETE_LIST,
+	SET_SEARCH_LOCATION,
 } from '../actions/constants';
 import {
 	CURRENCY_TYPES,
@@ -51,10 +53,20 @@ const initialState = Map({
 	isMapReady: false,
 	errorObject: {},
 	selectedOfferId: null,
+	autocomleteList: [],
+	cityCoordinates: undefined,
 });
 
 function globalReducer(state = initialState, action) {
 	switch (action.type) {
+		case UPDATE_SEARCH_AUTOCOMPLETE_LIST: {
+			const { list } = action.payload;
+			return state.set('autocomleteList', list);
+		}
+		case SET_SEARCH_LOCATION: {
+			const { location } = action.payload;
+			return state.set('location', location);
+		}
 		case SET_SEARCH_ERROR_OBJECT: {
 			const { errorObject } = action.payload;
 			return state.set('errorObject', errorObject);

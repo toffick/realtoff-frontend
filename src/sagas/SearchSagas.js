@@ -8,6 +8,7 @@ import {
 	all,
 } from 'redux-saga/effects';
 import qs from 'qs';
+import iso3166 from 'iso-3166-1-alpha-2';
 
 import {
 	SEARCH_REQUEST,
@@ -19,6 +20,7 @@ import {
 	START_SEARCH_WITH_QUERY,
 	UPDATE_SEARCHING_COUNTRIES_REQUEST,
 	UPDATE_URI_QUERY,
+	SET_SEARCH_LOCATION,
 } from '../actions/constants';
 import Actions from '../actions';
 import ApiService from '../services/ApiService';
@@ -75,30 +77,6 @@ export function* updateSearchCities() {
 
 }
 
-export function* findCityCenter() {
-
-	yield throttle(SEARCH_CITY_CENTER_TIMEOUT, SET_SEARCHING_CITY, function* () {
-
-		try {
-			const countryObj = yield select(searchCountrySelector);
-			const city = yield select(searchCitySelector);
-
-			if (countryObj && countryObj.code && city) {
-				const updatedList = yield call([YMapApiService, YMapApiService.getCityCoordintes], countryObj.country, city);
-				if (updatedList.length) {
-					yield put(Actions.search.setCityLocation(updatedList[0]));
-				}
-
-				yield put(Actions.search.setSelectedOfferId(null));
-			}
-
-		} catch (e) {
-			yield put(Actions.search.setCities([]));
-		}
-	});
-
-}
-
 export function* search() {
 
 	yield throttle(SEARCH_REQUEST_TIMEOUT, SEARCH_REQUEST, function* () {
@@ -107,6 +85,11 @@ export function* search() {
 		try {
 
 			const queryObject = yield select(searchRequestSelector);
+
+			if (!queryObject.city) {
+				return;
+			}
+
 			const offers = yield call([ApiService, ApiService.search], queryObject);
 			yield put(Actions.search.setOffers(offers.data));
 
@@ -127,64 +110,54 @@ export function* search() {
 
 export function* startByUriQuery() {
 
-	while (true) {
 
-		const [{ payload: { countries } }, { payload: { queryObject } }] = yield all([
-			take(SET_SEARCHING_COUNTRIES),
-			take(START_SEARCH_WITH_QUERY),
-		]);
+	const { payload: { queryObject } } = yield take(START_SEARCH_WITH_QUERY);
 
-		const {
-			countryCode,
-			city,
-			currency,
-			permitsMask,
-			priceFrom,
-			priceTo,
-			squareFrom,
-			squareTo,
-			roomTotal,
-			type,
-		} = queryObject;
 
-		const newFormObject = NormalizeHelper.removeUndefinedValuesField({
-			currency,
-			permitsMask,
-			priceFrom,
-			priceTo,
-			squareFrom,
-			squareTo,
-			roomTotal,
-			type,
-		});
+	const {
+		countryCode,
+		city,
+		currency,
+		permitsMask,
+		priceFrom,
+		priceTo,
+		squareFrom,
+		squareTo,
+		roomTotal,
+		type,
+	} = queryObject;
 
-		yield put(Actions.search.setForm(newFormObject));
+	const newFormObject = NormalizeHelper.removeUndefinedValuesField({
+		currency,
+		permitsMask,
+		priceFrom,
+		priceTo,
+		squareFrom,
+		squareTo,
+		roomTotal,
+		type,
+	});
 
-		const country = countries.find((item) => item.code === countryCode);
+	const country = iso3166.getCountry(countryCode);
 
-		if (!country) {
-			continue;
-		}
-
-		yield take(SET_SEARCHING_COUNTRY);
-
-		const { payload: { cities } } = yield take(SET_SEARCHING_CITIES);
-
-		if (!cities.find((item) => item === city)) {
-			continue;
-		}
-
-		yield take(CHANGE_SEARCH_MAP_STATE);
-		yield put(Actions.search.setCity(city));
-		yield put(Actions.search.searchRequest());
+	if (!country) {
+		return;
 	}
+
+
+	const location = yield call([YMapApiService, YMapApiService.getCityCoordintes], country, city);
+	if (!location) {
+		return;
+	}
+
+	yield take(CHANGE_SEARCH_MAP_STATE);
+	yield put(Actions.search.setForm(newFormObject));
+	yield put(Actions.search.setLocation(location));
+	yield put(Actions.search.searchRequest());
 
 }
 
 export default function* root() {
-	yield fork(updateSearchingCountries);
-	yield fork(updateSearchCities);
-	yield fork(findCityCenter);
 	yield fork(search);
 	yield fork(startByUriQuery);
 }

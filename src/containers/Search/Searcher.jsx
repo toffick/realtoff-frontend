@@ -6,20 +6,21 @@ import SearchForm from '../../components/Form/Search';
 
 import Actions from '../../actions';
 import ValidationHelper from '../../helpers/ValidationHelper';
+import FilterModal from '../FilterModal';
 
 class SearchFormContainer extends React.Component {
 
+	changeAddressHandler = (query) => {
+		this.props.locationAutocompleteRequest(query);
+	}
+
+	changeLocationHandler = (location) => {
+		this.props.setLocation(location);
+		this.props.searchRequest();
+	}
+
 	changeFormHandler = (field, value) => {
 		this.props.updateForm(field, value);
-	}
-
-	onCountryChangeHandler = (country) => {
-		this.props.setCountry(country);
-	}
-
-	onCityChangeHandler = (city) => {
-		this.props.setCity(city);
-		this.props.searchRequest();
 	}
 
 	onSubmitHandler = () => {
@@ -34,27 +35,28 @@ class SearchFormContainer extends React.Component {
 
 	render() {
 		const {
-			availableCountries,
-			availableCities,
-			countryMeta,
 			city,
 			form,
 			errorObject,
+			isShowFilterModal,
+			autocomleteList,
+			location,
 		} = this.props;
 
 		return (
 			<div className="search-form">
+				<FilterModal isShow={isShowFilterModal && location} />
 				<SearchForm
-					availableCountries={availableCountries}
-					availableCities={availableCities}
-					countryMeta={countryMeta}
 					city={city}
 					onChange={this.changeFormHandler}
-					onCountryChange={this.onCountryChangeHandler}
-					onCityChange={this.onCityChangeHandler}
 					formValues={form}
 					onSubmit={this.onSubmitHandler}
 					errorObject={errorObject}
+					onSaveFilter={() => this.props.changeFilterShowStatus(true)}
+					onAddressChange={this.changeAddressHandler}
+					autocomleteList={autocomleteList}
+					location={location}
+						onSetLocation={this.changeLocationHandler}
 				/>
 			</div>
 		);
@@ -63,17 +65,13 @@ class SearchFormContainer extends React.Component {
 }
 
 SearchFormContainer.propTypes = {
-	availableCountries: PropTypes.array,
-	availableCities: PropTypes.array,
-	countryMeta: PropTypes.object,
-	city: PropTypes.string,
+	isShowFilterModal: PropTypes.bool,
 	errorObject: PropTypes.object,
 	form: PropTypes.object.isRequired,
 	updateAvailableCountriesRequest: PropTypes.func.isRequired,
-	setCountry: PropTypes.func.isRequired,
-	setCity: PropTypes.func.isRequired,
 	searchRequest: PropTypes.func.isRequired,
 	setErrorObject: PropTypes.func.isRequired,
+	changeFilterShowStatus: PropTypes.func.isRequired,
 };
 
 SearchFormContainer.defaultProps = {
@@ -82,18 +80,18 @@ SearchFormContainer.defaultProps = {
 
 export default connect(
 	(state) => ({
-		availableCountries: state.search.get('availableCountries'),
-		availableCities: state.search.get('availableCities'),
-		countryMeta: state.search.get('countryMeta'),
-		city: state.search.get('city'),
+		location: state.search.get('location'),
+		autocomleteList: state.search.get('autocomleteList'),
 		form: state.search.get('form'),
 		errorObject: state.search.get('errorObject'),
+		isShowFilterModal: state.filter.get('isShow'),
 	}),
 	(dispatch) => ({
-		setCountry: (country) => dispatch(Actions.search.setCountry(country)),
-		setCity: (city) => dispatch(Actions.search.setCity(city)),
+		changeFilterShowStatus: (status) => dispatch(Actions.filter.changeShowStatus(status)),
 		updateForm: (field, value) => dispatch(Actions.search.updateForm(field, value)),
 		searchRequest: () => dispatch(Actions.search.searchRequest()),
 		setErrorObject: (errorObject) => dispatch(Actions.search.setErrorObject(errorObject)),
+		locationAutocompleteRequest: (query) => dispatch(Actions.search.locationAutocompleteRequest(query)),
+		setLocation: (location) => dispatch(Actions.search.setLocation(location)),
 	}),
 )(SearchFormContainer);

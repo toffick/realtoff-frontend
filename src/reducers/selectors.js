@@ -41,9 +41,9 @@ export const searchCitySelector = (state) => state.search.get('city');
 
 export const searchRequestSelector = (state) => {
 	const queryObj = state.search.get('form');
-	const countryMeta = state.search.get('countryMeta');
-	const city = state.search.get('city');
+	const location = state.search.get('location');
 	const normalizedParameters = NormalizeHelper.removeEmptyValuesField(queryObj);
 
-	return { ...normalizedParameters, countryCode: countryMeta.code, city };
+	const { country_code, city } = location.address;
+	return { ...normalizedParameters, countryCode: country_code, city };
 };

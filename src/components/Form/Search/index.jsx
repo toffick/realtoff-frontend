@@ -5,6 +5,7 @@ import {
 	Col,
 	Button,
 } from 'react-bootstrap';
+import ReactAutocomplete from 'react-autocomplete';
 
 import {
 	CURRENCY_TYPES,
@@ -12,21 +13,38 @@ import {
 } from '../../../constants/OfferConstants';
 import PermitsList from '../../PermitsList';
 
+const autoCompleteMenuStyles = {
+	maxWidth: '100%',
+	display: ' block',
+	width: ' 100%',
+	fontSize: ' 1rem',
+	fontWeight: ' 400',
+	color: ' #495057',
+	backgroundColor: ' #fff',
+	backgroundClip: ' padding-box',
+	transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
+	zIndex: 5,
+};
+
+
 class SearchForm extends Component {
+
+	state = { address: '', isAddressHasTyped: false }
+
+	onChangeAddress = (e) => {
+		const { value } = e.target;
+		this.setState({ address: value, isAddressHasTyped: true });
+		this.props.onAddressChange(value);
+	}
+
+	onSelectAddress = (title, object) => {
+		this.setState({ address: title, isAddressHasTyped: false });
+		this.props.onSetLocation(object);
+	}
 
 	onChange = (e) => {
 		const { value, name } = e.target;
 		this.props.onChange(name, value);
-	}
-
-	onCountryChange = (e) => {
-		const { value } = e.target;
-		this.props.onCountryChange(this.props.availableCountries[value]);
-	}
-
-	onCityChange = (e) => {
-		const { value } = e.target;
-		this.props.onCityChange(value);
 	}
 
 	onChangePermitsMask = (mask) => {
@@ -40,9 +58,7 @@ class SearchForm extends Component {
 
 	render() {
 		const {
-			availableCountries,
-			availableCities,
-			city,
+			autocomleteList,
 			formValues: {
 				priceFrom,
 				priceTo,
@@ -53,50 +69,39 @@ class SearchForm extends Component {
 				permitsMask,
 				type,
 			},
+			onSaveFilter,
 			errorObject,
+			location,
 		} = this.props;
 
-		const isSubmitDisabled = !city;
+		const { isAddressHasTyped } = this.state;
+		const isSubmitDisabled = !location;
 
+		const addressValue = location &&
+		!isAddressHasTyped ?
+			`${location.address.country}${location.address.city ? `, ${location.address.city}` : ''}`
+			: this.state.address
 		return (
 			<Form>
 				<Form.Row>
-					<Form.Group as={Col}>
-						<Form.Label>Страна</Form.Label>
-						<Form.Control
-							as="select"
-							name="country"
-							onChange={this.onCountryChange}
-						>
-							{
-								availableCountries.map((obj, index) =>
-									(
-										<option
-											key={obj.code}
-											value={index}
-										>
-											{obj.country}
-										</option>
-									))
-							}
-						</Form.Control>
-					</Form.Group>
-					<Form.Group as={Col}>
-						<Form.Label>Город</Form.Label>
-						<Form.Control
-							as="select"
-							name="city"
-							value={city || ''}
-							onChange={this.onCityChange}
-							disabled={!availableCities.length}
-						>
-							<option value="" disabled>Выберите город...</option>
-							{
-								availableCities.map((cityItem) =>
-									(<option key={cityItem}>{cityItem}</option>))
-							}
-						</Form.Control>
-					</Form.Group>
+					<Form.Label>Введите адрес <small>(с точностью до города)</small></Form.Label>
+					<ReactAutocomplete
+						wrapperStyle={autoCompleteMenuStyles}
+						items={autocomleteList}
+						getItemValue={({ address }) => `${address.country}${address.city ? `, ${address.city}` : ''}`}
+						renderItem={(item, highlighted) =>
+							(<div
+								key={item.id}
+								style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
+							>
+								{item.description}
+							</div>)
+						}
+						value={addressValue}
+						onChange={this.onChangeAddress}
+						onSelect={this.onSelectAddress}
+						inputProps={{ className: 'form-control' }}
+					/>
 				</Form.Row>
 
 
@@ -231,12 +236,19 @@ class SearchForm extends Component {
 								checked={REALTY_TYPES.HOUSE === type}
 							/>
 						</Form.Group>
-						<Button
-							type="submit"
-							onClick={this.onSubmit}
-							disabled={isSubmitDisabled}
-						>Найти
-						</Button>
+						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+							<Button
+								onClick={onSaveFilter}
+								disabled={isSubmitDisabled}
+							>Сохранить
+							</Button>
+							<Button
+								type="submit"
+								onClick={this.onSubmit}
+								disabled={isSubmitDisabled}
+							>Найти
+							</Button>
+						</div>
 
 					</Form.Group>
 
@@ -252,18 +264,19 @@ SearchForm.propTypes = {
 	errors: PropTypes.array,
 	availableCountries: PropTypes.array,
 	availableCities: PropTypes.array,
-	countryMeta: PropTypes.object,
+	autocomleteList: PropTypes.array,
 	city: PropTypes.string,
 	errorObject: PropTypes.object,
 	onChange: PropTypes.func.isRequired,
 	formValues: PropTypes.object.isRequired,
 	onSubmit: PropTypes.func.isRequired,
-	onCountryChange: PropTypes.func.isRequired,
-	onCityChange: PropTypes.func.isRequired,
+	onAddressChange: PropTypes.func.isRequired,
+	onLocationChange: PropTypes.func.isRequired,
 };
 
 SearchForm.defaultProps = {
 	errors: [],
+	autocomleteList: [],
 	search: {},
 };
 
