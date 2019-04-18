@@ -51,7 +51,7 @@ class Index extends React.Component {
 		const {
 			cityLocation, offers, selectedOfferId, queryUri,
 		} = this.props;
-		console.log(cityLocation);
+
 		return (
 			<div className="search wrapper">
 				<div className="form-map-wrapper">
@@ -102,7 +102,7 @@ class Index extends React.Component {
 Index.propTypes = {
 	isShowFilterModal: PropTypes.bool,
 	selectedOfferId: PropTypes.number,
-	mapMeta: PropTypes.object,
+	cityLocation: PropTypes.object,
 	offers: PropTypes.array,
 	queryUri: PropTypes.string,
 	isSearchingInProgress: PropTypes.bool,

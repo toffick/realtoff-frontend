@@ -15,8 +15,10 @@ class SearchFormContainer extends React.Component {
 	}
 
 	changeLocationHandler = (location) => {
-		this.props.setLocation(location);
-		this.props.searchRequest();
+		if (location.address.city) {
+			this.props.setLocation(location);
+			this.props.searchRequest();
+		}
 	}
 
 	changeFormHandler = (field, value) => {
@@ -28,6 +30,16 @@ class SearchFormContainer extends React.Component {
 		if (validInfo.isValid) {
 			this.props.setErrorObject({});
 			this.props.searchRequest();
+		} else {
+			this.props.setErrorObject(validInfo.errorsMap);
+		}
+	}
+
+	onSaveFilterHandler =() => {
+		const validInfo = ValidationHelper.validateOfferSearchRequest(this.props.form);
+		if (validInfo.isValid) {
+			this.props.setErrorObject({});
+			this.props.changeFilterShowStatus(true);
 		} else {
 			this.props.setErrorObject(validInfo.errorsMap);
 		}
@@ -52,11 +64,11 @@ class SearchFormContainer extends React.Component {
 					formValues={form}
 					onSubmit={this.onSubmitHandler}
 					errorObject={errorObject}
-					onSaveFilter={() => this.props.changeFilterShowStatus(true)}
+					onSaveFilter={this.onSaveFilterHandler}
 					onAddressChange={this.changeAddressHandler}
 					autocomleteList={autocomleteList}
 					location={location}
-						onSetLocation={this.changeLocationHandler}
+					onSetLocation={this.changeLocationHandler}
 				/>
 			</div>
 		);
@@ -66,6 +78,7 @@ class SearchFormContainer extends React.Component {
 
 SearchFormContainer.propTypes = {
 	isShowFilterModal: PropTypes.bool,
+	location: PropTypes.object,
 	errorObject: PropTypes.object,
 	form: PropTypes.object.isRequired,
 	updateAvailableCountriesRequest: PropTypes.func.isRequired,
@@ -76,6 +89,7 @@ SearchFormContainer.propTypes = {
 
 SearchFormContainer.defaultProps = {
 	availableCountries: [],
+	location: undefined,
 };
 
 export default connect(

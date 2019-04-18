@@ -134,6 +134,17 @@ class ApiService {
 		});
 	}
 
+	saveUserFilters(userFiltersData) {
+		return this.createRequest({
+			method: 'POST',
+			url: `${this.apiUrl}/api/v1/save-user-filters`,
+			data: {
+				...userFiltersData,
+			},
+			enableAuthorizationHeader: true,
+		});
+	}
+
 	/**
      *
      * @param requestData

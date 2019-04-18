@@ -47,6 +47,11 @@ class SearchForm extends Component {
 		this.props.onChange(name, value);
 	}
 
+	onCheckboxChange = (e) => {
+		const { name, checked } = e.target;
+		this.props.onChange(name, checked);
+	}
+
 	onChangePermitsMask = (mask) => {
 		this.props.onChange('permitsMask', mask);
 	}
@@ -68,6 +73,7 @@ class SearchForm extends Component {
 				roomTotal,
 				permitsMask,
 				type,
+				isPersonalLessor,
 			},
 			onSaveFilter,
 			errorObject,
@@ -80,7 +86,7 @@ class SearchForm extends Component {
 		const addressValue = location &&
 		!isAddressHasTyped ?
 			`${location.address.country}${location.address.city ? `, ${location.address.city}` : ''}`
-			: this.state.address
+			: this.state.address;
 		return (
 			<Form>
 				<Form.Row>
@@ -236,6 +242,17 @@ class SearchForm extends Component {
 								checked={REALTY_TYPES.HOUSE === type}
 							/>
 						</Form.Group>
+
+						<Form.Group as={Col}>
+							<Form.Check
+								label="Только собственник"
+								type="checkbox"
+								name="isPersonalLessor"
+								onChange={this.onCheckboxChange}
+								checked={isPersonalLessor}
+							/>
+						</Form.Group>
+
 						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 							<Button
 								onClick={onSaveFilter}

@@ -4,7 +4,7 @@
  * @param payload?
  * @returns {{type: *, payload: *}}
  */
-export default (actionType, payload = null) => ({
+export default (actionType, payload = undefined) => ({
 	type: actionType,
 	payload,
 });

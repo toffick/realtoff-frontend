@@ -5,7 +5,7 @@ import {
 	take,
 	throttle,
 	select,
-	all,
+	takeEvery,
 } from 'redux-saga/effects';
 import qs from 'qs';
 import iso3166 from 'iso-3166-1-alpha-2';
@@ -13,65 +13,69 @@ import iso3166 from 'iso-3166-1-alpha-2';
 import {
 	SEARCH_REQUEST,
 	CHANGE_SEARCH_MAP_STATE,
-	SET_SEARCHING_CITIES,
-	SET_SEARCHING_CITY,
-	SET_SEARCHING_COUNTRIES,
-	SET_SEARCHING_COUNTRY,
 	START_SEARCH_WITH_QUERY,
-	UPDATE_SEARCHING_COUNTRIES_REQUEST,
 	UPDATE_URI_QUERY,
-	SET_SEARCH_LOCATION,
+	SAVE_SEARCH_FILTER_REQUEST,
 } from '../actions/constants';
 import Actions from '../actions';
 import ApiService from '../services/ApiService';
 import {
-	SEARCH_CITY_CENTER_TIMEOUT,
-	UPDATE_SEARCH_CITIES_TIMEOUT,
 	SEARCH_REQUEST_TIMEOUT,
 } from '../constants/MapConstants';
-import {
-	searchCountrySelector,
-	searchCitySelector,
-	searchRequestSelector,
-} from '../reducers/selectors';
+import { searchRequestSelector } from '../reducers/selectors';
 import YMapApiService from '../services/YMapApiService';
 import NormalizeHelper from '../helpers/NormalizeHelper';
+import ToastWrapper from '../helpers/ToastHelper';
+import ErrorsHelper from '../helpers/ErrorsHelper';
 
-export function* updateSearchingCountries() {
+export function* saveUserFilter() {
 
-	while (yield take(UPDATE_SEARCHING_COUNTRIES_REQUEST)) {
+	yield takeEvery(SAVE_SEARCH_FILTER_REQUEST, function* () {
+
+		yield put(Actions.filter.saveInProgress(true));
+
 		try {
-			const countries = yield call([ApiService, ApiService.getActiveOffersCountries]);
 
-			yield put(Actions.search.setCountries(countries.data));
-			if (countries.data.length) {
-				yield put(Actions.search.setCountry(countries.data[0]));
-			}
-		} catch (e) {
-			yield put(Actions.search.setCountries([]));
+			const queryObject = yield select(searchRequestSelector);
+			yield call([ApiService, ApiService.saveUserFilters], queryObject);
+
+			yield put(Actions.filter.changeShowStatus(false));
+			ToastWrapper.success('Пользовательский фильтр сохранен', 6000);
+			yield put(Actions.filter.setError(null));
+
+		} catch (error) {
+			const [errorObject] = ErrorsHelper.processServerErrors(error);
+			yield put(Actions.filter.setError(errorObject.message));
+		}		finally {
+			yield put(Actions.filter.saveInProgress(false));
 		}
 
-	}
+	});
 
-}
+	yield throttle(SEARCH_REQUEST_TIMEOUT, SEARCH_REQUEST, function* () {
 
-export function* updateSearchCities() {
-
-	yield throttle(UPDATE_SEARCH_CITIES_TIMEOUT, SET_SEARCHING_COUNTRY, function* () {
-
+		yield put(Actions.search.searchInProgress(true));
 		try {
 
-			const countryObj = yield select(searchCountrySelector);
+			const queryObject = yield select(searchRequestSelector);
 
-			if (countryObj && countryObj.code) {
-				const updatedList = yield call([ApiService, ApiService.getActiveOffersCitiesByCountry], countryObj.code);
-
-				yield put(Actions.search.setCities(updatedList.data));
-				yield put(Actions.search.setCity(null));
+			if (!queryObject.city) {
+				return;
 			}
 
+			const offers = yield call([ApiService, ApiService.search], queryObject);
+			yield put(Actions.search.setOffers(offers.data));
+
+			const normalizedQueryObject = NormalizeHelper.removeEmptyValuesFields(queryObject);
+			const queryUri = qs.stringify(normalizedQueryObject);
+			yield put({ type: UPDATE_URI_QUERY, payload: { queryUri } });
+
+			yield put(Actions.search.setSelectedOfferId(null));
+
 		} catch (e) {
-			yield put(Actions.search.setCities([]));
+			yield put(Actions.search.setOffers([]));
+		} finally {
+			yield put(Actions.search.searchInProgress(false));
 		}
 	});
 
@@ -93,7 +97,7 @@ export function* search() {
 			const offers = yield call([ApiService, ApiService.search], queryObject);
 			yield put(Actions.search.setOffers(offers.data));
 
-			const normalizedQueryObject = NormalizeHelper.removeEmptyValuesField(queryObject);
+			const normalizedQueryObject = NormalizeHelper.removeEmptyValuesFields(queryObject);
 			const queryUri = qs.stringify(normalizedQueryObject);
 			yield put({ type: UPDATE_URI_QUERY, payload: { queryUri } });
 
@@ -110,9 +114,7 @@ export function* search() {
 
 export function* startByUriQuery() {
 
-
 	const { payload: { queryObject } } = yield take(START_SEARCH_WITH_QUERY);
-
 
 	const {
 		countryCode,
@@ -127,7 +129,7 @@ export function* startByUriQuery() {
 		type,
 	} = queryObject;
 
-	const newFormObject = NormalizeHelper.removeUndefinedValuesField({
+	const newFormObject = NormalizeHelper.removeUndefinedValuesFields({
 		currency,
 		permitsMask,
 		priceFrom,
@@ -139,11 +141,9 @@ export function* startByUriQuery() {
 	});
 
 	const country = iso3166.getCountry(countryCode);
-
 	if (!country) {
 		return;
 	}
-
 
 	const location = yield call([YMapApiService, YMapApiService.getCityCoordintes], country, city);
 	if (!location) {
@@ -159,5 +159,6 @@ export function* startByUriQuery() {
 
 export default function* root() {
 	yield fork(search);
+	yield fork(saveUserFilter);
 	yield fork(startByUriQuery);
 }

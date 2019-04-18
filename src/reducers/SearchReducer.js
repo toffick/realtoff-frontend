@@ -35,6 +35,7 @@ const DEFAULT_FORM_VALUE = {
 	squareTo: '',
 	roomTotal: '',
 	type: REALTY_TYPES.FLAT,
+	isPersonalLessor: false,
 };
 
 const initialState = Map({
@@ -121,7 +122,8 @@ function globalReducer(state = initialState, action) {
 		}
 		case SET_SELECTED_OFFER_ID: {
 			const { offerId } = action.payload;
-			return state.set('selectedOfferId', offerId);		}
+			return state.set('selectedOfferId', offerId);
+		}
 		default:
 			return state;
 	}

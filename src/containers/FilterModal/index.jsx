@@ -10,6 +10,7 @@ import Actions from '../../actions';
 import NormalizedHelper from '../../helpers/NormalizeHelper';
 import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
 import { REALTY_TYPES } from '../../constants/OfferConstants';
+import ErrorMessage from '../../components/ErrorMessage';
 
 class FilterModalContainer extends React.Component {
 
@@ -18,12 +19,12 @@ class FilterModalContainer extends React.Component {
 	}
 
 	handleSubmit = () => {
-
+		this.props.saveSearchFilterRequest();
 	}
 
 	getBody = () => {
 		const { searchForm, location } = this.props;
-		const normalizedForm = NormalizedHelper.removeEmptyValuesField(searchForm);
+		const normalizedForm = NormalizedHelper.removeEmptyValuesFields(searchForm);
 
 		const {
 			roomTotal,
@@ -46,8 +47,8 @@ class FilterModalContainer extends React.Component {
 
 		const permits = PermitsMaskHelper.getPermitsByMask(permitsMask);
 
-		//TODO
-		const address = location? `${location.address.country}, ${location.address.city}`: '';
+		// TODO
+		const address = location ? `${location.address.country}, ${location.address.city}` : '';
 
 		return (
 			<React.Fragment>
@@ -81,6 +82,8 @@ class FilterModalContainer extends React.Component {
 	render() {
 		const {
 			isShow,
+			error,
+			processStatus
 		} = this.props;
 
 		return (
@@ -97,12 +100,15 @@ class FilterModalContainer extends React.Component {
 							</p>
 						</Modal.Title>
 					</Modal.Header>
-					<Modal.Body>{this.getBody()}</Modal.Body>
+					<Modal.Body>
+						{error ? <ErrorMessage error={error} /> : null}
+						{this.getBody()}
+					</Modal.Body>
 					<Modal.Footer>
 						<Button variant="secondary" onClick={this.handleClose}>
 							Отмена
 						</Button>
-						<Button variant="primary" onClick={this.handleSubmit}>
+						<Button variant="primary" onClick={this.handleSubmit} disabled={processStatus}>
 							Сохранить
 						</Button>
 					</Modal.Footer>
@@ -117,23 +123,34 @@ class FilterModalContainer extends React.Component {
 FilterModalContainer.propTypes = {
 	availableCountries: PropTypes.array,
 	isShow: PropTypes.bool,
+	processStatus: PropTypes.bool,
+	error: PropTypes.object,
 	location: PropTypes.object.isRequired,
 	searchForm: PropTypes.object.isRequired,
 	changeFilterShowStatus: PropTypes.func.isRequired,
+	saveSearchFilterRequest: PropTypes.func.isRequired,
 };
 
 FilterModalContainer.defaultProps = {
 	availableCountries: [],
 	isShow: false,
+	error: null,
+	processStatus: false,
 };
 
 export default connect(
 	(state) => ({
+		error: state.filter.get('error'),
 		isShow: state.filter.get('isShow'),
 		searchForm: state.search.get('form'),
 		location: state.search.get('location'),
+		processStatus: state.search.get('processStatus'),
 	}),
 	(dispatch) => ({
-		changeFilterShowStatus: (status) => dispatch(Actions.filter.changeShowStatus(status)),
+		saveSearchFilterRequest: () => dispatch(Actions.search.saveSearchFilterRequest()),
+		changeFilterShowStatus: (status) => {
+			dispatch(Actions.filter.changeShowStatus(status))
+			dispatch(Actions.filter.setError(null))
+		},
 	}),
 )(FilterModalContainer);

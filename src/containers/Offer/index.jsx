@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 class Offer extends React.Component {
 
+	compon
 	render() {
 
 		return (

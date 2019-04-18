@@ -1,15 +1,19 @@
 class NormalizeHelper {
 
-	static removeEmptyValuesField(object) {
-		return Object
-			.keys(object)
-			.reduce((acc, item) => object[item] ? object[item].length !== 0 ? { ...acc, [item]: object[item] } : acc : acc, {});
+	static removeEmptyValuesFields(object) {
+		const copyObject = { ...object };
+
+		Object.keys(copyObject).forEach((key) => (copyObject[key].length === 0 ? delete copyObject[key] : null));
+
+		return copyObject;
 	}
 
-	static removeUndefinedValuesField(object) {
-		return Object
-			.keys(object)
-			.reduce((acc, item) => (object[item] === undefined ? acc : { ...acc, [item]: object[item] }), {});
+	static removeUndefinedValuesFields(object) {
+		const copyObject = { ...object };
+
+		Object.keys(copyObject).forEach((key) => (copyObject[key] === undefined ? delete copyObject[key] : null));
+
+		return copyObject;
 	}
 
 }

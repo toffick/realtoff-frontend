@@ -19,6 +19,7 @@ import {
 	UPDATE_SEARCH_AUTOCOMPLETE_LIST,
 	LOCATION_SEARCH_AUTOCOMPLETE_REQUEST,
 	SET_SEARCH_LOCATION,
+	SAVE_SEARCH_FILTER_REQUEST,
 } from './constants';
 
 export default {
@@ -41,4 +42,5 @@ export default {
 	updateAutocompleteList: (list) => actionCreator(UPDATE_SEARCH_AUTOCOMPLETE_LIST, { list }),
 	locationAutocompleteRequest: (query) => actionCreator(LOCATION_SEARCH_AUTOCOMPLETE_REQUEST, { query }),
 	setLocation: (location) => actionCreator(SET_SEARCH_LOCATION, { location }),
+	saveSearchFilterRequest: () => actionCreator(SAVE_SEARCH_FILTER_REQUEST),
 };
