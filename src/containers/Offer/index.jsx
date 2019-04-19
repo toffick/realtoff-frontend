@@ -10,6 +10,7 @@ import {
 	Badge,
 	Card,
 } from 'react-bootstrap';
+
 import PageNotFound from '../PageNotFound';
 import OfferMap from '../../components/Maps/Offer';
 import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
@@ -85,7 +86,7 @@ class Offer extends React.Component {
 
 		const { coordinates } = address;
 
-		const { second_name: userName, is_personal_lessor: isPersonalLessor, telephone_number: generalPhone } = user;
+		const { first_name: userName, is_personal_lessor: isPersonalLessor, telephone_number: generalPhone } = user;
 
 		const permits = PermitsMaskHelper.getPermitsByMask(permitsMask);
 
@@ -96,7 +97,7 @@ class Offer extends React.Component {
 					{this.getCarouselItems()}
 				</div>
 				<div className="description-wrapper">
-					<Card style={{ padding: '10px' }}>
+					<Card className="description">
 						<div>
 							<h5>
 								<Badge variant="primary">{pricePerMonth} {currency}/мес.</Badge>
@@ -130,7 +131,7 @@ class Offer extends React.Component {
 								}
 							</div>
 							<br/>
-							<p className="description-text">{descriptionText}</p>
+							<p className="text">{descriptionText}</p>
 						</div>
 					</Card>
 

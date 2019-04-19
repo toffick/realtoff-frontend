@@ -23,7 +23,7 @@
       min-width: 60vw;
     }
 
-    .updated{
+    .updated {
       text-align: right;
       padding-bottom: 8px;
     }
@@ -34,21 +34,26 @@
     justify-content: space-between;
     width: 60vw;
 
-    .map{
+    .map {
       width: 500px;
       height: 300px;
       padding: 5px;
     }
 
-    .contacts{
+    .contacts {
       display: flex;
       justify-content: space-between;
       padding: 0 5px 0 5px;
       padding-left: 5px;
     }
 
-    .description-text{
-      padding-left: 20px;
+    .description {
+      width: 100%;
+      padding: 10px;
+
+      .text {
+        padding-left: 20px;
+      }
     }
   }
 

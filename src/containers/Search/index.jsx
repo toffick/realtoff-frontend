@@ -82,7 +82,7 @@ class Index extends React.Component {
 												this.anchorsMap[item.id] = ref;
 											}}
 										>
-											<NavLink to={`${ROUTER_PATHS.OFFER}/${item.id}`} className="offer-link">
+											<NavLink to={`${ROUTER_PATHS.OFFERS}/${item.id}`} className="offer-link">
 												<OfferPreview offer={item} isActive={selectedOfferId === item.id} />
 											</NavLink>
 										</div>

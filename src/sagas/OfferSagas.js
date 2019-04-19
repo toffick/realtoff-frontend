@@ -31,7 +31,7 @@ export function* createOffer() {
 			const offer = yield call([ApiService, ApiService.createOffer], offerObject);
 			const { id: offerId } = offer.data;
 
-			yield put(Actions.navigate.navigateTo(`${ROUTER_PATHS.OFFER}/${offerId}`));
+			yield put(Actions.navigate.navigateTo(`${ROUTER_PATHS.OFFERS}/${offerId}`));
 
 		} catch (error) {
 			const errors = ErrorsHelper.processServerErrors(error);
@@ -54,7 +54,7 @@ export function* offerPageRequest() {
 			if (data.success) {
 				yield put(Actions.offerPage.setOffer(data.result));
 			} else {
-				yield put(Actions.navigate.navigateTo(ROUTER_PATHS.INDEX));
+				yield put(Actions.navigate.navigateTo(ROUTER_PATHS.NOT_FOUND));
 			}
 
 		} catch (error) {
