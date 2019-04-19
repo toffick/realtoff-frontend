@@ -4,6 +4,7 @@ import {
 	Form,
 	Col,
 	Button,
+	Card,
 } from 'react-bootstrap';
 import ReactAutocomplete from 'react-autocomplete';
 
@@ -88,6 +89,7 @@ class SearchForm extends Component {
 			`${location.address.country}${location.address.city ? `, ${location.address.city}` : ''}`
 			: this.state.address;
 		return (
+			<Card style={{padding: '15px'}}>
 			<Form>
 				<Form.Row>
 					<Form.Label>Введите адрес <small>(с точностью до города)</small></Form.Label>
@@ -272,6 +274,7 @@ class SearchForm extends Component {
 				</Form.Row>
 
 			</Form>
+			</Card>
 		);
 	}
 

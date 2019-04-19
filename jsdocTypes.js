@@ -1,7 +1,6 @@
 /**
  * @typedef {Object} Location
  * @property {[]} coordinates
- * @property {[[],[]]} bounds,
  * @property {String} description
  * @property {Object} address
  * @property {String} address.country

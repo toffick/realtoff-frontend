@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import CreateOfferMap from '../../components/Maps/CreateOffer';
+import CreateOfferMap from '../../components/Maps/Offer';
 import LocationForm from '../../components/Form/CreateOffer/LocationForm';
 
 import Actions from '../../actions';
@@ -66,13 +66,13 @@ OfferLocation.defaultProps = {
 
 export default connect(
 	(state) => ({
-		location: state.offer.get('location'),
-		autocomleteList: state.offer.get('autocomleteList'),
-		coordinates: state.offer.get('coordinates'),
+		location: state.offerCreate.get('location'),
+		autocomleteList: state.offerCreate.get('autocomleteList'),
+		coordinates: state.offerCreate.get('coordinates'),
 	}),
 	(dispatch) => ({
-		locationAutocompleteRequest: (query) => dispatch(Actions.offer.locationAutocompleteRequest(query)),
-		setLocation: (location) => dispatch(Actions.offer.setLocation(location)),
-		updateAutocompleteList: (list) => dispatch(Actions.offer.updateAutocompleteList(list)),
+		locationAutocompleteRequest: (query) => dispatch(Actions.offerCreate.locationAutocompleteRequest(query)),
+		setLocation: (location) => dispatch(Actions.offerCreate.setLocation(location)),
+		updateAutocompleteList: (list) => dispatch(Actions.offerCreate.updateAutocompleteList(list)),
 	}),
 )(OfferLocation);

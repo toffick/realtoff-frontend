@@ -1,13 +1,15 @@
 import globalReducer from './GlobalReducer';
 import authReducer from './AuthReducer';
-import offerReducer from './OfferReducer';
+import offerCreateReducer from './OfferCreateReducer';
+import offerPageReducer from './OfferPageReducer';
 import searchReducer from './SearchReducer';
 import filterReducer from './FilterReducer';
 
 export default {
 	auth: authReducer,
 	global: globalReducer,
-	offer: offerReducer,
+	offerCreate: offerCreateReducer,
+	offerPage: offerPageReducer,
 	search: searchReducer,
 	filter: filterReducer,
 };

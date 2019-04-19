@@ -39,7 +39,6 @@ const initialState = Map({
 	autocomleteList: [],
 	location: {
 		coordinates: MINSK_COORDINATES,
-		bounds: MINSK_COORDINATES_BOUNDED_BY,
 	},
 	description: {
 		isFlat: true,
@@ -86,7 +85,6 @@ function globalReducer(state = initialState, action) {
 		}
 		case SET_OFFER_ERRORS: {
 			const { errors } = action.payload;
-
 			return state.set('errors', errors);
 		}
 		case CLEAR_OFFER_FORM: {

@@ -6,7 +6,7 @@ import {
 } from 'redux-saga/effects';
 
 import { LOCATION_QUERY_THROTTLE_TIMEOUT } from '../constants/MapConstants';
-import YMapApiService from '../services/YMapApiService';
+import YMapApiService from '../services/MapApiService';
 import {
 	LOCATION_AUTOCOMPLETE_REQUEST,
 	LOCATION_SEARCH_AUTOCOMPLETE_REQUEST,
@@ -28,7 +28,7 @@ export function* updateAddressQueryAuto() {
 			}
 
 		} finally {
-			yield put(Actions.offer.updateAutocompleteList(updatedList));
+			yield put(Actions.offerCreate.updateAutocompleteList(updatedList));
 		}
 	});
 

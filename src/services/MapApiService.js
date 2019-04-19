@@ -34,7 +34,7 @@ class YMapApi {
 	/**
 	 *
 	 * @param query
-	 * @returns {AxiosPromise<any>}
+	 * @returns {[Location]}
 	 */
 	async getAutocompleteListByQuery(query) {
 
@@ -72,7 +72,7 @@ class YMapApi {
 
 			const {
 				GeoObject: {
-					Point: point, boundedBy,
+					Point: point,
 					metaDataProperty: { GeocoderMetaData: geocoderMetaData },
 				},
 			} = object;
@@ -91,9 +91,8 @@ class YMapApi {
 						searchItem.description += ` ${name}`;
 						return;
 					case 'street':
-						const streetNormalized = name.replace(' ulitcsa', '')
-						searchItem.address.street = streetNormalized;
-						searchItem.description += ` ${streetNormalized}`;
+						searchItem.address.street = name;
+						searchItem.description += ` ${name}`;
 						return;
 					case 'house':
 						searchItem.address.house_number = name;
@@ -108,13 +107,8 @@ class YMapApi {
 
 			const [lat, long] = point.pos.split(' ');
 
-			const { upperCorner, lowerCorner } = boundedBy.Envelope;
-			const [latUpper, longUpper] = upperCorner.split(' ');
-			const [latLower, longLower] = lowerCorner.split(' ');
-
 			searchItem.address.country_code = countryCode;
 			searchItem.coordinates = [+long, +lat];
-			searchItem.bounds = [[+longLower, +latLower], [+longUpper, +latUpper]];
 
 			result.push(searchItem);
 		});

@@ -119,12 +119,11 @@ CreateOffer.defaultProps = {
 
 export default connect(
 	(state) => ({
-		step: state.offer.get('step'),
+		step: state.offerCreate.get('step'),
 	}),
 	(dispatch) => ({
-		changeOfferStep: (step) => dispatch(Actions.offer.changeOfferStep(step)),
-		createOffer: () => dispatch(Actions.offer.createOffer()),
-		clearOfferForm: () => dispatch(Actions.offer.clearOfferForm()),
-
+		changeOfferStep: (step) => dispatch(Actions.offerCreate.changeOfferStep(step)),
+		createOffer: () => dispatch(Actions.offerCreate.createOffer()),
+		clearOfferForm: () => dispatch(Actions.offerCreate.clearOfferForm()),
 	}),
 )(CreateOffer);

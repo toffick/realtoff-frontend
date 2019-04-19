@@ -145,6 +145,14 @@ class ApiService {
 		});
 	}
 
+	getOffer(offerId) {
+		return this.createRequest({
+			method: 'GET',
+			url: `${this.apiUrl}/api/v1/offers/${offerId}`,
+		});
+	}
+
+
 	/**
      *
      * @param requestData

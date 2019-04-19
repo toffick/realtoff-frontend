@@ -1,0 +1,56 @@
+.offer-page {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60vw;
+  min-height: 90vh;
+  padding-top: 100px;
+  //padding-bottom: 30px;
+
+  .images-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px;
+
+    img {
+      background: #1c7430;
+      max-height: 60vh;
+      max-width: 60vw;
+      height: 60vh;
+      min-height: 60vh;
+      min-width: 60vw;
+    }
+
+    .updated{
+      text-align: right;
+      padding-bottom: 8px;
+    }
+  }
+
+  .description-wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 60vw;
+
+    .map{
+      width: 500px;
+      height: 300px;
+      padding: 5px;
+    }
+
+    .contacts{
+      display: flex;
+      justify-content: space-between;
+      padding: 0 5px 0 5px;
+      padding-left: 5px;
+    }
+
+    .description-text{
+      padding-left: 20px;
+    }
+  }
+
+}
+

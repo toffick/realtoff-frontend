@@ -35,9 +35,9 @@ OfferDescription.defaultProps = {
 
 export default connect(
 	(state) => ({
-		description: state.offer.get('description'),
+		description: state.offerCreate.get('description'),
 	}),
 	(dispatch) => ({
-		updateDescription: (description) => dispatch(Actions.offer.updateDescription(description)),
+		updateDescription: (description) => dispatch(Actions.offerCreate.updateDescription(description)),
 	}),
 )(OfferDescription);

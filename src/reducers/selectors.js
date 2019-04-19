@@ -2,7 +2,7 @@ import { REALTY_TYPES } from '../constants/OfferConstants';
 import NormalizeHelper from '../helpers/NormalizeHelper';
 
 export const offerSelector = (state) => {
-	const { location, description: descr, personal } = state.offer.toJS();
+	const { location, description: descr, personal } = state.offerCreate.toJS();
 
 	const {
 		isFlat, floor, totalFloorNumber, permitsMask, description, totalRoomNumber,

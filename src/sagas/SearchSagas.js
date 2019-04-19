@@ -19,11 +19,9 @@ import {
 } from '../actions/constants';
 import Actions from '../actions';
 import ApiService from '../services/ApiService';
-import {
-	SEARCH_REQUEST_TIMEOUT,
-} from '../constants/MapConstants';
+import { SEARCH_REQUEST_TIMEOUT } from '../constants/MapConstants';
 import { searchRequestSelector } from '../reducers/selectors';
-import YMapApiService from '../services/YMapApiService';
+import YMapApiService from '../services/MapApiService';
 import NormalizeHelper from '../helpers/NormalizeHelper';
 import ToastWrapper from '../helpers/ToastHelper';
 import ErrorsHelper from '../helpers/ErrorsHelper';
@@ -46,37 +44,10 @@ export function* saveUserFilter() {
 		} catch (error) {
 			const [errorObject] = ErrorsHelper.processServerErrors(error);
 			yield put(Actions.filter.setError(errorObject.message));
-		}		finally {
+		} finally {
 			yield put(Actions.filter.saveInProgress(false));
 		}
 
-	});
-
-	yield throttle(SEARCH_REQUEST_TIMEOUT, SEARCH_REQUEST, function* () {
-
-		yield put(Actions.search.searchInProgress(true));
-		try {
-
-			const queryObject = yield select(searchRequestSelector);
-
-			if (!queryObject.city) {
-				return;
-			}
-
-			const offers = yield call([ApiService, ApiService.search], queryObject);
-			yield put(Actions.search.setOffers(offers.data));
-
-			const normalizedQueryObject = NormalizeHelper.removeEmptyValuesFields(queryObject);
-			const queryUri = qs.stringify(normalizedQueryObject);
-			yield put({ type: UPDATE_URI_QUERY, payload: { queryUri } });
-
-			yield put(Actions.search.setSelectedOfferId(null));
-
-		} catch (e) {
-			yield put(Actions.search.setOffers([]));
-		} finally {
-			yield put(Actions.search.searchInProgress(false));
-		}
 	});
 
 }

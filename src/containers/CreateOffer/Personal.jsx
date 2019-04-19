@@ -35,9 +35,9 @@ OfferPersonal.defaultProps = {
 
 export default connect(
 	(state) => ({
-		personal: state.offer.get('personal'),
+		personal: state.offerCreate.get('personal'),
 	}),
 	(dispatch) => ({
-		updatePersonal: (personal) => dispatch(Actions.offer.updatePersonal(personal)),
+		updatePersonal: (personal) => dispatch(Actions.offerCreate.updatePersonal(personal)),
 	}),
 )(OfferPersonal);

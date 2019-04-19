@@ -2,7 +2,8 @@ import AuthActions from './AuthActions';
 import GlobalActions from './GlobalActions';
 import NavigateActions from './NavigateActions';
 import UserActions from './UserActions';
-import OfferActions from './OfferActions';
+import OfferCreateActions from './OfferCreateActions';
+import OfferPageActions from './OfferPageActions';
 import SearchActions from './SearchActions';
 import FilterActions from './FilterActions';
 
@@ -11,7 +12,8 @@ export default {
 	global: GlobalActions,
 	navigate: NavigateActions,
 	user: UserActions,
-	offer: OfferActions,
+	offerCreate: OfferCreateActions,
+	offerPage: OfferPageActions,
 	search: SearchActions,
 	filter: FilterActions,
 };
