@@ -103,7 +103,7 @@ module.exports = {
 	plugins: [
 		new CleanWebpackPlugin(['dist']),
 		new webpack.DefinePlugin({
-			__API_URL__: JSON.stringify(configFile.api),
+			__BASE_URL__: JSON.stringify(configFile.api),
 		}),
 		HTMLWebpackPluginConfig,
 		extractSass,

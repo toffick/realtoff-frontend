@@ -13,7 +13,7 @@ class ApiService {
 		this.tokenUpdatingPromise = Promise.resolve();
 		this.offsetSeconds = 60;
 
-		this.apiUrl = config.API_URL;
+		this.baseUrl = config.BASE_URL;
 	}
 
 	/**
@@ -26,7 +26,7 @@ class ApiService {
 	signUp(email, password, nickname) {
 		return axios.request({
 			method: 'POST',
-			url: `${this.apiUrl}/api/v1/sign-up`,
+			url: `${this.baseUrl}/api/v1/sign-up`,
 			data: {
 				email,
 				password,
@@ -45,7 +45,7 @@ class ApiService {
 	setPersonalInfo(firstName, telephoneNumber, isPersonalLessor) {
 		return this.createRequest({
 			method: 'POST',
-			url: `${this.apiUrl}/api/v1/sign-up/continue`,
+			url: `${this.baseUrl}/api/v1/sign-up/continue`,
 			data: {
 				first_name: firstName,
 				telephone_number: telephoneNumber,
@@ -65,7 +65,7 @@ class ApiService {
 	signIn(email, password) {
 		return axios.request({
 			method: 'POST',
-			url: `${this.apiUrl}/api/v1/sign-in`,
+			url: `${this.baseUrl}/api/v1/sign-in`,
 			data: {
 				email,
 				password,
@@ -82,7 +82,7 @@ class ApiService {
 	signOut({ accessToken, refreshToken }) {
 		return this.createRequest({
 			method: 'POST',
-			url: `${this.apiUrl}/api/v1/sign-out`,
+			url: `${this.baseUrl}/api/v1/sign-out`,
 			data: {
 				access_token: accessToken,
 				refresh_token: refreshToken,
@@ -93,7 +93,7 @@ class ApiService {
 	auth() {
 		return this.createRequest({
 			method: 'POST',
-			url: `${this.apiUrl}/api/v1/auth`,
+			url: `${this.baseUrl}/api/v1/auth`,
 			data: {},
 			enableAuthorizationHeader: true,
 		});
@@ -102,7 +102,7 @@ class ApiService {
 	createOffer(offerData) {
 		return this.createRequest({
 			method: 'POST',
-			url: `${this.apiUrl}/api/v1/create-offer`,
+			url: `${this.baseUrl}/api/v1/create-offer`,
 			data: {
 				...offerData,
 			},
@@ -110,26 +110,10 @@ class ApiService {
 		});
 	}
 
-	getActiveOffersCountries() {
+	search(queryParams) {
 		return axios.request({
 			method: 'GET',
-			url: `${this.apiUrl}/api/v1/available-countries`,
-		});
-	}
-
-	getActiveOffersCitiesByCountry(countryCode) {
-		return axios.request({
-			method: 'GET',
-			url: `${this.apiUrl}/api/v1/available-cities`,
-			params: { country_code: countryCode },
-		});
-	}
-
-
-	search(queryParams){
-		return axios.request({
-			method: 'GET',
-			url: `${this.apiUrl}/api/v1/search-offers`,
+			url: `${this.baseUrl}/api/v1/search-offers`,
 			params: queryParams,
 		});
 	}
@@ -137,7 +121,7 @@ class ApiService {
 	saveUserFilters(userFiltersData) {
 		return this.createRequest({
 			method: 'POST',
-			url: `${this.apiUrl}/api/v1/save-user-filters`,
+			url: `${this.baseUrl}/api/v1/save-user-filters`,
 			data: {
 				...userFiltersData,
 			},
@@ -148,10 +132,25 @@ class ApiService {
 	getOffer(offerId) {
 		return this.createRequest({
 			method: 'GET',
-			url: `${this.apiUrl}/api/v1/offers/${offerId}`,
+			url: `${this.baseUrl}/api/v1/offers/${offerId}`,
 		});
 	}
 
+	uploadPhotos(photos, offerId) {
+
+		const formData = new FormData();
+		photos.forEach((file) => {
+			formData.append('offer-image', file);
+		});
+
+		return this.createRequest({
+			method: 'put',
+			url: `${this.baseUrl}/api/v1/offers/upload-photos/${offerId}`,
+			data: formData,
+			enableAuthorizationHeader: true,
+			config: { headers: {'Content-Type': 'multipart/form-data' }},
+		});
+	}
 
 	/**
      *
@@ -194,7 +193,7 @@ class ApiService {
 
 						return axios.request({
 							method: 'POST',
-							url: `${this.apiUrl}/api/v1/auth`,
+							url: `${this.baseUrl}/api/v1/auth`,
 							data: {},
 							enableAuthorizationHeader: true,
 							headers: {
@@ -256,7 +255,7 @@ class ApiService {
 		return axios.request({
 			method: 'POST',
 			withCredentials: true,
-			url: `${this.apiUrl}/api/v1/refresh-tokens`,
+			url: `${this.baseUrl}/api/v1/refresh-tokens`,
 			data: {
 				refresh_token: refreshToken,
 			},

@@ -47,3 +47,5 @@ export const searchRequestSelector = (state) => {
 	const { country_code, city } = location.address;
 	return { ...normalizedParameters, countryCode: country_code, city };
 };
+
+export const offerIdSelector = (state)=> state.offerPage.get('offer').id;

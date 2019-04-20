@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import PhotoUploader from '../../components/PhotoUploader';
 import Loading from '../../components/Loading';
 
 import Actions from '../../actions';
@@ -15,9 +15,13 @@ import PageNotFound from '../PageNotFound';
 import OfferMap from '../../components/Maps/Offer';
 import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
 
-class Offer extends React.Component {
+// TODO super fixes
+// restyling
+// split to several components
+// PropTypes
+// koko
 
-	state = { click: false }
+class Offer extends React.Component {
 
 	componentDidMount() {
 		const { params } = this.props.match;
@@ -25,33 +29,39 @@ class Offer extends React.Component {
 	}
 
 	getTitleByAddress = () => {
-
 		const { city, street, house_number: houseNumber } = this.props.offer.Address;
 		const cityFromCapital = city.charAt(0).toUpperCase() + city.slice(1);
 		return `${cityFromCapital}, ${street} ${houseNumber}`;
 	}
 
-	getCarouselItems = () =>
-		// TODO
+	onSelectPhotosHandler = (pictures) => {
+		this.props.uploadPhotos(pictures);
+	}
 
-		(
-			<Carousel interval={100000000}>
+	getCarouselItems = () => {
+		const { OfferPhotos: offerPhotos } = this.props.offer;
+
+		return (
+			<Carousel interval={100000000} defaultActiveindex={offerPhotos.length - 1}>
+				{
+					offerPhotos.map((photoItem) => (
+						<Carousel.Item active>
+							<img
+								className="d-block w-100 img-fluid inner"
+								srcSet={`${__BASE_URL__}${photoItem.full_path}`}
+								alt="Third slide"
+							/>
+						</Carousel.Item>
+					))
+				}
 				<Carousel.Item>
-					<img
-						className="d-block w-100 img-fluid"
-						src="https://static.realt.by/user/gb/o/r2001n819ogb/69ae30670d.jpg?1550661176"
-						alt="Third slide"
-					/>
-				</Carousel.Item>
-				<Carousel.Item>
-					<img
-						className="d-block w-100 img-fluid"
-						src="https://static.realt.by/user/gb/o/r2001n819ogb/f6b6e83efd.jpg?1550661180"
-						alt="Third slide"
-					/>
+					<div className="inner">
+						<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} />
+					</div>
 				</Carousel.Item>
 			</Carousel>
-		)
+		);
+	}
 
 
 	render() {
@@ -108,10 +118,10 @@ class Offer extends React.Component {
 							</h3>
 
 							<div className="text-right">
-								<div >Этажность {floorNumber}/{floorTotal}</div>
-								<div >Общая площадь {squareTotal} м²</div>
+								<div>Этажность {floorNumber}/{floorTotal}</div>
+								<div>Общая площадь {squareTotal} м²</div>
 							</div>
-							<div >
+							<div>
 								{
 									permits.length ?
 										(
@@ -130,14 +140,14 @@ class Offer extends React.Component {
 										: null
 								}
 							</div>
-							<br/>
+							<br />
 							<p className="text">{descriptionText}</p>
 						</div>
 					</Card>
 
 					<div>
 						<div className="contacts text-right">
-							<div className="updated">Обновлено <Badge variant="light">{updatedAt}</Badge> </div>
+							<div className="updated">Обновлено <Badge variant="light">{updatedAt}</Badge></div>
 							<div>
 								<address>Контакты</address>
 								<h6>
@@ -175,5 +185,6 @@ export default connect(
 	}),
 	(dispatch) => ({
 		getOfferRequest: (id) => dispatch(Actions.offerPage.getOfferRequest(id)),
+		uploadPhotos: (photos) => dispatch(Actions.offerPage.uploadPhotos(photos)),
 	}),
 )(Offer);
