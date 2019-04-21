@@ -58,3 +58,8 @@ export const SET_OFFER_PAGE = 'offerPage/SET_OFFER_PAGE';
 export const UPLOAD_OFFER_PHOTOS = 'offerPage/UPLOAD_OFFER_PHOTOS';
 export const SET_NEW_OFFER_PHOTOS = 'offerPage/SET_NEW_OFFER_PHOTOS';
 
+export const GET_PROFILE_REQUEST = 'profile/GET_PROFILE_REQUEST';
+export const SET_PROFILE = 'profile/SET_PROFILE';
+export const CLOSE_OFFER_REQUEST = 'profile/CLOSE_OFFER_REQUEST';
+export const REMOVE_USER_FILTER_REQUEST = 'profile/REMOVE_USER_FILTER_REQUEST';
+export const UPDATE_USER_FILTERS = 'profile/UPDATE_USER_FILTERS';

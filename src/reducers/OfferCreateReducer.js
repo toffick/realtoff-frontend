@@ -57,7 +57,7 @@ const initialState = Map({
 	errors: []
 });
 
-function globalReducer(state = initialState, action) {
+function offerCreateReducer(state = initialState, action) {
 	switch (action.type) {
 		case CHANGE_OFFER_STEP: {
 			const { step } = action.payload;
@@ -95,4 +95,4 @@ function globalReducer(state = initialState, action) {
 	}
 }
 
-export default globalReducer;
+export default offerCreateReducer;

@@ -58,7 +58,7 @@ const initialState = Map({
 	cityCoordinates: undefined,
 });
 
-function globalReducer(state = initialState, action) {
+function searchReducer(state = initialState, action) {
 	switch (action.type) {
 		case UPDATE_SEARCH_AUTOCOMPLETE_LIST: {
 			const { list } = action.payload;
@@ -129,4 +129,4 @@ function globalReducer(state = initialState, action) {
 	}
 }
 
-export default globalReducer;
+export default searchReducer;

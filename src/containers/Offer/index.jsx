@@ -9,9 +9,10 @@ import {
 	Carousel,
 	Badge,
 	Card,
+	Image,
 } from 'react-bootstrap';
 
-import PageNotFound from '../PageNotFound';
+import Stub from '../../components/Stub';
 import OfferMap from '../../components/Maps/Offer';
 import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
 
@@ -20,8 +21,25 @@ import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
 // split to several components
 // PropTypes
 // koko
+// ability to change and uploading only for owner
+// close ad
+// change description
+// change main photo
 
 class Offer extends React.Component {
+
+	_isAuthUserOwner() {
+		const { user, offer } = this.props;
+
+		if (!user || !offer) {
+			return false;
+		}
+
+		const { user_id: ownerId } = offer;
+
+		return user.id === ownerId;
+	}
+
 
 	componentDidMount() {
 		const { params } = this.props.match;
@@ -39,26 +57,29 @@ class Offer extends React.Component {
 	}
 
 	getCarouselItems = () => {
-		const { OfferPhotos: offerPhotos } = this.props.offer;
+		const { photos } = this.props.offer;
 
 		return (
-			<Carousel interval={100000000} defaultActiveindex={offerPhotos.length - 1}>
+			<Carousel interval={100000000} defaultActiveindex={photos.length - 1}>
 				{
-					offerPhotos.map((photoItem) => (
+					photos.map((photoItem) => (
 						<Carousel.Item active>
-							<img
-								className="d-block w-100 img-fluid inner"
-								srcSet={`${__BASE_URL__}${photoItem.full_path}`}
-								alt="Third slide"
-							/>
+							<Image className="inner" src={`${__BASE_URL__}${photoItem.destination}`} fluid />
 						</Carousel.Item>
 					))
 				}
-				<Carousel.Item>
-					<div className="inner">
-						<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} />
-					</div>
-				</Carousel.Item>
+				{
+					this._isAuthUserOwner() ?
+						<Carousel.Item>
+							<div className="inner">
+								<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} />
+							</div>
+						</Carousel.Item>
+						:
+						null
+				}
+
+
 			</Carousel>
 		);
 	}
@@ -72,7 +93,7 @@ class Offer extends React.Component {
 		}
 
 		if (!offer) {
-			return <PageNotFound />;
+			return <Stub />;
 		}
 
 		const {
@@ -102,18 +123,17 @@ class Offer extends React.Component {
 
 		return (
 			<div className="offer-page">
-
 				<div className="images-wrapper">
 					{this.getCarouselItems()}
 				</div>
 				<div className="description-wrapper">
 					<Card className="description">
 						<div>
-							<h5>
-								<Badge variant="primary">{pricePerMonth} {currency}/мес.</Badge>
+							<h5 className="title">
+								<Badge variant="dark" style={{ padding: '7px' }}>{pricePerMonth} {currency}/мес.</Badge>
 								<span> {roomTotal} комнатная квартира</span>
 							</h5>
-							<h3>
+							<h3 className="address">
 								{this.getTitleByAddress()}
 							</h3>
 
@@ -125,7 +145,7 @@ class Offer extends React.Component {
 								{
 									permits.length ?
 										(
-											<div><b>Особые условия</b>
+											<div>Особые условия
 												{
 													permits.map((item) =>
 														(
@@ -147,10 +167,10 @@ class Offer extends React.Component {
 
 					<div>
 						<div className="contacts text-right">
-							<div className="updated">Обновлено <Badge variant="light">{updatedAt}</Badge></div>
+							<div className="updated"><Badge variant="light">Обновлено {updatedAt}</Badge></div>
 							<div>
-								<address>Контакты</address>
-								<h6>
+								<div>
+									<b>Контакты</b>
 									<div>{userName} ({isPersonalLessor ? 'Собственник' : 'Агенство'})</div>
 									<div>{generalPhone}</div>
 									{
@@ -159,7 +179,7 @@ class Offer extends React.Component {
 											:
 											null
 									}
-								</h6>
+								</div>
 							</div>
 
 						</div>
@@ -180,6 +200,7 @@ Offer.defaultProps = {};
 
 export default connect(
 	(state) => ({
+		user: state.auth.get('user'),
 		offer: state.offerPage.get('offer'),
 		isRequestInProgress: state.offerPage.get('isRequestInProgress'),
 	}),

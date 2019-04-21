@@ -79,6 +79,7 @@ class SearchForm extends Component {
 			onSaveFilter,
 			errorObject,
 			location,
+			isShowSaveButton,
 		} = this.props;
 
 		const { isAddressHasTyped } = this.state;
@@ -89,191 +90,199 @@ class SearchForm extends Component {
 			`${location.address.country}${location.address.city ? `, ${location.address.city}` : ''}`
 			: this.state.address;
 		return (
-			<Card style={{padding: '15px'}}>
-			<Form>
-				<Form.Row>
-					<Form.Label>Введите адрес <small>(с точностью до города)</small></Form.Label>
-					<ReactAutocomplete
-						wrapperStyle={autoCompleteMenuStyles}
-						items={autocomleteList}
-						getItemValue={({ address }) => `${address.country}${address.city ? `, ${address.city}` : ''}`}
-						renderItem={(item, highlighted) =>
-							(<div
-								key={item.id}
-								style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
-							>
-								{item.description}
-							</div>)
-						}
-						value={addressValue}
-						onChange={this.onChangeAddress}
-						onSelect={this.onSelectAddress}
-						inputProps={{ className: 'form-control' }}
-					/>
-				</Form.Row>
+			<Card style={{ padding: '15px' }}>
+				<Form>
+					<Form.Row>
+						<Form.Label>Введите адрес <small>(с точностью до города)</small></Form.Label>
+						<ReactAutocomplete
+							wrapperStyle={autoCompleteMenuStyles}
+							items={autocomleteList}
+							getItemValue={({ address }) => `${address.country}${address.city ? `, ${address.city}` : ''}`}
+							renderItem={(item, highlighted) =>
+								(<div
+									key={item.id}
+									style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
+								>
+									{item.description}
+								</div>)
+							}
+							value={addressValue}
+							onChange={this.onChangeAddress}
+							onSelect={this.onSelectAddress}
+							inputProps={{ className: 'form-control' }}
+						/>
+					</Form.Row>
 
 
-				<Form.Row>
-					<Form.Group as={Col}>
+					<Form.Row>
+						<Form.Group as={Col}>
 
-						<Form.Group>
-							<Form.Label>Цена</Form.Label>
+							<Form.Group>
+								<Form.Label>Цена</Form.Label>
+								<Form.Row>
+									<Form.Group as={Col}>
+										<Form.Control
+											type="text"
+											name="priceFrom"
+											placeholder="от"
+											value={priceFrom}
+											onChange={this.onChange}
+											isInvalid={errorObject.priceFrom}
+										/>
+										<Form.Control.Feedback type="invalid">
+											{errorObject.priceFrom}
+										</Form.Control.Feedback>
+									</Form.Group>
+									<Form.Group as={Col}>
+										<Form.Control
+											type="text"
+											name="priceTo"
+											value={priceTo}
+											placeholder="до"
+											onChange={this.onChange}
+											isInvalid={errorObject.priceTo}
+										/>
+										<Form.Control.Feedback type="invalid">
+											{errorObject.priceTo}
+										</Form.Control.Feedback>
+									</Form.Group>
+									<Form.Group as={Col}>
+										<Form.Control
+											as="select"
+											name="currency"
+											value={currency}
+											onChange={this.onChange}
+										>
+											{
+												Object.values(CURRENCY_TYPES).map((currencyObj) =>
+													(<option
+														key={currencyObj}
+													>
+														{currencyObj}
+													</option>))
+											}
+										</Form.Control>
+									</Form.Group>
+								</Form.Row>
+							</Form.Group>
+
+							<Form.Group as={Col}>
+								<Form.Label>Условия</Form.Label>
+								<PermitsList
+									onChangeMask={this.onChangePermitsMask}
+									permitsMask={permitsMask}
+								/>
+							</Form.Group>
+
+						</Form.Group>
+						<Form.Group as={Col}>
 							<Form.Row>
 								<Form.Group as={Col}>
-									<Form.Control
-										type="text"
-										name="priceFrom"
-										placeholder="от"
-										value={priceFrom}
-										onChange={this.onChange}
-										isInvalid={errorObject.priceFrom}
-									/>
-									<Form.Control.Feedback type="invalid">
-										{errorObject.priceFrom}
-									</Form.Control.Feedback>
+									<Form.Label>Площадь(м²)</Form.Label>
+									<Form.Row>
+										<Form.Group as={Col}>
+											<Form.Control
+												type="text"
+												name="squareFrom"
+												placeholder="от"
+												value={squareFrom}
+												onChange={this.onChange}
+												isInvalid={errorObject.squareFrom}
+											/>
+											<Form.Control.Feedback type="invalid">
+												{errorObject.squareFrom}
+											</Form.Control.Feedback>
+										</Form.Group>
+										<Form.Group as={Col}>
+											<Form.Control
+												type="text"
+												name="squareTo"
+												placeholder="до"
+												value={squareTo}
+												onChange={this.onChange}
+												isInvalid={errorObject.squareTo}
+											/>
+											<Form.Control.Feedback type="invalid">
+												{errorObject.squareTo}
+											</Form.Control.Feedback>
+										</Form.Group>
+									</Form.Row>
 								</Form.Group>
 								<Form.Group as={Col}>
-									<Form.Control
-										type="text"
-										name="priceTo"
-										value={priceTo}
-										placeholder="до"
-										onChange={this.onChange}
-										isInvalid={errorObject.priceTo}
-									/>
-									<Form.Control.Feedback type="invalid">
-										{errorObject.priceTo}
-									</Form.Control.Feedback>
-								</Form.Group>
-								<Form.Group as={Col}>
-									<Form.Control
-										as="select"
-										name="currency"
-										value={currency}
-										onChange={this.onChange}
-									>
-										{
-											Object.values(CURRENCY_TYPES).map((currencyObj) =>
-												(<option
-													key={currencyObj}
-												>
-													{currencyObj}
-												</option>))
-										}
-									</Form.Control>
+									<Form.Label>Кол-во комнат</Form.Label>
+									<Form.Row>
+										<Form.Group as={Col}>
+											<Form.Control
+												type="text"
+												name="roomTotal"
+												value={roomTotal}
+												onChange={this.onChange}
+												isInvalid={errorObject.roomTotal}
+											/>
+											<Form.Control.Feedback type="invalid">
+												{errorObject.roomTotal}
+											</Form.Control.Feedback>
+										</Form.Group>
+									</Form.Row>
 								</Form.Group>
 							</Form.Row>
-						</Form.Group>
-
-						<Form.Group as={Col}>
-							<Form.Label>Условия</Form.Label>
-							<PermitsList
-								onChangeMask={this.onChangePermitsMask}
-								permitsMask={permitsMask}
-							/>
-						</Form.Group>
-
-					</Form.Group>
-					<Form.Group as={Col}>
-						<Form.Row>
 							<Form.Group as={Col}>
-								<Form.Label>Площадь(м²)</Form.Label>
-								<Form.Row>
-									<Form.Group as={Col}>
-										<Form.Control
-											type="text"
-											name="squareFrom"
-											placeholder="от"
-											value={squareFrom}
-											onChange={this.onChange}
-											isInvalid={errorObject.squareFrom}
-										/>
-										<Form.Control.Feedback type="invalid">
-											{errorObject.squareFrom}
-										</Form.Control.Feedback>
-									</Form.Group>
-									<Form.Group as={Col}>
-										<Form.Control
-											type="text"
-											name="squareTo"
-											placeholder="до"
-											value={squareTo}
-											onChange={this.onChange}
-											isInvalid={errorObject.squareTo}
-										/>
-										<Form.Control.Feedback type="invalid">
-											{errorObject.squareTo}
-										</Form.Control.Feedback>
-									</Form.Group>
-								</Form.Row>
+								<Form.Label>Тип недвижимости</Form.Label>
+								<Form.Check
+									label="Квартира"
+									type="radio"
+									value={REALTY_TYPES.FLAT}
+									onChange={this.onChange}
+									name="type"
+									checked={REALTY_TYPES.FLAT === type}
+								/>
+								<Form.Check
+									label="Дом"
+									type="radio"
+									value={REALTY_TYPES.HOUSE}
+									onChange={this.onChange}
+									name="type"
+									checked={REALTY_TYPES.HOUSE === type}
+								/>
 							</Form.Group>
+
 							<Form.Group as={Col}>
-								<Form.Label>Кол-во комнат</Form.Label>
-								<Form.Row>
-									<Form.Group as={Col}>
-										<Form.Control
-											type="text"
-											name="roomTotal"
-											value={roomTotal}
-											onChange={this.onChange}
-											isInvalid={errorObject.roomTotal}
-										/>
-										<Form.Control.Feedback type="invalid">
-											{errorObject.roomTotal}
-										</Form.Control.Feedback>
-									</Form.Group>
-								</Form.Row>
+								<Form.Check
+									label="Только собственник"
+									type="checkbox"
+									name="isPersonalLessor"
+									onChange={this.onCheckboxChange}
+									checked={isPersonalLessor}
+								/>
 							</Form.Group>
-						</Form.Row>
-						<Form.Group as={Col}>
-							<Form.Label>Тип недвижимости</Form.Label>
-							<Form.Check
-								label="Квартира"
-								type="radio"
-								value={REALTY_TYPES.FLAT}
-								onChange={this.onChange}
-								name="type"
-								checked={REALTY_TYPES.FLAT === type}
-							/>
-							<Form.Check
-								label="Дом"
-								type="radio"
-								value={REALTY_TYPES.HOUSE}
-								onChange={this.onChange}
-								name="type"
-								checked={REALTY_TYPES.HOUSE === type}
-							/>
+
+							<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+								{
+									isShowSaveButton ?
+										(
+											<Button
+												onClick={onSaveFilter}
+												disabled={isSubmitDisabled}
+											>Сохранить
+											</Button>
+										)
+										:
+										<div></div>
+								}
+
+								<Button
+									type="submit"
+									onClick={this.onSubmit}
+									disabled={isSubmitDisabled}
+								>Найти
+								</Button>
+							</div>
+
 						</Form.Group>
 
-						<Form.Group as={Col}>
-							<Form.Check
-								label="Только собственник"
-								type="checkbox"
-								name="isPersonalLessor"
-								onChange={this.onCheckboxChange}
-								checked={isPersonalLessor}
-							/>
-						</Form.Group>
+					</Form.Row>
 
-						<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-							<Button
-								onClick={onSaveFilter}
-								disabled={isSubmitDisabled}
-							>Сохранить
-							</Button>
-							<Button
-								type="submit"
-								onClick={this.onSubmit}
-								disabled={isSubmitDisabled}
-							>Найти
-							</Button>
-						</div>
-
-					</Form.Group>
-
-				</Form.Row>
-
-			</Form>
+				</Form>
 			</Card>
 		);
 	}

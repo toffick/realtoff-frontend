@@ -4,6 +4,7 @@ import offerCreateReducer from './OfferCreateReducer';
 import offerPageReducer from './OfferPageReducer';
 import searchReducer from './SearchReducer';
 import filterReducer from './FilterReducer';
+import profileReducer from './ProfileReducer';
 
 export default {
 	auth: authReducer,
@@ -12,4 +13,5 @@ export default {
 	offerPage: offerPageReducer,
 	search: searchReducer,
 	filter: filterReducer,
+	profile: profileReducer,
 };

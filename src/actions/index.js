@@ -6,9 +6,11 @@ import OfferCreateActions from './OfferCreateActions';
 import OfferPageActions from './OfferPageActions';
 import SearchActions from './SearchActions';
 import FilterActions from './FilterActions';
+import ProfileActions from './ProfileActions';
 
 export default {
 	auth: AuthActions,
+	profile: ProfileActions,
 	global: GlobalActions,
 	navigate: NavigateActions,
 	user: UserActions,

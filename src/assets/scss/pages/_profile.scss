@@ -1,0 +1,43 @@
+.profile-page-wrapper {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 90vh;
+  padding-top: 300px;
+
+  .personal-info {
+    min-width: 400px;
+  }
+
+  .own-offers-wrapper {
+    padding: 15px;
+    .list {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 800px;
+
+      .offer-card {
+        max-width: 380px;
+        width: 380px;
+        padding: 20px;
+      }
+
+    }
+  }
+
+  .user-filter-wrapper{
+    width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .user-filter{
+      width: 390px;
+      max-width: 390px;
+      padding: 5px;
+      margin: 5px;
+    }
+  }
+
+
+}

@@ -11,7 +11,7 @@ const initialState = Map({
 	offer: null,
 });
 
-function globalReducer(state = initialState, action) {
+function offerPageReducer(state = initialState, action) {
 	switch (action.type) {
 		case CHANGE_OFFER_PAGE_STATUS: {
 			const { processStatus } = action.payload;
@@ -23,8 +23,8 @@ function globalReducer(state = initialState, action) {
 		}
 		case SET_NEW_OFFER_PHOTOS: {
 			const { photos } = action.payload;
-			const offer = {...state.get('offer')};
-			offer.OfferPhotos = offer.OfferPhotos.concat(photos);
+			const offer = { ...state.get('offer') };
+			offer.photos = offer.photos.concat(photos);
 			return state.set('offer', offer);
 		}
 		default:
@@ -32,4 +32,4 @@ function globalReducer(state = initialState, action) {
 	}
 }
 
-export default globalReducer;
+export default offerPageReducer;

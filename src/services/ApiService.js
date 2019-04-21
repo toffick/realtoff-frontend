@@ -121,7 +121,7 @@ class ApiService {
 	saveUserFilters(userFiltersData) {
 		return this.createRequest({
 			method: 'POST',
-			url: `${this.baseUrl}/api/v1/save-user-filters`,
+			url: `${this.baseUrl}/api/v1/user-filters`,
 			data: {
 				...userFiltersData,
 			},
@@ -151,6 +151,23 @@ class ApiService {
 			config: { headers: {'Content-Type': 'multipart/form-data' }},
 		});
 	}
+
+	getProfile() {
+		return this.createRequest({
+			method: 'get',
+			url: `${this.baseUrl}/api/v1/profile`,
+			enableAuthorizationHeader: true,
+		});
+	}
+
+	removeUserFilter(filterId) {
+		return this.createRequest({
+			method: 'delete',
+			url: `${this.baseUrl}/api/v1/user-filters/${filterId}`,
+			enableAuthorizationHeader: true,
+		});
+	}
+
 
 	/**
      *

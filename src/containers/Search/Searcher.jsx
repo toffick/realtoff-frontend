@@ -53,8 +53,10 @@ class SearchFormContainer extends React.Component {
 			isShowFilterModal,
 			autocomleteList,
 			location,
+			user
 		} = this.props;
 
+		const isShowSaveButton = !!user
 		return (
 			<div className="search-form">
 				<FilterModal isShow={isShowFilterModal && location} />
@@ -69,6 +71,7 @@ class SearchFormContainer extends React.Component {
 					autocomleteList={autocomleteList}
 					location={location}
 					onSetLocation={this.changeLocationHandler}
+					isShowSaveButton={isShowSaveButton}
 				/>
 			</div>
 		);
@@ -79,6 +82,7 @@ class SearchFormContainer extends React.Component {
 SearchFormContainer.propTypes = {
 	isShowFilterModal: PropTypes.bool,
 	location: PropTypes.object,
+	user: PropTypes.object,
 	errorObject: PropTypes.object,
 	form: PropTypes.object.isRequired,
 	updateAvailableCountriesRequest: PropTypes.func.isRequired,
@@ -99,6 +103,7 @@ export default connect(
 		form: state.search.get('form'),
 		errorObject: state.search.get('errorObject'),
 		isShowFilterModal: state.filter.get('isShow'),
+		user: state.auth.get('user'),
 	}),
 	(dispatch) => ({
 		changeFilterShowStatus: (status) => dispatch(Actions.filter.changeShowStatus(status)),

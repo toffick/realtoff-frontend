@@ -11,6 +11,7 @@ import NormalizedHelper from '../../helpers/NormalizeHelper';
 import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
 import { REALTY_TYPES } from '../../constants/OfferConstants';
 import ErrorMessage from '../../components/ErrorMessage';
+import UserFilterPreview from '../../components/UserFilterPreview';
 
 class FilterModalContainer extends React.Component {
 
@@ -35,6 +36,7 @@ class FilterModalContainer extends React.Component {
 			priceTo,
 			squareFrom,
 			squareTo,
+			isPersonalLessor,
 		} = normalizedForm;
 
 		const createSimpleRow = (text, value, symbol) => (value ?
@@ -47,7 +49,6 @@ class FilterModalContainer extends React.Component {
 
 		const permits = PermitsMaskHelper.getPermitsByMask(permitsMask);
 
-		// TODO
 		const address = location ? `${location.address.country}, ${location.address.city}` : '';
 
 		return (
@@ -55,6 +56,7 @@ class FilterModalContainer extends React.Component {
 				{createSimpleRow('Адрес', address)}
 				{createSimpleRow('Тип недвижимости', type === REALTY_TYPES.FLAT ? 'Квартира' : 'Дом')}
 				{createSimpleRow('Количество комнат', roomTotal)}
+				{createSimpleRow('Только собственник', isPersonalLessor, '+')}
 				{createSimpleRow('Цена от', priceFrom, currency)}
 				{createSimpleRow('Цена до', priceTo, currency)}
 				{createSimpleRow('Площадь от', squareFrom, 'м²')}
@@ -83,7 +85,9 @@ class FilterModalContainer extends React.Component {
 		const {
 			isShow,
 			error,
-			processStatus
+			processStatus,
+			location,
+			searchForm,
 		} = this.props;
 
 		return (
@@ -102,7 +106,7 @@ class FilterModalContainer extends React.Component {
 					</Modal.Header>
 					<Modal.Body>
 						{error ? <ErrorMessage error={error} /> : null}
-						{this.getBody()}
+						<UserFilterPreview location={location && location.address} form={searchForm} />
 					</Modal.Body>
 					<Modal.Footer>
 						<Button variant="secondary" onClick={this.handleClose}>
@@ -149,8 +153,8 @@ export default connect(
 	(dispatch) => ({
 		saveSearchFilterRequest: () => dispatch(Actions.search.saveSearchFilterRequest()),
 		changeFilterShowStatus: (status) => {
-			dispatch(Actions.filter.changeShowStatus(status))
-			dispatch(Actions.filter.setError(null))
+			dispatch(Actions.filter.changeShowStatus(status));
+			dispatch(Actions.filter.setError(null));
 		},
 	}),
 )(FilterModalContainer);

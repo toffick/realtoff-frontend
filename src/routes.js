@@ -10,7 +10,7 @@ import RegisterContinue from './containers/Register/RegisterContinue';
 import CreateOffer from './containers/CreateOffer';
 import Profile from './containers/Profile';
 import Offer from './containers/Offer';
-import PageNotFound from './containers/PageNotFound';
+import PageNotFound from './components/PageNotFound';
 import Wrapper from './containers/Wrapper';
 
 import { ROUTER_PATHS } from './constants/GlobalConstants';

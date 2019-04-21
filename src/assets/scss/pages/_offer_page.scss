@@ -48,7 +48,16 @@
 
     .description {
       width: 100%;
-      padding: 10px;
+      padding: 25px;
+
+      .title{
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .address{
+        text-align: right;
+      }
 
       .text {
         padding-left: 20px;
