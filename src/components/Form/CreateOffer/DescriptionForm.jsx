@@ -44,14 +44,14 @@ class DescriptionForm extends Component {
 					<Form.Group as={Col}>
 						<Form.Label>Тип жилой недвижимости</Form.Label>
 						<Form.Check
-							label="Flat"
+							label="Квартира"
 							type="radio"
 							id="flat"
 							onChange={this.onRealtyTypeChecked}
 							checked={isFlat}
 						/>
 						<Form.Check
-							label="House"
+							label="Дом"
 							type="radio"
 							id="house"
 							onChange={this.onRealtyTypeChecked}
@@ -93,7 +93,7 @@ class DescriptionForm extends Component {
 								onChange={this.onChange}
 								value={totalRoomNumber}
 							/>
-							<Form.Label>Общая площадь</Form.Label>
+							<Form.Label>Общая площадь(м²)</Form.Label>
 							<Form.Control
 								size="sm"
 								id="squareTotal"

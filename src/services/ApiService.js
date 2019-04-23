@@ -23,7 +23,7 @@ class ApiService {
 	 * @param nickname
 	 * @returns {AxiosPromise<any>}
 	 */
-	signUp(email, password, nickname) {
+	async signUp(email, password, nickname) {
 		return axios.request({
 			method: 'POST',
 			url: `${this.baseUrl}/api/v1/sign-up`,
@@ -42,7 +42,7 @@ class ApiService {
 	 * @param isPersonalLessor
 	 * @returns {AxiosPromise<any>}
 	 */
-	setPersonalInfo(firstName, telephoneNumber, isPersonalLessor) {
+	async setPersonalInfo(firstName, telephoneNumber, isPersonalLessor) {
 		return this.createRequest({
 			method: 'POST',
 			url: `${this.baseUrl}/api/v1/sign-up/continue`,
@@ -58,11 +58,11 @@ class ApiService {
 
 	/**
 	 *
-     * @param email
-     * @param password
-     * @returns {Promise<*>}
-     */
-	signIn(email, password) {
+	 * @param email
+	 * @param password
+	 * @returns {Promise<*>}
+	 */
+	async signIn(email, password) {
 		return axios.request({
 			method: 'POST',
 			url: `${this.baseUrl}/api/v1/sign-in`,
@@ -75,11 +75,11 @@ class ApiService {
 
 	/**
 	 *
-     * @param accessToken
-     * @param refreshToken
-     * @returns {Promise<*>}
-     */
-	signOut({ accessToken, refreshToken }) {
+	 * @param accessToken
+	 * @param refreshToken
+	 * @returns {Promise<*>}
+	 */
+	async signOut({ accessToken, refreshToken }) {
 		return this.createRequest({
 			method: 'POST',
 			url: `${this.baseUrl}/api/v1/sign-out`,
@@ -90,7 +90,7 @@ class ApiService {
 		});
 	}
 
-	auth() {
+	async auth() {
 		return this.createRequest({
 			method: 'POST',
 			url: `${this.baseUrl}/api/v1/auth`,
@@ -99,7 +99,7 @@ class ApiService {
 		});
 	}
 
-	createOffer(offerData) {
+	async createOffer(offerData) {
 		return this.createRequest({
 			method: 'POST',
 			url: `${this.baseUrl}/api/v1/create-offer`,
@@ -110,7 +110,7 @@ class ApiService {
 		});
 	}
 
-	search(queryParams) {
+	async search(queryParams) {
 		return axios.request({
 			method: 'GET',
 			url: `${this.baseUrl}/api/v1/search-offers`,
@@ -118,7 +118,7 @@ class ApiService {
 		});
 	}
 
-	saveUserFilters(userFiltersData) {
+	async saveUserFilters(userFiltersData) {
 		return this.createRequest({
 			method: 'POST',
 			url: `${this.baseUrl}/api/v1/user-filters`,
@@ -129,14 +129,14 @@ class ApiService {
 		});
 	}
 
-	getOffer(offerId) {
+	async getOffer(offerId) {
 		return this.createRequest({
 			method: 'GET',
 			url: `${this.baseUrl}/api/v1/offers/${offerId}`,
 		});
 	}
 
-	uploadPhotos(photos, offerId) {
+	async uploadPhotos(photos, offerId) {
 
 		const formData = new FormData();
 		photos.forEach((file) => {
@@ -148,11 +148,11 @@ class ApiService {
 			url: `${this.baseUrl}/api/v1/offers/upload-photos/${offerId}`,
 			data: formData,
 			enableAuthorizationHeader: true,
-			config: { headers: {'Content-Type': 'multipart/form-data' }},
+			config: { headers: { 'Content-Type': 'multipart/form-data' } },
 		});
 	}
 
-	getProfile() {
+	async getProfile() {
 		return this.createRequest({
 			method: 'get',
 			url: `${this.baseUrl}/api/v1/profile`,
@@ -160,7 +160,7 @@ class ApiService {
 		});
 	}
 
-	removeUserFilter(filterId) {
+	async removeUserFilter(filterId) {
 		return this.createRequest({
 			method: 'delete',
 			url: `${this.baseUrl}/api/v1/user-filters/${filterId}`,
@@ -168,14 +168,22 @@ class ApiService {
 		});
 	}
 
+	async closeOffer(filterId) {
+		return this.createRequest({
+			method: 'put',
+			url: `${this.baseUrl}/api/v1/offers/close/${filterId}`,
+			enableAuthorizationHeader: true,
+		});
+	}
+
 
 	/**
-     *
-     * @param requestData
-     * @param userData
-     * @private
-     * @return {Promise<*>}
-     */
+	 *
+	 * @param requestData
+	 * @param userData
+	 * @private
+	 * @return {Promise<*>}
+	 */
 	createRequest(requestData) {
 		const accessToken = localStorage.getItem(LOCAL_STORAGE_PATHS.ACCESS_TOKEN_LOCAL_STORAGE);
 		const refreshToken = localStorage.getItem(LOCAL_STORAGE_PATHS.REFRESH_TOKEN_LOCAL_STORAGE);
@@ -263,11 +271,11 @@ class ApiService {
 	}
 
 	/**
-     *
-     * @param {String} refreshToken
-     * @private
-     * @return {any}
-     */
+	 *
+	 * @param {String} refreshToken
+	 * @private
+	 * @return {any}
+	 */
 	refreshTokens(refreshToken) {
 		return axios.request({
 			method: 'POST',

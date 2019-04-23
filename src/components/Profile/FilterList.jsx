@@ -5,9 +5,9 @@ import {
 	Card,
 	Modal,
 } from 'react-bootstrap';
+import moment from 'moment';
 
 import UserFilterPreview from '../UserFilterPreview';
-import moment from "moment";
 
 class FilterList extends React.Component {
 
@@ -47,7 +47,7 @@ class FilterList extends React.Component {
 							city,
 							type,
 							price_from: priceFrom,
-							price_To: priceTo,
+							price_to: priceTo,
 							currency,
 							permits_mask: permitsMask,
 							room_total: roomTotal,
@@ -76,28 +76,31 @@ class FilterList extends React.Component {
 								<Modal show={this.state.modalShow} centered onHide={this.handleClose}>
 									<Modal.Header cseButton>
 										<Modal.Title>
-											Вы уверены, что хотите удалить данный фильтр? <p>
-											<small>
-												Вы больше не сможете получить уведомления, которые соответствуют его
-												параметрам
-											</small>
-										</p>
+											Вы уверены, что хотите удалить данный фильтр?
+											<p>
+												<small>
+													Вы больше не сможете получить уведомления, которые соответствуют его
+													параметрам
+												</small>
+											</p>
 										</Modal.Title>
 									</Modal.Header>
-									<Modal.Footer>
+									<Modal.Body>
 										<Button variant="secondary" onClick={this.resetDeleteModal}>
 											Отмена
 										</Button>
 										<Button variant="danger" onClick={this.onDeleteConfirm}>
 											Удалить
 										</Button>
-									</Modal.Footer>
+									</Modal.Body>
 								</Modal>
 								<Card className="user-filter">
 									<Card.Title className="d-sm-flex justify-content-between">
 										<small>Создано {moment(filter.created_at).locale('ru').format('LL')}</small>
 										<Button
-											onClick={this.onDeleteFilterHandler.bind(this, filter.id)}>Удалить</Button>
+											onClick={this.onDeleteFilterHandler.bind(this, filter.id)}
+										>Удалить
+										</Button>
 									</Card.Title>
 									<br/>
 									<Card.Body>

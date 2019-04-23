@@ -11,51 +11,52 @@ import {
 import { CREATE_OFFER_STEPS, CURRENCY_TYPES } from '../constants/OfferConstants';
 import { MINSK_COORDINATES, MINSK_COORDINATES_BOUNDED_BY } from '../constants/MapConstants';
 
-// const initialState = Map({
-// 	step: CREATE_OFFER_STEPS.LOCATION,
-// 	autocomleteList: [],
-// 	location: {
-// 		coordinates: MINSK_COORDINATES,
-// 		bounds: MINSK_COORDINATES_BOUNDED_BY,
-// 	},
-// 	description: {
-// 		isFlat: true,
-// 		floor: '',
-// 		totalFloorNumber: '',
-// 		totalRoomNumber: '',
-// 		description: '',
-// 		permitsMask: 0,
-// 	},
-// 	personal: {
-// 		additionalPhoneNumber: '',
-// 		currency: CURRENCY_TYPES.BYN,
-// 		pricePerMonth: '',
-// 	},
-// 	errors: []
-// });
-
 const initialState = Map({
 	step: CREATE_OFFER_STEPS.LOCATION,
 	autocomleteList: [],
 	location: {
 		coordinates: MINSK_COORDINATES,
+		bounds: MINSK_COORDINATES_BOUNDED_BY,
 	},
 	description: {
 		isFlat: true,
-		floor: '1',
-		totalFloorNumber: '2',
-		totalRoomNumber: '3',
-		description: 'asd',
-		permitsMask: 3,
+		floor: '',
+		totalFloorNumber: '',
+		totalRoomNumber: '',
+		description: '',
+		permitsMask: 0,
 		squareTotal: '',
 	},
 	personal: {
-		additionalPhoneNumber: '+375336096565',
+		additionalPhoneNumber: '',
 		currency: CURRENCY_TYPES.BYN,
-		pricePerMonth: '111',
+		pricePerMonth: '',
 	},
 	errors: []
 });
+
+// const initialState = Map({
+// 	step: CREATE_OFFER_STEPS.LOCATION,
+// 	autocomleteList: [],
+// 	location: {
+// 		coordinates: MINSK_COORDINATES,
+// 	},
+// 	description: {
+// 		isFlat: true,
+// 		floor: '1',
+// 		totalFloorNumber: '2',
+// 		totalRoomNumber: '3',
+// 		description: 'asd',
+// 		permitsMask: 3,
+// 		squareTotal: '',
+// 	},
+// 	personal: {
+// 		additionalPhoneNumber: '+375336096565',
+// 		currency: CURRENCY_TYPES.BYN,
+// 		pricePerMonth: '111',
+// 	},
+// 	errors: []
+// });
 
 function offerCreateReducer(state = initialState, action) {
 	switch (action.type) {

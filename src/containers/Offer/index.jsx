@@ -10,11 +10,15 @@ import {
 	Badge,
 	Card,
 	Image,
+	Button,
 } from 'react-bootstrap';
+import moment from "moment";
 
 import Stub from '../../components/Stub';
 import OfferMap from '../../components/Maps/Offer';
 import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
+import { getOfferStatusBadge } from "../../utils/Offer";
+import { OFFER_STATUS } from "../../constants/OfferConstants";
 
 // TODO super fixes
 // restyling
@@ -56,8 +60,12 @@ class Offer extends React.Component {
 		this.props.uploadPhotos(pictures);
 	}
 
+	onCloseOfferHandler = () => {
+		this.props.closeOfferRequest();
+	}
+
 	getCarouselItems = () => {
-		const { photos } = this.props.offer;
+		const { photos, status } = this.props.offer;
 
 		return (
 			<Carousel interval={100000000} defaultActiveindex={photos.length - 1}>
@@ -69,7 +77,7 @@ class Offer extends React.Component {
 					))
 				}
 				{
-					this._isAuthUserOwner() ?
+					this._isAuthUserOwner() && status===OFFER_STATUS.OPEN ?
 						<Carousel.Item>
 							<div className="inner">
 								<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} />
@@ -104,6 +112,7 @@ class Offer extends React.Component {
 			currency,
 			additional_phone_number: additionalPhoneNumber,
 			updated_at: updatedAt,
+			status
 		} = offer;
 
 		const {
@@ -123,6 +132,19 @@ class Offer extends React.Component {
 
 		return (
 			<div className="offer-page">
+				{
+					this._isAuthUserOwner() ?
+						<div className="owner-panel">
+
+							<Button variant="danger" onClick={this.onCloseOfferHandler} disabled={status!==OFFER_STATUS.OPEN}>
+								Закрыть
+							</Button>
+
+						</div>
+
+						:
+						null
+				}
 				<div className="images-wrapper">
 					{this.getCarouselItems()}
 				</div>
@@ -167,7 +189,7 @@ class Offer extends React.Component {
 
 					<div>
 						<div className="contacts text-right">
-							<div className="updated"><Badge variant="light">Обновлено {updatedAt}</Badge></div>
+							<div className="updated"><Badge variant="light">Обновлено {moment(updatedAt).locale('ru').format('LL')}</Badge> {getOfferStatusBadge(status)}</div>
 							<div>
 								<div>
 									<b>Контакты</b>
@@ -207,5 +229,6 @@ export default connect(
 	(dispatch) => ({
 		getOfferRequest: (id) => dispatch(Actions.offerPage.getOfferRequest(id)),
 		uploadPhotos: (photos) => dispatch(Actions.offerPage.uploadPhotos(photos)),
+		closeOfferRequest: () => dispatch(Actions.offerPage.closeOfferRequest()),
 	}),
 )(Offer);

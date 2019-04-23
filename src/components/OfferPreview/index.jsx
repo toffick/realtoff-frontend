@@ -20,7 +20,7 @@ class OfferPreview extends Component {
 		return (
 			<Card className="card-wrapper">
 				<Card.Img
-				s	variant="top"
+					variant="top"
 					src={imageSrc}
 					className="preview-img"
 				/>

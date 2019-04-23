@@ -20,23 +20,30 @@ class Profile extends React.Component {
 	}
 
 	render() {
-		const {profile} = this.props;
+		const { profile } = this.props;
 
 		if (!profile) {
-			return (<Stub/>);
+			return (<Stub />);
 		}
 
-		const {UserFilters: userFilters, Offers: offers} = profile;
+		const { UserFilters: userFilters, Offers: offers } = profile;
 
 		return (
 			<div className="profile-page-wrapper">
 				<div className="d-sm-flex justify-content-between">
-					<PersonalInfo profile={profile}/>
-					<OfferList offers={offers}/>
+					<PersonalInfo profile={profile} />
+					<OfferList offers={offers} />
 				</div>
-				<div className="p-4">
-					Сохраненные фильтры, по которым Вы получаете уведомленияы
-					<FilterList filters={userFilters} onDeleteFilter={this.onDeleteUserFilterHandler}/>
+				<div style={{ paddingTop: '20px' }}>
+					{userFilters.length ?
+						<React.Fragment>
+							Сохраненные фильтры, по которым Вы получаете уведомления
+							<FilterList filters={userFilters} onDeleteFilter={this.onDeleteUserFilterHandler} />
+						</React.Fragment>
+						:
+						null
+					}
+
 				</div>
 			</div>
 		);

@@ -67,23 +67,22 @@ class RegisterForm extends Component {
 						Мобильный телефон
 					</label>
 				</div>
-				{
-					/* TODO чекбокс */
-				}
 				<div className="form__field-wrapper">
-					<input
-						className="form__field-input"
-						type="checkbox"
-						name="isPersonalLessor"
-						value={isPersonalLessor}
-						onChange={this._emitChange}
-						autoCorrect="off"
-						autoCapitalize="off"
-						spellCheck="false"
-					/>
-					<label className="form__field-label" htmlFor="username">
-						Частное лицо
+					<label className="form__field-label" htmlFor="isPersonalLessor">
+						Отметьте, если вы частный арендодатель
 					</label>
+					<br/>
+						<input
+							className="form__field-input"
+							type="checkbox"
+							name="isPersonalLessor"
+							value={isPersonalLessor}
+							onChange={this._emitChange}
+							autoCorrect="off"
+							autoCapitalize="off"
+							spellCheck="false"
+						/>
+
 				</div>
 				<div className="form__submit-btn-wrapper">
 					{currentlySending ? (

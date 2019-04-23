@@ -74,22 +74,33 @@ class Index extends React.Component {
 							</div>
 							:
 							this.props.offers.length ?
-								this.props.offers.map((item) =>
-									(
-										<div
-											className="offer-preview-wrapper"
-											ref={(ref) => {
-												this.anchorsMap[item.id] = ref;
-											}}
-										>
-											<NavLink to={`${ROUTER_PATHS.OFFERS}/${item.id}`} className="offer-link">
-												<OfferPreview offer={item} isActive={selectedOfferId === item.id} />
-											</NavLink>
-										</div>
-									))
+								<div>
+									Всего результатов: {this.props.offers.length}
+									{
+										this.props.offers.map((item) =>
+											(
+												<div
+													className="offer-preview-wrapper"
+													ref={(ref) => {
+														this.anchorsMap[item.id] = ref;
+													}}
+												>
+													<NavLink
+														to={`${ROUTER_PATHS.OFFERS}/${item.id}`}
+														className="offer-link"
+													>
+														<OfferPreview
+															offer={item}
+															isActive={selectedOfferId === item.id}
+														/>
+													</NavLink>
+												</div>
+											))
+									}
+								</div>
 								:
 								(
-									<div className="search-spinner">{`${cityLocation? 'Ничего не найдено': ''}`}</div>
+									<div className="search-spinner">{`${cityLocation ? 'Ничего не найдено' : ''}`}</div>
 								)
 					}
 				</div>

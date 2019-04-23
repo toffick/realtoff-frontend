@@ -11,6 +11,7 @@ import {
 	offerIdSelector,
 } from '../reducers/selectors';
 import {
+	CLOSE_OFFER_REQUEST,
 	CREATE_OFFER,
 	OFFER_PAGE_REQUEST,
 	UPLOAD_OFFER_PHOTOS,
@@ -32,6 +33,7 @@ export function* createOffer() {
 			const { id: offerId } = offer.data;
 
 			yield put(Actions.navigate.navigateTo(`${ROUTER_PATHS.OFFERS}/${offerId}`));
+			ToastWrapper.success('Великолепно, вы создали объявление! Теперь добавьте фотографии.');
 
 		} catch (error) {
 			const errors = ErrorsHelper.processServerErrors(error);
@@ -87,8 +89,26 @@ export function* uploadPhotos() {
 
 }
 
+export function* closeOffer() {
+
+	yield takeEvery(CLOSE_OFFER_REQUEST, function* () {
+		try {
+			const offerId = yield select(offerIdSelector);
+			yield call([ApiService, ApiService.closeOffer], offerId);
+			ToastWrapper.success('Объявление закрыто');
+		} catch (error) {
+			ToastWrapper.warn('Не удалось закрыть объявления');
+			const [errorObject] = ErrorsHelper.processServerErrors(error);
+			console.error(errorObject);
+		}
+	});
+
+}
+
+
 export default function* root() {
 	yield fork(createOffer);
 	yield fork(offerPageRequest);
+	yield fork(closeOffer);
 	yield fork(uploadPhotos);
 }

@@ -10,19 +10,26 @@ import FilterModal from '../FilterModal';
 
 class SearchFormContainer extends React.Component {
 
-	changeAddressHandler = (query) => {
+	changeAddressQueryHandler = (query) => {
 		this.props.locationAutocompleteRequest(query);
 	}
 
-	changeLocationHandler = (location) => {
-		if (location.address.city) {
-			this.props.setLocation(location);
+	changeLocationHandler = (newLocation) => {
+		const { location } = this.props;
+
+		if (newLocation.address.city && newLocation !== location) {
+			this.props.setLocation(newLocation);
 			this.props.searchRequest();
 		}
 	}
 
 	changeFormHandler = (field, value) => {
 		this.props.updateForm(field, value);
+	}
+
+	onClearHandler = () => {
+		this.props.setLocation(null);
+		this.props.clearSearch();
 	}
 
 	onSubmitHandler = () => {
@@ -35,7 +42,7 @@ class SearchFormContainer extends React.Component {
 		}
 	}
 
-	onSaveFilterHandler =() => {
+	onSaveFilterHandler = () => {
 		const validInfo = ValidationHelper.validateOfferSearchRequest(this.props.form);
 		if (validInfo.isValid) {
 			this.props.setErrorObject({});
@@ -47,31 +54,29 @@ class SearchFormContainer extends React.Component {
 
 	render() {
 		const {
-			city,
 			form,
 			errorObject,
 			isShowFilterModal,
-			autocomleteList,
 			location,
-			user
+			user,
 		} = this.props;
 
-		const isShowSaveButton = !!user
+		const isShowSaveButton = user && user.is_email_confirmed;
+
 		return (
 			<div className="search-form">
 				<FilterModal isShow={isShowFilterModal && location} />
 				<SearchForm
-					city={city}
 					onChange={this.changeFormHandler}
 					formValues={form}
 					onSubmit={this.onSubmitHandler}
 					errorObject={errorObject}
 					onSaveFilter={this.onSaveFilterHandler}
-					onAddressChange={this.changeAddressHandler}
-					autocomleteList={autocomleteList}
 					location={location}
+					onAddressQueryChange={this.changeAddressQueryHandler}
 					onSetLocation={this.changeLocationHandler}
 					isShowSaveButton={isShowSaveButton}
+					onClear={this.onClearHandler}
 				/>
 			</div>
 		);
@@ -99,7 +104,6 @@ SearchFormContainer.defaultProps = {
 export default connect(
 	(state) => ({
 		location: state.search.get('location'),
-		autocomleteList: state.search.get('autocomleteList'),
 		form: state.search.get('form'),
 		errorObject: state.search.get('errorObject'),
 		isShowFilterModal: state.filter.get('isShow'),
@@ -112,5 +116,6 @@ export default connect(
 		setErrorObject: (errorObject) => dispatch(Actions.search.setErrorObject(errorObject)),
 		locationAutocompleteRequest: (query) => dispatch(Actions.search.locationAutocompleteRequest(query)),
 		setLocation: (location) => dispatch(Actions.search.setLocation(location)),
+		clearSearch: () => dispatch(Actions.search.clearSearchPage()),
 	}),
 )(SearchFormContainer);

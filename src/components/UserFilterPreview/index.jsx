@@ -33,7 +33,7 @@ class UserFilterPreview extends React.Component {
 
 		const permits = PermitsMaskHelper.getPermitsByMask(permitsMask);
 
-		const addressText = location ? `${location.country}, ${location.city}` : '';
+		const addressText = location ? `${location.country}, ${location.city.charAt(0).toUpperCase() + location.city.slice(1)}` : '';
 
 		return (
 			<React.Fragment>

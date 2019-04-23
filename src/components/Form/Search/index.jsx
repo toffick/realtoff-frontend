@@ -6,13 +6,13 @@ import {
 	Button,
 	Card,
 } from 'react-bootstrap';
-import ReactAutocomplete from 'react-autocomplete';
 
 import {
 	CURRENCY_TYPES,
 	REALTY_TYPES,
 } from '../../../constants/OfferConstants';
 import PermitsList from '../../PermitsList';
+import SearchInput from '../../../containers/SearchInput';
 
 const autoCompleteMenuStyles = {
 	maxWidth: '100%',
@@ -27,29 +27,15 @@ const autoCompleteMenuStyles = {
 	zIndex: 5,
 };
 
-
 class SearchForm extends Component {
 
-	state = { address: '', isAddressHasTyped: false }
-
-	onChangeAddress = (e) => {
-		const { value } = e.target;
-		this.setState({ address: value, isAddressHasTyped: true });
-		this.props.onAddressChange(value);
-	}
-
-	onSelectAddress = (title, object) => {
-		this.setState({ address: title, isAddressHasTyped: false });
-		this.props.onSetLocation(object);
-	}
-
 	onChange = (e) => {
-		const { value, name } = e.target;
+		const {value, name} = e.target;
 		this.props.onChange(name, value);
 	}
 
 	onCheckboxChange = (e) => {
-		const { name, checked } = e.target;
+		const {name, checked} = e.target;
 		this.props.onChange(name, checked);
 	}
 
@@ -62,9 +48,12 @@ class SearchForm extends Component {
 		this.props.onSubmit();
 	}
 
+	onClear = () => {
+		this.props.onClear();
+	}
+
 	render() {
 		const {
-			autocomleteList,
 			formValues: {
 				priceFrom,
 				priceTo,
@@ -82,34 +71,18 @@ class SearchForm extends Component {
 			isShowSaveButton,
 		} = this.props;
 
-		const { isAddressHasTyped } = this.state;
 		const isSubmitDisabled = !location;
 
-		const addressValue = location &&
-		!isAddressHasTyped ?
-			`${location.address.country}${location.address.city ? `, ${location.address.city}` : ''}`
-			: this.state.address;
+
 		return (
-			<Card style={{ padding: '15px' }}>
+			<Card style={{padding: '15px'}}>
 				<Form>
 					<Form.Row>
 						<Form.Label>Введите адрес <small>(с точностью до города)</small></Form.Label>
-						<ReactAutocomplete
-							wrapperStyle={autoCompleteMenuStyles}
-							items={autocomleteList}
-							getItemValue={({ address }) => `${address.country}${address.city ? `, ${address.city}` : ''}`}
-							renderItem={(item, highlighted) =>
-								(<div
-									key={item.id}
-									style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
-								>
-									{item.description}
-								</div>)
-							}
-							value={addressValue}
-							onChange={this.onChangeAddress}
-							onSelect={this.onSelectAddress}
-							inputProps={{ className: 'form-control' }}
+						<SearchInput
+							onAddressQueryChange={this.props.onAddressQueryChange}
+							onSetLocation={this.props.onSetLocation}
+							autoCompleteMenuStyles={autoCompleteMenuStyles}
 						/>
 					</Form.Row>
 
@@ -256,7 +229,13 @@ class SearchForm extends Component {
 								/>
 							</Form.Group>
 
-							<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+							<div style={{display: 'flex', justifyContent: 'space-between'}}>
+								<Button
+									variant="secondary"
+									onClick={this.onClear}
+									disabled={isSubmitDisabled}
+								>Очистить
+								</Button>
 								{
 									isShowSaveButton ?
 										(
@@ -267,9 +246,8 @@ class SearchForm extends Component {
 											</Button>
 										)
 										:
-										<div></div>
+										null
 								}
-
 								<Button
 									type="submit"
 									onClick={this.onSubmit}
@@ -299,8 +277,9 @@ SearchForm.propTypes = {
 	onChange: PropTypes.func.isRequired,
 	formValues: PropTypes.object.isRequired,
 	onSubmit: PropTypes.func.isRequired,
-	onAddressChange: PropTypes.func.isRequired,
-	onLocationChange: PropTypes.func.isRequired,
+	onAddressQueryChange: PropTypes.func.isRequired,
+	onSetLocation: PropTypes.func.isRequired,
+	onClear: PropTypes.func.isRequired,
 };
 
 SearchForm.defaultProps = {

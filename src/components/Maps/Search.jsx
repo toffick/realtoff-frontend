@@ -21,9 +21,10 @@ class SearchMap extends Component {
 	}
 
 	componentWillUpdate(nextProps) {
-		// TODO тут ошибка вылетела setZoom is undefined
-		this.mapRef.setZoom(12);
-		this.mapRef.setCenter(nextProps.coordinates);
+		if (this.mapRef) {
+			this.mapRef.setZoom(12);
+			this.mapRef.setCenter(nextProps.coordinates);
+		}
 	}
 
 	renderPlacemarks = (offers) => offers.map((offer) =>

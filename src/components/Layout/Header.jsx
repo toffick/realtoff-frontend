@@ -16,7 +16,7 @@ class Header extends Component {
 
 	render() {
 
-		const { loggedIn, user } = this.props;
+		const { loggedIn, user, children } = this.props;
 
 		const navButtons = loggedIn ? (
 			user.is_email_confirmed ?
@@ -27,10 +27,12 @@ class Header extends Component {
 						<a href="#" className="btn_header btn--login btn--header" onClick={this._logout}>Выйти</a>
 					</React.Fragment>
 				) :
+				(
 					<React.Fragment>
-					<Nav.Item className="btn_header btn--dash btn--header confirm-email-notification">Подтвердите вашу почту!</Nav.Item>
-					<a href="#" className="btn_header btn--login btn--header" onClick={this._logout}>Выйти</a>
-				</React.Fragment>
+						<Nav.Item className="btn_header btn--dash btn--header confirm-email-notification">Подтвердите вашу почту!</Nav.Item>
+						<a href="#" className="btn_header btn--login btn--header" onClick={this._logout}>Выйти</a>
+					</React.Fragment>
+				)
 		)
 			:
 			(
@@ -45,10 +47,15 @@ class Header extends Component {
 			<Navbar collapseOnSelect expand="lg" bg="light" variant="dark" fixed="top">
 				<Nav.Item href="/" className="logo">
 					{/* TODO class */}
-					<Link to={ROUTER_PATHS.INDEX}>
+					<a href={ROUTER_PATHS.INDEX}>
 						RealtOff
-					</Link>
+					</a>
 				</Nav.Item>
+
+				<Nav.Item style={{ paddingLeft: '25px' }}>
+					{children}
+				</Nav.Item>
+
 				<Navbar.Collapse id="responsive-navbar-nav">
 					<Nav className="mr-auto" />
 					<Nav>

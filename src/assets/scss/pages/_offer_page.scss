@@ -8,6 +8,12 @@
   padding-top: 100px;
   //padding-bottom: 30px;
 
+  .owner-panel{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
   .images-wrapper {
     display: flex;
     flex-direction: column;
@@ -15,10 +21,10 @@
     padding: 15px;
 
     .inner {
-      max-height: 60vh;
+      max-height: 63vh;
       max-width: 60vw;
-      height: 60vh;
-      min-height: 60vh;
+      height: 63vh;
+      min-height: 63vh;
       min-width: 60vw;
     }
 
