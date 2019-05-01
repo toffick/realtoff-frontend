@@ -13,10 +13,15 @@ class OfferDescription extends Component {
 	}
 
 	render() {
-		const { description, errors } = this.props;
+		const { description, errorObject } = this.props;
+
 		return (
 			<div className="">
-				<DescriptionForm onChange={this.changeDescriptionHandler} description={description} errors={errors}/>
+				<DescriptionForm
+					onChange={this.changeDescriptionHandler}
+					description={description}
+					errorObject={errorObject}
+				/>
 			</div>
 		);
 	}
@@ -25,17 +30,19 @@ class OfferDescription extends Component {
 
 OfferDescription.propTypes = {
 	errors: PropTypes.array,
+	errorObject: PropTypes.object,
 	description: PropTypes.object.isRequired,
 	updateDescription: PropTypes.func.isRequired,
 };
 
 OfferDescription.defaultProps = {
-	errors: []
+	errors: [],
 };
 
 export default connect(
 	(state) => ({
 		description: state.offerCreate.get('description'),
+		errorObject: state.offerCreate.get('errorObject'),
 	}),
 	(dispatch) => ({
 		updateDescription: (description) => dispatch(Actions.offerCreate.updateDescription(description)),

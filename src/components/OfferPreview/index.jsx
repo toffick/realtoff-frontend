@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Card } from 'react-bootstrap';
-import moment from 'moment';
+import  moment from 'moment';
 
 import NormalizeHelper from '../../helpers/NormalizeHelper';
 

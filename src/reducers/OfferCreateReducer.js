@@ -32,7 +32,7 @@ const initialState = Map({
 		currency: CURRENCY_TYPES.BYN,
 		pricePerMonth: '',
 	},
-	errors: []
+	errorObject: {}
 });
 
 // const initialState = Map({
@@ -85,8 +85,8 @@ function offerCreateReducer(state = initialState, action) {
 			return state.set('personal', { ...oldPersonal, ...personal });
 		}
 		case SET_OFFER_ERRORS: {
-			const { errors } = action.payload;
-			return state.set('errors', errors);
+			const { errorsObject } = action.payload;
+			return state.set('errorObject', errorsObject);
 		}
 		case CLEAR_OFFER_FORM: {
 			return initialState;

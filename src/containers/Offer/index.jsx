@@ -12,13 +12,15 @@ import {
 	Image,
 	Button,
 } from 'react-bootstrap';
-import moment from "moment";
+import moment from 'moment';
 
 import Stub from '../../components/Stub';
 import OfferMap from '../../components/Maps/Offer';
 import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
-import { getOfferStatusBadge } from "../../utils/Offer";
-import { OFFER_STATUS } from "../../constants/OfferConstants";
+import { getOfferStatusBadge } from '../../utils/Offer';
+import { OFFER_STATUS } from '../../constants/OfferConstants';
+import { USER_ROLES } from '../../constants/GlobalConstants';
+import AdminOfferPanel from '../../components/Offer/AdminPanel';
 
 // TODO super fixes
 // restyling
@@ -26,11 +28,16 @@ import { OFFER_STATUS } from "../../constants/OfferConstants";
 // PropTypes
 // koko
 // ability to change and uploading only for owner
-// close ad
 // change description
 // change main photo
 
 class Offer extends React.Component {
+
+	_isAuthUserAdmin() {
+		const { user } = this.props;
+
+		return user && user.role === USER_ROLES.ADMIN;
+	}
 
 	_isAuthUserOwner() {
 		const { user, offer } = this.props;
@@ -64,6 +71,18 @@ class Offer extends React.Component {
 		this.props.closeOfferRequest();
 	}
 
+	onOfferStatusChangeHandler = (newStatus) => {
+		const { id } = this.props.offer;
+
+		this.props.changeOfferStatus(id, newStatus);
+	}
+
+	onUserStatusChangeHandler = (newStatus) => {
+		const { User: { id } } = this.props.offer;
+
+		this.props.changeUserStatus(id, newStatus);
+	}
+
 	getCarouselItems = () => {
 		const { photos, status } = this.props.offer;
 
@@ -77,7 +96,7 @@ class Offer extends React.Component {
 					))
 				}
 				{
-					this._isAuthUserOwner() && status===OFFER_STATUS.OPEN ?
+					this._isAuthUserOwner() && status === OFFER_STATUS.OPEN ?
 						<Carousel.Item>
 							<div className="inner">
 								<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} />
@@ -112,7 +131,7 @@ class Offer extends React.Component {
 			currency,
 			additional_phone_number: additionalPhoneNumber,
 			updated_at: updatedAt,
-			status
+			status,
 		} = offer;
 
 		const {
@@ -136,14 +155,24 @@ class Offer extends React.Component {
 					this._isAuthUserOwner() ?
 						<div className="owner-panel">
 
-							<Button variant="danger" onClick={this.onCloseOfferHandler} disabled={status!==OFFER_STATUS.OPEN}>
+							<Button
+								variant="danger"
+								onClick={this.onCloseOfferHandler}
+								disabled={status !== OFFER_STATUS.OPEN}
+							>
 								Закрыть
 							</Button>
 
 						</div>
-
 						:
-						null
+						this._isAuthUserAdmin() ?
+							<AdminOfferPanel
+								offer={offer}
+								onChangeOfferStatus={this.onOfferStatusChangeHandler}
+								onChangeUserStatus={this.onUserStatusChangeHandler}
+							/>
+							:
+							null
 				}
 				<div className="images-wrapper">
 					{this.getCarouselItems()}
@@ -189,7 +218,11 @@ class Offer extends React.Component {
 
 					<div>
 						<div className="contacts text-right">
-							<div className="updated"><Badge variant="light">Обновлено {moment(updatedAt).locale('ru').format('LL')}</Badge> {getOfferStatusBadge(status)}</div>
+							<div className="updated"><Badge
+								variant="light"
+							>Обновлено {moment(updatedAt).locale('ru').format('LL')}
+							</Badge> {getOfferStatusBadge(status)}
+							</div>
 							<div>
 								<div>
 									<b>Контакты</b>
@@ -230,5 +263,7 @@ export default connect(
 		getOfferRequest: (id) => dispatch(Actions.offerPage.getOfferRequest(id)),
 		uploadPhotos: (photos) => dispatch(Actions.offerPage.uploadPhotos(photos)),
 		closeOfferRequest: () => dispatch(Actions.offerPage.closeOfferRequest()),
+		changeOfferStatus: (offerId, status) => dispatch(Actions.admin.changeOfferStatus(offerId, status)),
+		changeUserStatus: (userId, status) => dispatch(Actions.admin.changeUserStatus(userId, status)),
 	}),
 )(Offer);

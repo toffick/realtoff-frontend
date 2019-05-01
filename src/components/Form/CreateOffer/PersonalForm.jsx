@@ -19,12 +19,13 @@ class PersonalForm extends Component {
 
 	render() {
 
-		// TODO currency and errors
 		const {
 			additionalPhoneNumber,
 			currency,
 			pricePerMonth,
 		} = this.props.personal;
+
+		const { errorObject } = this.props;
 
 		return (
 			<div className="personal-form-wrapper">
@@ -35,10 +36,14 @@ class PersonalForm extends Component {
 							id="additionalPhoneNumber"
 							value={additionalPhoneNumber}
 							onChange={this.onChange}
+							isInvalid={errorObject.additionalPhoneNumber}
 						/>
 						<Form.Text className="text-muted">
 						(в международном формате)
 						</Form.Text>
+						<Form.Control.Feedback type="invalid">
+							{errorObject.additionalPhoneNumber}
+						</Form.Control.Feedback>
 					</Form.Group>
 
 					<Form.Group as={Row}>
@@ -49,7 +54,11 @@ class PersonalForm extends Component {
 								id="pricePerMonth"
 								value={pricePerMonth}
 								onChange={this.onChange}
+								isInvalid={errorObject.pricePerMonth}
 							/>
+							<Form.Control.Feedback type="invalid">
+								{errorObject.pricePerMonth}
+							</Form.Control.Feedback>
 						</Form.Group>
 
 						<Form.Group as={Col}>

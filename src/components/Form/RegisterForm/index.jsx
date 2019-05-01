@@ -11,7 +11,6 @@ class RegisterForm extends Component {
 		email: 'www@mail.com',
 		password: '123456',
 		passwordRepeat: '123456',
-		nickname: 'toffick',
 		formErrors: null,
 	}
 
@@ -25,15 +24,15 @@ class RegisterForm extends Component {
 		// TODO validation
 		// TODO add to errors
 		const {
-			email, password, passwordRepeat, nickname,
+			email, password, passwordRepeat,
 		} = this.state;
-		this.props.onSubmit(email, password, nickname);
+		this.props.onSubmit(email, password);
 	}
 
 	render() {
 		const { error, currentlySending } = this.props;
 		const {
-			email, password, passwordRepeat, nickname, formErrors,
+			email, password, passwordRepeat, formErrors,
 		} = this.state;
 
 		const mainError = formErrors || error;
@@ -53,7 +52,7 @@ class RegisterForm extends Component {
 						spellCheck="false"
 					/>
 					<label className="form__field-label" htmlFor="username">
-						Имя пользователя
+						Электронная почта
 					</label>
 				</div>
 				<div className="form__field-wrapper">
@@ -80,22 +79,6 @@ class RegisterForm extends Component {
 					/>
 					<label className="form__field-label" htmlFor="password">
 						Повторите пароль
-					</label>
-				</div>
-				<div className="form__field-wrapper">
-					<input
-						className="form__field-input"
-						type="text"
-						id="nickname"
-						value={nickname}
-						placeholder="Nickname"
-						onChange={this._emitChange}
-						autoCorrect="off"
-						autoCapitalize="off"
-						spellCheck="false"
-					/>
-					<label className="form__field-label" htmlFor="password">
-						Логин
 					</label>
 				</div>
 				<div className="form__submit-btn-wrapper">

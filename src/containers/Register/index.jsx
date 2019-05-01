@@ -10,8 +10,8 @@ import { ROUTER_PATHS } from '../../constants/GlobalConstants';
 
 class Register extends Component {
 
-	_register = (username, password, nickname) => {
-		this.props.register(username, password, nickname);
+	_register = (username, password) => {
+		this.props.register(username, password);
 	}
 
 	render() {
@@ -63,6 +63,6 @@ export default connect(
 		authError: state.auth.get('authError'),
 	}),
 	(dispatch) => ({
-		register: (email, password, nickname) => dispatch(Actions.auth.register(email, password, nickname)),
+		register: (email, password) => dispatch(Actions.auth.register(email, password)),
 	}),
 )(Register);

@@ -13,10 +13,14 @@ class OfferPersonal extends Component {
 	}
 
 	render() {
-		const { personal, errors } = this.props;
+		const { personal, errorObject } = this.props;
 		return (
 			<div className="">
-				<PersonalForm onChange={this.changePersonalHandler} personal={personal} errors={errors}/>
+				<PersonalForm
+					onChange={this.changePersonalHandler}
+					personal={personal}
+					errorObject={errorObject}
+				/>
 			</div>
 		);
 	}
@@ -25,17 +29,19 @@ class OfferPersonal extends Component {
 
 OfferPersonal.propTypes = {
 	errors: PropTypes.array,
+	errorObject: PropTypes.object,
 	personal: PropTypes.object.isRequired,
 	updatePersonal: PropTypes.func.isRequired,
 };
 
 OfferPersonal.defaultProps = {
-	errors: []
+	errors: [],
 };
 
 export default connect(
 	(state) => ({
 		personal: state.offerCreate.get('personal'),
+		errorObject: state.offerCreate.get('errorObject'),
 	}),
 	(dispatch) => ({
 		updatePersonal: (personal) => dispatch(Actions.offerCreate.updatePersonal(personal)),

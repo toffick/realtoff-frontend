@@ -9,6 +9,7 @@ import {
 import {
 	offerSelector,
 	offerIdSelector,
+	userSelector,
 } from '../reducers/selectors';
 import {
 	CLOSE_OFFER_REQUEST,
@@ -16,7 +17,10 @@ import {
 	OFFER_PAGE_REQUEST,
 	UPLOAD_OFFER_PHOTOS,
 } from '../actions/constants';
-import { ROUTER_PATHS } from '../constants/GlobalConstants';
+import {
+	ROUTER_PATHS,
+	USER_ROLES,
+} from '../constants/GlobalConstants';
 import Actions from '../actions';
 import ApiService from '../services/ApiService';
 import ErrorsHelper from '../helpers/ErrorsHelper';
@@ -51,12 +55,21 @@ export function* offerPageRequest() {
 
 		const { id } = action.payload;
 
+		const user = yield select(userSelector);
+
 		try {
-			const { data } = yield call([ApiService, ApiService.getOffer], id);
+			let data = null;
+			if (user && user.role === USER_ROLES.ADMIN) {
+				({ data } = yield call([ApiService, ApiService.getAdminOffer], id));
+			} else {
+				({ data } = yield call([ApiService, ApiService.getOffer], id));
+			}
+
 			if (data.success) {
 				yield put(Actions.offerPage.setOffer(data.result));
 			} else {
-				yield put(Actions.navigate.navigateTo(ROUTER_PATHS.NOT_FOUND));
+				//TODO такой объявы нет
+				// yield put(Actions.navigate.navigateTo(ROUTER_PATHS.NOT_FOUND));
 			}
 
 		} catch (error) {

@@ -30,12 +30,12 @@ const autoCompleteMenuStyles = {
 class SearchForm extends Component {
 
 	onChange = (e) => {
-		const {value, name} = e.target;
+		const { value, name } = e.target;
 		this.props.onChange(name, value);
 	}
 
 	onCheckboxChange = (e) => {
-		const {name, checked} = e.target;
+		const { name, checked } = e.target;
 		this.props.onChange(name, checked);
 	}
 
@@ -75,7 +75,7 @@ class SearchForm extends Component {
 
 
 		return (
-			<Card style={{padding: '15px'}}>
+			<Card style={{ padding: '15px' }}>
 				<Form>
 					<Form.Row>
 						<Form.Label>Введите адрес <small>(с точностью до города)</small></Form.Label>
@@ -229,7 +229,7 @@ class SearchForm extends Component {
 								/>
 							</Form.Group>
 
-							<div style={{display: 'flex', justifyContent: 'space-between'}}>
+							<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 								<Button
 									variant="secondary"
 									onClick={this.onClear}

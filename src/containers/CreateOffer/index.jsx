@@ -8,6 +8,8 @@ import OfferPersonal from './Personal';
 
 import Actions from '../../actions';
 import { CREATE_OFFER_STEPS } from '../../constants/OfferConstants';
+import { offerSelector } from '../../reducers/selectors';
+import ValidationHelper from '../../helpers/ValidationHelper';
 
 
 const STEPS_SCENARIO = [
@@ -71,8 +73,14 @@ class CreateOffer extends Component {
 	}
 
 	onSubmit = () => {
-		// todo validation
-		this.props.createOffer();
+		const { personal    , description } = this.props;
+
+		const validInfo = ValidationHelper.validateCreateOfferRequest(personal, description);
+		if (validInfo.isValid) {
+			this.props.createOffer();
+		} else {
+			this.props.setOfferErrors(validInfo.errorsMap);
+		}
 	}
 
 	render() {
@@ -108,22 +116,29 @@ class CreateOffer extends Component {
 
 CreateOffer.propTypes = {
 	step: PropTypes.string,
+	offerTemplate: PropTypes.object,
 	changeOfferStep: PropTypes.func.isRequired,
 	createOffer: PropTypes.func.isRequired,
 	clearOfferForm: PropTypes.func.isRequired,
+	setOfferErrors: PropTypes.func.isRequired,
 };
 
 CreateOffer.defaultProps = {
 	step: '',
+	offerTemplate: {},
 };
 
 export default connect(
 	(state) => ({
 		step: state.offerCreate.get('step'),
+		offerTemplate: offerSelector(state),
+		personal: state.offerCreate.get('personal'),
+		description: state.offerCreate.get('description'),
 	}),
 	(dispatch) => ({
 		changeOfferStep: (step) => dispatch(Actions.offerCreate.changeOfferStep(step)),
 		createOffer: () => dispatch(Actions.offerCreate.createOffer()),
 		clearOfferForm: () => dispatch(Actions.offerCreate.clearOfferForm()),
+		setOfferErrors: (errorsObject) => dispatch(Actions.offerCreate.setOfferErrors(errorsObject)),
 	}),
 )(CreateOffer);

@@ -41,4 +41,5 @@ export const searchRequestSelector = (state) => {
 	return { ...normalizedParameters, countryCode: country_code, city };
 };
 
-export const offerIdSelector = (state)=> state.offerPage.get('offer').id;
+export const offerIdSelector = (state) => state.offerPage.get('offer').id;
+export const userSelector = (state) => state.auth.get('user');

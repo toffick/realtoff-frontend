@@ -95,14 +95,14 @@ class FilterList extends React.Component {
 									</Modal.Body>
 								</Modal>
 								<Card className="user-filter">
-									<Card.Title className="d-sm-flex justify-content-between">
+									<Card.Title className="header-filter">
 										<small>Создано {moment(filter.created_at).locale('ru').format('LL')}</small>
 										<Button
 											onClick={this.onDeleteFilterHandler.bind(this, filter.id)}
 										>Удалить
 										</Button>
 									</Card.Title>
-									<br/>
+									<hr/>
 									<Card.Body>
 										<UserFilterPreview location={address} form={form}/>
 									</Card.Body>

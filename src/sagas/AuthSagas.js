@@ -29,6 +29,13 @@ export function* authSaga() {
 		return authResult.data.user;
 	} catch (error) {
 		const [errorObject] = ErrorsHelper.processServerErrors(error);
+
+		if (errorObject.isBanned) {
+			localStorage.removeItem(LOCAL_STORAGE_PATHS.ACCESS_TOKEN_LOCAL_STORAGE);
+			localStorage.removeItem(LOCAL_STORAGE_PATHS.REFRESH_TOKEN_LOCAL_STORAGE);
+			yield put(Actions.navigate.navigateTo(ROUTER_PATHS.INDEX));
+		}
+
 		console.error(errorObject);
 
 		return false;
@@ -85,12 +92,12 @@ export function* setPersonalInfoFlow() {
  *
  * @return {IterableIterator<*>}
  */
-export function* registerSaga(email, password, nickname) {
+export function* registerSaga(email, password) {
 
 	yield put(Actions.auth.setRequestProcessStatus(true));
 
 	try {
-		const authResult = yield call([ApiService, ApiService.signUp], email, password, nickname);
+		const authResult = yield call([ApiService, ApiService.signUp], email, password);
 
 		localStorage.setItem(LOCAL_STORAGE_PATHS.ACCESS_TOKEN_LOCAL_STORAGE, authResult.data.access_token);
 		localStorage.setItem(LOCAL_STORAGE_PATHS.REFRESH_TOKEN_LOCAL_STORAGE, authResult.data.refresh_token);
@@ -114,9 +121,9 @@ export function* registerFlow() {
 	while (true) {
 		const { payload } = yield take(REGISTER_REQUEST);
 
-		const { email, password, nickname } = payload;
+		const { email, password } = payload;
 
-		const result = yield call(registerSaga, email, password, nickname);
+		const result = yield call(registerSaga, email, password);
 
 		if (result) {
 			yield put(Actions.auth.setAuth(result));

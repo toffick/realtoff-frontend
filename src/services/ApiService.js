@@ -20,17 +20,15 @@ class ApiService {
 	 *
 	 * @param email
 	 * @param password
-	 * @param nickname
 	 * @returns {AxiosPromise<any>}
 	 */
-	async signUp(email, password, nickname) {
+	async signUp(email, password) {
 		return axios.request({
 			method: 'POST',
 			url: `${this.baseUrl}/api/v1/sign-up`,
 			data: {
 				email,
 				password,
-				nickname,
 			},
 		});
 	}
@@ -132,7 +130,7 @@ class ApiService {
 	async getOffer(offerId) {
 		return this.createRequest({
 			method: 'GET',
-			url: `${this.baseUrl}/api/v1/offers/${offerId}`,
+			url: `${this.baseUrl}/api/v1/offers/general/${offerId}`,
 		});
 	}
 
@@ -172,6 +170,49 @@ class ApiService {
 		return this.createRequest({
 			method: 'put',
 			url: `${this.baseUrl}/api/v1/offers/close/${filterId}`,
+			enableAuthorizationHeader: true,
+		});
+	}
+
+	/**
+	 *
+	 * @param offerId
+	 * @param status
+	 * @returns {Promise<*>}
+	 */
+	async changeOfferStatus(offerId, status) {
+		return this.createRequest({
+			method: 'put',
+			url: `${this.baseUrl}/api/v1/offers/change-status/${offerId}`,
+			enableAuthorizationHeader: true,
+			data: { status },
+		});
+	}
+
+	/**
+	 *
+	 * @param userId
+	 * @param status
+	 * @returns {Promise<*>}
+	 */
+	async changeUserStatus(userId, status) {
+		return this.createRequest({
+			method: 'put',
+			url: `${this.baseUrl}/api/v1/users/change-status/${userId}`,
+			enableAuthorizationHeader: true,
+			data: { status },
+		});
+	}
+
+	/**
+	 *
+	 * @param filterId
+	 * @returns {Promise<*>}
+	 */
+	async getAdminOffer(offerId) {
+		return this.createRequest({
+			method: 'get',
+			url: `${this.baseUrl}/api/v1/offers/meta/${offerId}`,
 			enableAuthorizationHeader: true,
 		});
 	}

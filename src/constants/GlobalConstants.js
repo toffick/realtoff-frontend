@@ -22,3 +22,19 @@ export const ROUTER_PATHS = {
 	OFFERS: '/offers',
 };
 
+
+export const OFFER_STATUS = {
+	OPEN: 'OPEN',
+	CLOSED: 'CLOSED',
+	BANNED: 'BANNED',
+};
+
+export const USER_ROLES = {
+	USER: 'USER',
+	ADMIN: 'ADMIN',
+};
+
+export const USER_STATUS = {
+	ACTIVE: 'ACTIVE',
+	BANNED: 'BANNED',
+};

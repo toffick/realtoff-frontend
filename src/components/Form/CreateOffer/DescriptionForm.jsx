@@ -38,6 +38,8 @@ class DescriptionForm extends Component {
 			squareTotal,
 		} = this.props.description;
 
+		const { errorObject } = this.props;
+
 		return (
 			<Form>
 				<Form.Row>
@@ -70,7 +72,11 @@ class DescriptionForm extends Component {
 											id="floor"
 											onChange={this.onChange}
 											value={floor}
+											isInvalid={errorObject.floor}
 										/>
+										<Form.Control.Feedback type="invalid">
+											{errorObject.floor}
+										</Form.Control.Feedback>
 									</Form.Group>
 									<Form.Group as={Col}>
 										<Form.Label>Этажность</Form.Label>
@@ -79,7 +85,11 @@ class DescriptionForm extends Component {
 											id="totalFloorNumber"
 											onChange={this.onChange}
 											value={totalFloorNumber}
+											isInvalid={errorObject.totalFloorNumber}
 										/>
+										<Form.Control.Feedback type="invalid">
+											{errorObject.totalFloorNumber}
+										</Form.Control.Feedback>
 									</Form.Group>
 								</React.Fragment>)
 								:
@@ -92,14 +102,22 @@ class DescriptionForm extends Component {
 								id="totalRoomNumber"
 								onChange={this.onChange}
 								value={totalRoomNumber}
+								isInvalid={errorObject.totalRoomNumber}
 							/>
+							<Form.Control.Feedback type="invalid">
+								{errorObject.totalRoomNumber}
+							</Form.Control.Feedback>
 							<Form.Label>Общая площадь(м²)</Form.Label>
 							<Form.Control
 								size="sm"
 								id="squareTotal"
 								onChange={this.onChange}
 								value={squareTotal}
+								isInvalid={errorObject.squareTotal}
 							/>
+							<Form.Control.Feedback type="invalid">
+								{errorObject.squareTotal}
+							</Form.Control.Feedback>
 						</Form.Group>
 
 					</Form.Group>
@@ -117,7 +135,11 @@ class DescriptionForm extends Component {
 						rows="3"
 						onChange={this.onChange}
 						value={description}
+						isInvalid={errorObject.description}
 					/>
+					<Form.Control.Feedback type="invalid">
+						{errorObject.description}
+					</Form.Control.Feedback>
 				</Form.Group>
 			</Form>
 		);
@@ -133,7 +155,7 @@ DescriptionForm.propTypes = {
 
 DescriptionForm.defaultProps = {
 	errors: [],
-	description: {}
+	description: {},
 };
 
 export default DescriptionForm;

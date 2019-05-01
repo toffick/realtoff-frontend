@@ -104,6 +104,7 @@ module.exports = {
 		new CleanWebpackPlugin(['dist']),
 		new webpack.DefinePlugin({
 			__BASE_URL__: JSON.stringify(configFile.api),
+			__CONTACT_EMAIL__: JSON.stringify(configFile.contactEmail),
 		}),
 		HTMLWebpackPluginConfig,
 		extractSass,

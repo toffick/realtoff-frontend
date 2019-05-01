@@ -7,6 +7,7 @@ import OfferPageActions from './OfferPageActions';
 import SearchActions from './SearchActions';
 import FilterActions from './FilterActions';
 import ProfileActions from './ProfileActions';
+import AdminActions from './AdminActions';
 
 export default {
 	auth: AuthActions,
@@ -18,4 +19,5 @@ export default {
 	offerPage: OfferPageActions,
 	search: SearchActions,
 	filter: FilterActions,
+	admin: AdminActions,
 };

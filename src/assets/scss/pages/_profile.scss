@@ -33,8 +33,15 @@
     .user-filter{
       width: 390px;
       max-width: 390px;
-      padding: 5px;
       margin: 5px;
+
+      .header-filter{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 6px 0 6px;
+        margin-bottom: 0;
+      }
     }
   }
 

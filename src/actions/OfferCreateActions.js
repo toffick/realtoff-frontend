@@ -20,5 +20,5 @@ export default {
 	updatePersonal: (personal) => actionCreator(UPDATE_OFFER_PERSONAL, { personal }),
 	createOffer: () => actionCreator(CREATE_OFFER),
 	clearOfferForm: () => actionCreator(CLEAR_OFFER_FORM),
-	setOfferErrors: (errors) => actionCreator(SET_OFFER_ERRORS, errors),
+	setOfferErrors: (errorsObject) => actionCreator(SET_OFFER_ERRORS, {errorsObject}),
 };

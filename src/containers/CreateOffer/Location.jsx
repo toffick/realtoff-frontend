@@ -9,7 +9,7 @@ import Actions from '../../actions';
 
 class OfferLocation extends Component {
 
-	componentWillUnmount(){
+	componentWillUnmount() {
 		this.props.updateAutocompleteList([]);
 	}
 
@@ -23,7 +23,7 @@ class OfferLocation extends Component {
 
 	render() {
 
-		const { autocomleteList, location } = this.props;
+		const { autocomleteList, location, errorObject } = this.props;
 		const { coordinates, bounds } = location;
 
 		return (
@@ -34,6 +34,7 @@ class OfferLocation extends Component {
 						onLocationChange={this.changeLocationHandler}
 						autocomleteList={autocomleteList}
 						location={location}
+						errorObject={errorObject}
 					/>
 				</div>
 				<div className="map-wrap">
@@ -52,6 +53,7 @@ class OfferLocation extends Component {
 
 OfferLocation.propTypes = {
 	location: PropTypes.object,
+	errorObject: PropTypes.object,
 	coordinates: PropTypes.array,
 	autocomleteList: PropTypes.array,
 	locationAutocompleteRequest: PropTypes.func.isRequired,
@@ -66,6 +68,7 @@ OfferLocation.defaultProps = {
 
 export default connect(
 	(state) => ({
+		errorObject: state.offerCreate.get('errorObject'),
 		location: state.offerCreate.get('location'),
 		autocomleteList: state.offerCreate.get('autocomleteList'),
 		coordinates: state.offerCreate.get('coordinates'),
