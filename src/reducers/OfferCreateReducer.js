@@ -32,7 +32,7 @@ const initialState = Map({
 		currency: CURRENCY_TYPES.BYN,
 		pricePerMonth: '',
 	},
-	errorObject: {}
+	errorObject: {},
 });
 
 // const initialState = Map({

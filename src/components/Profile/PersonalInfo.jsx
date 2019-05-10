@@ -1,6 +1,6 @@
 import React from 'react';
-import { ListGroup } from 'react-bootstrap';
-import moment from "moment";
+import { ListGroup, Button } from 'react-bootstrap';
+import moment from 'moment';
 
 class PersonalInfo extends React.Component {
 
@@ -38,6 +38,9 @@ class PersonalInfo extends React.Component {
 						<span className="text-right">{moment(createdAt).locale('ru').format('L')}</span>
 					</ListGroup.Item>
 				</ListGroup>
+				<div className="edit-buttons">
+					<Button onClick={this.props.onEditProfile}>Редактировать</Button>
+				</div>
 			</div>
 		);
 	}

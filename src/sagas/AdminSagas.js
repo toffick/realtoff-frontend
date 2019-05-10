@@ -4,7 +4,7 @@ import {
 	put,
 	fork,
 	takeEvery,
-	select
+	select,
 } from 'redux-saga/effects';
 
 import { ADMIN_CHANGE_OFFER_STATUS, ADMIN_CHANGE_USER_STATUS } from '../actions/constants';

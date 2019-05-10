@@ -17,7 +17,7 @@ class ErrorsHelper {
 			errors = responseErrors;
 			if (responseErrors.find(({ param }) => param === bannedStatus)) {
 				ToastWrapper.error('Пользователь заблокирован. По всем вопросам обращайтесь realtoffinfo@gmail.com', false);
-				errors[0].isBanned = true; //sry
+				errors[0].isBanned = true; // sry
 			}
 
 		} else if (err.message) {

@@ -5,10 +5,10 @@
 
 @import "vendors/normalize";
 
-@import "base/fonts";
-@import "base/base";
-
 @import "components/button";
 @import "components/user_filter";
 
 @import "pages/main";
+
+@import "base/fonts";
+@import "base/base";

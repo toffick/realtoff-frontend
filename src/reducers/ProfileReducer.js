@@ -16,7 +16,7 @@ function profileReducer(state = initialState, action) {
 		}
 		case UPDATE_USER_FILTERS: {
 			const { filterId } = action.payload;
-			const profile = {...state.get('profile')};
+			const profile = { ...state.get('profile') };
 			profile.UserFilters = profile.UserFilters.filter(({ id }) => id !== filterId);
 			return state.set('profile', profile);
 		}

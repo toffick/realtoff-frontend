@@ -68,7 +68,7 @@ export function* offerPageRequest() {
 			if (data.success) {
 				yield put(Actions.offerPage.setOffer(data.result));
 			} else {
-				//TODO такой объявы нет
+				// TODO такой объявы нет
 				// yield put(Actions.navigate.navigateTo(ROUTER_PATHS.NOT_FOUND));
 			}
 

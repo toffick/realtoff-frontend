@@ -98,7 +98,7 @@ export function* startByUriQuery() {
 		squareTo,
 		roomTotal,
 		type,
-		isPersonalLessor
+		isPersonalLessor,
 	} = queryObject;
 
 	const newFormObject = NormalizeHelper.removeUndefinedValuesFields({
@@ -110,7 +110,7 @@ export function* startByUriQuery() {
 		squareTo,
 		roomTotal,
 		type,
-		isPersonalLessor: (isPersonalLessor === 'true')
+		isPersonalLessor: (isPersonalLessor === 'true'),
 	});
 
 	const country = iso3166.getCountry(countryCode);

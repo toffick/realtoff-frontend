@@ -13,7 +13,7 @@ class AdminOfferPanel extends Component {
 
 
 	getOfferStatusChangeButtons = () => {
-		const {status} = this.props.offer;
+		const { status } = this.props.offer;
 
 		return (
 			<div>
@@ -44,8 +44,8 @@ class AdminOfferPanel extends Component {
 
 	render() {
 
-		const {onChangeUserStatus, offer} = this.props;
-		const {User: {status}} = offer;
+		const { onChangeUserStatus, offer } = this.props;
+		const { User: { status } } = offer;
 
 		return (
 			<div className="admin-panel">

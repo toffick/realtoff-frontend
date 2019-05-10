@@ -5,7 +5,7 @@ class PhotoUploader extends React.Component {
 
 
 	onDrop = (pictures) => {
-		//TODO on limit valid
+		// TODO on limit valid
 		this.props.onSelectPhotos(pictures);
 	}
 

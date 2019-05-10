@@ -34,7 +34,7 @@ class LocationForm extends Component {
 	}
 
 	render() {
-		//TODO errorObject
+		// TODO errorObject
 		const { autocomleteList, location, errorObject } = this.props;
 
 		return (

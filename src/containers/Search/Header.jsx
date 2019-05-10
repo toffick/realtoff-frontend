@@ -18,7 +18,7 @@ const autoCompleteMenuStyles = {
 	transition: 'border-color .15s ease-in-out,box-shadow .15s ease-in-out',
 	zIndex: 9999,
 	height: '15px !important',
-	display: 'inline-block'
+	display: 'inline-block',
 };
 
 class HeaderSearchInput extends React.Component {

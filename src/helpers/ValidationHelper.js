@@ -2,7 +2,7 @@ import validator from 'validator';
 import iso3166 from 'iso-3166-1-alpha-2';
 import {
 	CURRENCY_TYPES,
-	REALTY_TYPES
+	REALTY_TYPES,
 } from '../constants/OfferConstants';
 
 class ValidationHelper {
@@ -13,7 +13,7 @@ class ValidationHelper {
 	 * @returns {{errorsMap: {}, isValid: boolean}}
 	 */
 	static validateOfferSearchRequest(form) {
-		const errorObject = {errorsMap: {}, isValid: true};
+		const errorObject = { errorsMap: {}, isValid: true };
 		const {
 			priceFrom,
 			priceTo,
@@ -79,9 +79,8 @@ class ValidationHelper {
 	 * @returns {{errorsMap: {}, isValid: boolean}}
 	 */
 	static validateCreateOfferRequest(personal, descriptionObj) {
-		const errorObject = {errorsMap: {}, isValid: true};
+		const errorObject = { errorsMap: {}, isValid: true };
 
-		console.log(descriptionObj);
 		const {
 			isFlat,
 			floor,
@@ -89,12 +88,12 @@ class ValidationHelper {
 			totalRoomNumber,
 			description,
 			squareTotal,
-		} = descriptionObj
+		} = descriptionObj;
 
 		const {
 			additionalPhoneNumber,
 			pricePerMonth,
-		} = personal
+		} = personal;
 
 
 		if (isFlat) {
@@ -127,6 +126,35 @@ class ValidationHelper {
 			errorObject.errorsMap.additionalPhoneNumber = 'Это не телефон!';
 		}
 
+		errorObject.isValid = !Object.keys(errorObject.errorsMap).length;
+
+		return errorObject;
+	}
+
+	/**
+	 *
+	 * @returns {{errorsMap: {}, isValid: boolean}}
+	 * @param firstName
+	 * @param telephoneNumber
+	 */
+	static validateChangeProfile(firstName, telephoneNumber) {
+		const errorObject = { errorsMap: {}, isValid: true };
+
+		if (validator.isEmpty(firstName)) {
+			errorObject.errorsMap.firstName = 'Имя не может быть пустым';
+		}
+
+		if (this.firstName.length > 255) {
+			errorObject.errorsMap.firstName = 'Длина привышает 255 символов';
+		}
+
+		if (validator.isEmpty(telephoneNumber)) {
+			errorObject.errorsMap.telephoneNumber = 'Номер телефона обязателен';
+		}
+
+		if (!validator.isMobilePhone(telephoneNumber)) {
+			errorObject.errorsMap.telephoneNumber = 'Невалидный номер телефона';
+		}
 		errorObject.isValid = !Object.keys(errorObject.errorsMap).length;
 
 		return errorObject;

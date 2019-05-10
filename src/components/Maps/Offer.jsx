@@ -14,7 +14,7 @@ class OfferMap extends Component {
 		const [prevLat, prevLong] = this.props.coordinates;
 		const [nexLat, newLong] = nextProps.coordinates;
 
-		return !(nexLat === prevLat && newLong === prevLong)
+		return !(nexLat === prevLat && newLong === prevLong);
 	}
 
 	componentWillUpdate(nextProps) {

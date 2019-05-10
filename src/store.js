@@ -3,13 +3,13 @@ import {
 	applyMiddleware,
 	combineReducers,
 	createStore,
-	compose
+	compose,
 } from 'redux';
-import logger from 'redux-logger'
+import logger from 'redux-logger';
 
 import {
 	routerMiddleware,
-	routerReducer
+	routerReducer,
 } from 'react-router-redux';
 
 import history from './history';

@@ -36,7 +36,7 @@ class FilterList extends React.Component {
 	}
 
 	render() {
-		const {filters} = this.props;
+		const { filters } = this.props;
 
 		return (
 			<div className="user-filter-wrapper">
@@ -102,9 +102,9 @@ class FilterList extends React.Component {
 										>Удалить
 										</Button>
 									</Card.Title>
-									<hr/>
+									<hr />
 									<Card.Body>
-										<UserFilterPreview location={address} form={form}/>
+										<UserFilterPreview location={address} form={form} />
 									</Card.Body>
 								</Card>
 							</React.Fragment>

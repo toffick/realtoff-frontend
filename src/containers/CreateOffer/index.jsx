@@ -73,7 +73,7 @@ class CreateOffer extends Component {
 	}
 
 	onSubmit = () => {
-		const { personal    , description } = this.props;
+		const { personal, description } = this.props;
 
 		const validInfo = ValidationHelper.validateCreateOfferRequest(personal, description);
 		if (validInfo.isValid) {

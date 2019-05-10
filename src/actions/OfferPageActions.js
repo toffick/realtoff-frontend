@@ -14,6 +14,6 @@ export default {
 	setOffer: (offer) => actionCreator(SET_OFFER_PAGE, { offer }),
 	uploadPhotos: (photos) => actionCreator(UPLOAD_OFFER_PHOTOS, { photos }),
 	setNewOfferPhotos: (photos) => actionCreator(SET_NEW_OFFER_PHOTOS, { photos }),
-	closeOfferRequest: () => actionCreator(CLOSE_OFFER_REQUEST ),
+	closeOfferRequest: () => actionCreator(CLOSE_OFFER_REQUEST),
 };
 

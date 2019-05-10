@@ -3,7 +3,8 @@ import {
 	GET_PROFILE_REQUEST,
 	SET_PROFILE,
 	REMOVE_USER_FILTER_REQUEST,
-	UPDATE_USER_FILTERS
+	UPDATE_USER_FILTERS,
+	EDIT_PROFILE,
 } from './constants';
 
 export default {
@@ -11,4 +12,5 @@ export default {
 	setProfile: (profile) => actionCreator(SET_PROFILE, { profile }),
 	removeUserFilerRequest: (filterId) => actionCreator(REMOVE_USER_FILTER_REQUEST, { filterId }),
 	updateFilters: (filterId) => actionCreator(UPDATE_USER_FILTERS, { filterId }),
+	editProfile: (firstName, telephoneNumber, isPersonalLessor) => actionCreator(EDIT_PROFILE, { firstName, telephoneNumber, isPersonalLessor }),
 };

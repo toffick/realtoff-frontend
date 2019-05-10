@@ -69,19 +69,19 @@ class RegisterForm extends Component {
 				</div>
 				<div className="form__field-wrapper">
 					<label className="form__field-label" htmlFor="isPersonalLessor">
-						Отметьте, если вы частный арендодатель
+						Отметьте, если вы собственник
 					</label>
-					<br/>
-						<input
-							className="form__field-input"
-							type="checkbox"
-							name="isPersonalLessor"
-							value={isPersonalLessor}
-							onChange={this._emitChange}
-							autoCorrect="off"
-							autoCapitalize="off"
-							spellCheck="false"
-						/>
+					<br />
+					<input
+						className="form__field-input"
+						type="checkbox"
+						name="isPersonalLessor"
+						value={isPersonalLessor}
+						onChange={this._emitChange}
+						autoCorrect="off"
+						autoCapitalize="off"
+						spellCheck="false"
+					/>
 
 				</div>
 				<div className="form__submit-btn-wrapper">

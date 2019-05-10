@@ -73,12 +73,11 @@ class SearchForm extends Component {
 
 		const isSubmitDisabled = !location;
 
-
 		return (
 			<Card style={{ padding: '15px' }}>
 				<Form>
 					<Form.Row>
-						<Form.Label>Введите адрес <small>(с точностью до города)</small></Form.Label>
+						<Form.Label>Введите город</Form.Label>
 						<SearchInput
 							onAddressQueryChange={this.props.onAddressQueryChange}
 							onSetLocation={this.props.onSetLocation}

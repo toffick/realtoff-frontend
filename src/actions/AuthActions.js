@@ -12,7 +12,7 @@ import {
 export default {
 	login: (email, password) => actionCreator(LOGIN_REQUEST, { email, password }),
 	logout: () => actionCreator(LOGOUT_REQUEST),
-	register: (email, password) => actionCreator(REGISTER_REQUEST, { email, password}),
+	register: (email, password) => actionCreator(REGISTER_REQUEST, { email, password }),
 	setPersonalInfo: (firstName, telephoneNumber, isPersonalLessor) => actionCreator(SET_PERSONAL_INFO, { firstName, telephoneNumber, isPersonalLessor }),
 	setAuthError: (error) => actionCreator(AUTH_ERROR, { error }),
 	setAuth: (user) => actionCreator(SET_AUTH, { user }),

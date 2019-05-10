@@ -1,7 +1,7 @@
 import React from 'react';
 import {
 	Badge,
-	Card
+	Card,
 } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import moment from 'moment';
@@ -9,14 +9,13 @@ import moment from 'moment';
 import { ROUTER_PATHS } from '../../constants/GlobalConstants';
 import { OFFER_STATUS } from '../../constants/OfferConstants';
 import NormalizeHelper from '../../helpers/NormalizeHelper';
-import { getOfferStatusBadge } from "../../utils/Offer";
+import { getOfferStatusBadge } from '../../utils/Offer';
 
 class OfferList extends React.Component {
 
 
-
 	render() {
-		const {offers} = this.props;
+		const { offers } = this.props;
 
 		return (
 			<div className="own-offers-wrapper">
@@ -26,7 +25,7 @@ class OfferList extends React.Component {
 						offers.map((offer) => {
 
 							const {
-								currency, price_per_month: pricePerMonth, Address: address, id, created_at: createdAt, status
+								currency, price_per_month: pricePerMonth, Address: address, id, created_at: createdAt, status,
 							} = offer;
 
 							return (

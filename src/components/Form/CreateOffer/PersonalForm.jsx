@@ -6,9 +6,7 @@ import {
 	Row,
 } from 'react-bootstrap';
 
-import {
-	CURRENCY_TYPES,
-} from '../../../constants/OfferConstants';
+import { CURRENCY_TYPES } from '../../../constants/OfferConstants';
 
 class PersonalForm extends Component {
 

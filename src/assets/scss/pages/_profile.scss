@@ -7,6 +7,23 @@
 
   .personal-info {
     min-width: 400px;
+
+    .edit-buttons{
+      padding-top: 5px;
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+
+      button{
+        margin-left: 5px;
+      }
+    }
+
+    &.edit-form{
+      input{
+        width: 150px;
+      }
+    }
   }
 
   .own-offers-wrapper {

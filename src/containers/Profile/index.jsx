@@ -8,8 +8,11 @@ import Actions from '../../actions';
 import PersonalInfo from '../../components/Profile/PersonalInfo';
 import OfferList from '../../components/Profile/OfferList';
 import FilterList from '../../components/Profile/FilterList';
+import PersonalInfoEditor from '../../components/Profile/PersonalInfoEditor';
 
 class Profile extends React.Component {
+
+	state = { editProcess: false };
 
 	componentDidMount() {
 		this.props.getProfileRequest();
@@ -17,6 +20,15 @@ class Profile extends React.Component {
 
 	onDeleteUserFilterHandler = (filterId) => {
 		this.props.removeUserFilerRequest(filterId);
+	}
+
+	onChangeEditProcess = (inProcess) => {
+		this.setState({ editProcess: inProcess });
+	}
+
+	onSaveEditedChanges = (firstName, telephoneNumber, isPersonalLessor) => {
+		this.props.editProfile(firstName, telephoneNumber, isPersonalLessor);
+		this.onChangeEditProcess(false);
 	}
 
 	render() {
@@ -31,13 +43,22 @@ class Profile extends React.Component {
 		return (
 			<div className="profile-page-wrapper">
 				<div className="d-sm-flex justify-content-between">
-					<PersonalInfo profile={profile} />
+					{
+						this.state.editProcess ?
+							<PersonalInfoEditor
+								profile={profile}
+								onCancelEdit={() => this.onChangeEditProcess(false)}
+								onSave={this.onSaveEditedChanges}
+							/>
+							:
+							<PersonalInfo profile={profile} onEditProfile={() => this.onChangeEditProcess(true)} />
+					}
 					<OfferList offers={offers} />
 				</div>
 				<div style={{ paddingTop: '20px' }}>
 					{userFilters.length ?
 						<React.Fragment>
-							Сохраненные фильтры, по которым Вы получаете уведомления
+						Сохраненные фильтры, по которым Вы получаете уведомления
 							<FilterList filters={userFilters} onDeleteFilter={this.onDeleteUserFilterHandler} />
 						</React.Fragment>
 						:
@@ -62,5 +83,6 @@ export default connect(
 	(dispatch) => ({
 		getProfileRequest: () => dispatch(Actions.profile.getProfileRequest()),
 		removeUserFilerRequest: (filterId) => dispatch(Actions.profile.removeUserFilerRequest(filterId)),
+		editProfile: (firstName, telephoneNumber, isPersonalLessor) => dispatch(Actions.profile.editProfile(firstName, telephoneNumber, isPersonalLessor)),
 	}),
 )(Profile);

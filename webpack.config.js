@@ -33,7 +33,7 @@ module.exports = {
 		sourceMapFilename: '[name].js.map',
 		chunkFilename: `[name].bundle.js?v=${timeCache}`,
 	},
-	devtool: process.env.NODE_ENV !== 'local' ? 'cheap-module-source-map' : 'inline-source-map',
+	devtool: process.env.NODE_ENV !== 'local' ? 'none' : 'inline-source-map',
 	module: {
 		rules: [
 			{

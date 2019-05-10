@@ -2,7 +2,7 @@ import actionCreator from '../utils/ActionCreator';
 import {
 	CHANGE_FILTER_SHOW_STATUS,
 	SET_FILTER_ERROR,
-	CHANGE_SAVE_REQUEST_STATUS
+	CHANGE_SAVE_REQUEST_STATUS,
 } from './constants';
 
 export default {

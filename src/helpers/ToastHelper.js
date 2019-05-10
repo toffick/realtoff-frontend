@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 
- class ToastWrapper {
+class ToastWrapper {
 
 	static warn(message, autoClose = 3000) {
 		toast.warn(JSON.stringify(message), {

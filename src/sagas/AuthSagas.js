@@ -70,7 +70,7 @@ export function* setPersonalInfo(firstName, telephoneNumber, isPersonalLessor) {
  *
  * @return {IterableIterator<*>}
  */
-export function* setPersonalInfoFlow() {
+export function* finishRegistration() {
 	while (true) {
 		const { payload } = yield take(SET_PERSONAL_INFO);
 
@@ -235,5 +235,5 @@ export default function* root() {
 	yield fork(registerFlow);
 	yield fork(loginFlow);
 	yield fork(logoutFlow);
-	yield fork(setPersonalInfoFlow);
+	yield fork(finishRegistration);
 }

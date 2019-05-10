@@ -3,21 +3,20 @@ import {
 	put,
 	fork,
 	takeEvery,
+	take,
 } from 'redux-saga/effects';
 
-import { LOCATION_QUERY_THROTTLE_TIMEOUT } from '../constants/MapConstants';
-import YMapApiService from '../services/MapApiService';
 import {
-	LOCATION_AUTOCOMPLETE_REQUEST,
-	LOCATION_SEARCH_AUTOCOMPLETE_REQUEST,
-	UPLOAD_OFFER_PHOTOS,
 	GET_PROFILE_REQUEST,
 	REMOVE_USER_FILTER_REQUEST,
+	EDIT_PROFILE,
 } from '../actions/constants';
 import Actions from '../actions';
 import ApiService from '../services/ApiService';
 import ToastWrapper from '../helpers/ToastHelper';
 import ErrorsHelper from '../helpers/ErrorsHelper';
+import { setPersonalInfo } from './AuthSagas';
+import NormalizeHelper from '../helpers/NormalizeHelper';
 
 export function* getProfile() {
 
@@ -55,7 +54,26 @@ export function* removeUserFilters() {
 
 }
 
+export function* editProfileInfo() {
+
+	while (true) {
+		const { payload } = yield take(EDIT_PROFILE);
+
+		const { firstName, telephoneNumber, isPersonalLessor } = payload;
+
+		try {
+			yield call(setPersonalInfo, firstName, telephoneNumber, isPersonalLessor);
+			yield put(Actions.profile.getProfileRequest());
+		} catch (error) {
+			ToastWrapper.warn('Не удалось сохранить данныеы');
+			const [errorObject] = ErrorsHelper.processServerErrors(error);
+			console.error(errorObject);
+		}
+	}
+}
+
 export default function* root() {
 	yield fork(getProfile);
 	yield fork(removeUserFilters);
+	yield fork(editProfileInfo);
 }
