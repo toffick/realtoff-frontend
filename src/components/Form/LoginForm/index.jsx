@@ -8,8 +8,8 @@ import LoadingButton from '../../Elements/LoadingButton';
 class LoginForm extends Component {
 
 	state = {
-		email: 'www@mail.com',
-		password: '123456',
+		email: '',
+		password: '',
 		formErrors: null,
 	}
 

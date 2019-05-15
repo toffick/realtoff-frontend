@@ -19,9 +19,14 @@
     text-align: end;
     padding-top: 120px;
 
-    button{
+    button {
       margin: 2px;
     }
+  }
+
+  .placeholder {
+    background: url(../import/no_photo.jpg) no-repeat scroll 0 0;
+    background-size: 1070px;
   }
 
   .images-wrapper {
@@ -30,12 +35,9 @@
     justify-content: center;
     padding: 15px;
 
-    .inner {
-      max-height: 63vh;
-      max-width: 60vw;
-      height: 63vh;
-      min-height: 63vh;
-      min-width: 60vw;
+    .item{
+      height: 650px;
+      width: 1070px;
     }
 
     .updated {

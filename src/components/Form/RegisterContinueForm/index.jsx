@@ -8,9 +8,9 @@ import LoadingButton from '../../Elements/LoadingButton';
 class RegisterForm extends Component {
 
 	state = {
-		firstName: 'Неколян',
-		telephoneNumber: '+375336698055',
-		isPersonalLessor: false,
+		firstName: '',
+		telephoneNumber: '',
+		isPersonalLessor: true,
 		formErrors: null,
 	}
 
@@ -69,7 +69,7 @@ class RegisterForm extends Component {
 				</div>
 				<div className="form__field-wrapper">
 					<label className="form__field-label" htmlFor="isPersonalLessor">
-						Отметьте, если вы собственник
+						Уберите отметку, если вы агенство
 					</label>
 					<br />
 					<input

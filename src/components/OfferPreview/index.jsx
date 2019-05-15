@@ -15,7 +15,7 @@ class OfferPreview extends Component {
 			destination: previewImg, currency, price_per_month: pricePerMonth, description,
 		} = offer;
 		const slicedDescription = `${description.slice(0, 80)}...`;
-		const imageSrc = previewImg ? `${__BASE_URL__}${previewImg}` : null;
+		const imageSrc = !previewImg ? `${__BASE_URL__}${previewImg}` : `${__BASE_URL__}/import/no_photo.jpg`;
 
 		return (
 			<Card className="card-wrapper">
@@ -37,7 +37,7 @@ class OfferPreview extends Component {
 					</Card.Text>
 				</Card.Body>
 				<Card.Footer className="created-at">
-					<small className="text-muted">Создано {moment(offer.created_at).locale('ru').format('LL') }</small>
+					<small className="text-muted">Создано {moment(offer.created_at).locale('ru').format('LL')}</small>
 				</Card.Footer>
 			</Card>
 

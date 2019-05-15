@@ -1,26 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import PhotoUploader from '../../components/PhotoUploader';
-import Loading from '../../components/Loading';
-
-import Actions from '../../actions';
+import Image from 'react-image-resizer';
 import {
 	Carousel,
 	Badge,
 	Card,
-	Image,
 	Button,
 } from 'react-bootstrap';
 import moment from 'moment';
 
+import PhotoUploader from '../../components/PhotoUploader';
+import Loading from '../../components/Loading';
 import Stub from '../../components/Stub';
 import OfferMap from '../../components/Maps/Offer';
+import AdminOfferPanel from '../../components/Offer/AdminPanel';
+
+import Actions from '../../actions';
 import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
 import { getOfferStatusBadge } from '../../utils/Offer';
 import { OFFER_STATUS } from '../../constants/OfferConstants';
 import { USER_ROLES } from '../../constants/GlobalConstants';
-import AdminOfferPanel from '../../components/Offer/AdminPanel';
 
 // TODO super fixes
 // restyling
@@ -86,29 +85,38 @@ class Offer extends React.Component {
 	getCarouselItems = () => {
 		const { photos, status } = this.props.offer;
 
-		return (
-			<Carousel interval={100000000} defaultActiveindex={photos.length - 1}>
+
+		const photosView = (this._isAuthUserOwner() && status === OFFER_STATUS.OPEN) || photos.length ?
+			(<Carousel interval={100000000} defaultActiveindex={photos.length - 1}>
 				{
 					photos.map((photoItem) => (
 						<Carousel.Item active>
-							<Image className="inner" src={`${__BASE_URL__}${photoItem.destination}`} fluid />
+							<Image
+							     src={`${__BASE_URL__}${photoItem.destination}`}
+							     height={650}
+							     width={1070}
+							/>
 						</Carousel.Item>
 					))
 				}
 				{
 					this._isAuthUserOwner() && status === OFFER_STATUS.OPEN ?
 						<Carousel.Item>
-							<div className="inner">
-								<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} />
+							<div className="item">
+								<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} style={{ margin: '0' }} />
 							</div>
 						</Carousel.Item>
 						:
 						null
 				}
+			</Carousel>)
+			:
+			(<div className="item placeholder" />);
 
 
-			</Carousel>
-		);
+		return photosView;
+
+
 	}
 
 

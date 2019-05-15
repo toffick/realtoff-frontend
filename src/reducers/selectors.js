@@ -12,7 +12,7 @@ export const offerSelector = (state) => {
 	const { pricePerMonth, currency, additionalPhoneNumber } = personal;
 
 
-	const [longitude, latitude] = location.coordinates;
+	const [latitude, longitude] = location.coordinates;
 
 	// TODO address
 	return {

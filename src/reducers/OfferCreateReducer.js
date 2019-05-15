@@ -35,29 +35,6 @@ const initialState = Map({
 	errorObject: {},
 });
 
-// const initialState = Map({
-// 	step: CREATE_OFFER_STEPS.LOCATION,
-// 	autocomleteList: [],
-// 	location: {
-// 		coordinates: MINSK_COORDINATES,
-// 	},
-// 	description: {
-// 		isFlat: true,
-// 		floor: '1',
-// 		totalFloorNumber: '2',
-// 		totalRoomNumber: '3',
-// 		description: 'asd',
-// 		permitsMask: 3,
-// 		squareTotal: '',
-// 	},
-// 	personal: {
-// 		additionalPhoneNumber: '+375336096565',
-// 		currency: CURRENCY_TYPES.BYN,
-// 		pricePerMonth: '111',
-// 	},
-// 	errors: []
-// });
-
 function offerCreateReducer(state = initialState, action) {
 	switch (action.type) {
 		case CHANGE_OFFER_STEP: {

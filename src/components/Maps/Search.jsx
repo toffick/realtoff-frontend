@@ -7,6 +7,7 @@ import {
 import PropTypes from 'prop-types';
 
 import { MINSK_COORDINATES } from '../../constants/MapConstants';
+import NormalizeHelper from "../../helpers/NormalizeHelper";
 
 class SearchMap extends Component {
 
@@ -22,15 +23,14 @@ class SearchMap extends Component {
 
 	componentWillUpdate(nextProps) {
 		if (this.mapRef) {
-			this.mapRef.setZoom(12);
-			this.mapRef.setCenter(nextProps.coordinates);
+			this.mapRef.setCenter(NormalizeHelper.swapCoordinatesFromLongLat(nextProps.coordinates, 12));
 		}
 	}
 
 	renderPlacemarks = (offers) => offers.map((offer) =>
 		(<Placemark
 			key={offer.id}
-			geometry={offer.coordinates.coordinates}
+			geometry={NormalizeHelper.swapCoordinatesFromLongLat(offer.coordinates.coordinates)}
 			onClick={() => this.props.onSelectOffer(offer.id)}
 		/>))
 

@@ -105,7 +105,7 @@ class YMapApi {
 				return false;
 			}
 
-			const [lat, long] = point.pos.split(' ');
+			const [long, lat] = point.pos.split(' ');
 
 			searchItem.address.country_code = countryCode;
 			searchItem.coordinates = [+long, +lat];

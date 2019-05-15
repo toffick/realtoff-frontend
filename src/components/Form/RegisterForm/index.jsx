@@ -8,9 +8,9 @@ import LoadingButton from '../../Elements/LoadingButton';
 class RegisterForm extends Component {
 
 	state = {
-		email: 'www@mail.com',
-		password: '123456',
-		passwordRepeat: '123456',
+		email: '',
+		password: '',
+		passwordRepeat: '',
 		formErrors: null,
 	}
 
