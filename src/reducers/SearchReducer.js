@@ -36,6 +36,7 @@ const DEFAULT_FORM_VALUE = {
 	roomTotal: '',
 	type: REALTY_TYPES.FLAT,
 	isPersonalLessor: false,
+	nearSubway: false,
 };
 
 const initialState = Map({

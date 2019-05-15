@@ -64,6 +64,7 @@ class SearchForm extends Component {
 				permitsMask,
 				type,
 				isPersonalLessor,
+				nearSubway
 			},
 			onSaveFilter,
 			errorObject,
@@ -225,6 +226,13 @@ class SearchForm extends Component {
 									name="isPersonalLessor"
 									onChange={this.onCheckboxChange}
 									checked={isPersonalLessor}
+								/>
+								<Form.Check
+									label="Рядом с метро"
+									type="checkbox"
+									name="nearSubway"
+									onChange={this.onCheckboxChange}
+									checked={nearSubway}
 								/>
 							</Form.Group>
 

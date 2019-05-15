@@ -5,7 +5,6 @@ import {
 	Placemark,
 } from 'react-yandex-maps';
 import PropTypes from 'prop-types';
-import NormalizeHelper from '../../helpers/NormalizeHelper';
 
 class OfferMap extends Component {
 
@@ -19,13 +18,13 @@ class OfferMap extends Component {
 	}
 
 	componentWillUpdate(nextProps) {
-		this.mapRef.setCenter(NormalizeHelper.swapCoordinatesFromLongLat(nextProps.coordinates), 12); // god, give me strength
+		this.mapRef.setCenter(nextProps.coordinates, 12); // god, give me strength
 	}
 
 	render() {
 		const { coordinates, width, heigth } = this.props;
 
-		const mapParameters = { center: NormalizeHelper.swapCoordinatesFromLongLat(coordinates), zoom: 12 };
+		const mapParameters = { center: coordinates, zoom: 12 };
 
 		return (
 			<YMaps>
@@ -37,7 +36,7 @@ class OfferMap extends Component {
 						this.mapRef = ref;
 					}}
 				>
-					<Placemark geometry={NormalizeHelper.swapCoordinatesFromLongLat(coordinates)} />
+					<Placemark geometry={coordinates} />
 				</Map>
 			</YMaps>
 

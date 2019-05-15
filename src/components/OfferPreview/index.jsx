@@ -15,7 +15,7 @@ class OfferPreview extends Component {
 			destination: previewImg, currency, price_per_month: pricePerMonth, description,
 		} = offer;
 		const slicedDescription = `${description.slice(0, 80)}...`;
-		const imageSrc = !previewImg ? `${__BASE_URL__}${previewImg}` : `${__BASE_URL__}/import/no_photo.jpg`;
+		const imageSrc = previewImg ? `${__BASE_URL__}${previewImg}` : `${__BASE_URL__}/import/no_photo.jpg`;
 
 		return (
 			<Card className="card-wrapper">

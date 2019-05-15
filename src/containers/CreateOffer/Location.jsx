@@ -6,6 +6,7 @@ import CreateOfferMap from '../../components/Maps/Offer';
 import LocationForm from '../../components/Form/CreateOffer/LocationForm';
 
 import Actions from '../../actions';
+import NormalizeHelper from "../../helpers/NormalizeHelper";
 
 class OfferLocation extends Component {
 
@@ -24,7 +25,7 @@ class OfferLocation extends Component {
 	render() {
 
 		const { autocomleteList, location, errorObject } = this.props;
-		const { coordinates, bounds } = location;
+		const { coordinates } = location;
 
 		return (
 			<div className="location-wrap">
@@ -40,7 +41,6 @@ class OfferLocation extends Component {
 				<div className="map-wrap">
 					<CreateOfferMap
 						coordinates={coordinates}
-						bounds={bounds}
 					/>
 				</div>
 			</div>

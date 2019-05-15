@@ -23,14 +23,14 @@ class SearchMap extends Component {
 
 	componentWillUpdate(nextProps) {
 		if (this.mapRef) {
-			this.mapRef.setCenter(NormalizeHelper.swapCoordinatesFromLongLat(nextProps.coordinates, 12));
+			this.mapRef.setCenter(nextProps.coordinates, 12);
 		}
 	}
 
 	renderPlacemarks = (offers) => offers.map((offer) =>
 		(<Placemark
 			key={offer.id}
-			geometry={NormalizeHelper.swapCoordinatesFromLongLat(offer.coordinates.coordinates)}
+			geometry={offer.coordinates.coordinates}
 			onClick={() => this.props.onSelectOffer(offer.id)}
 		/>))
 

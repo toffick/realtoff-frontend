@@ -22,7 +22,7 @@ class NormalizeHelper {
 		return `${cityFromCapital}, ${street} ${houseNumber}`;
 	}
 
-	static swapCoordinatesFromLongLat(coordinates) {
+	static  swapCoordinatesFromLongLat(coordinates) {
 		const [long, lat] = coordinates;
 		return [lat, long];
 	}
