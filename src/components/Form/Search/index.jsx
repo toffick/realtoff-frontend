@@ -27,7 +27,7 @@ const autoCompleteMenuStyles = {
 	zIndex: 5,
 };
 
-class SearchForm extends Component {
+class   SearchForm extends Component {
 
 	onChange = (e) => {
 		const { value, name } = e.target;

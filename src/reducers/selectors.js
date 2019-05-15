@@ -35,6 +35,7 @@ export const offerSelector = (state) => {
 export const searchRequestSelector = (state) => {
 	const queryObj = state.search.get('form');
 	const location = state.search.get('location');
+
 	const normalizedParameters = NormalizeHelper.removeEmptyValuesFields(queryObj);
 
 	const { country_code, city } = location.address;

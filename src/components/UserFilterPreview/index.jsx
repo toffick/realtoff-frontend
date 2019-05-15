@@ -21,6 +21,7 @@ class UserFilterPreview extends React.Component {
 			squareFrom,
 			squareTo,
 			isPersonalLessor,
+			nearSubway,
 		} = normalizedForm;
 
 		const createSimpleRow = (text, value, symbol) => (value ?
@@ -40,7 +41,8 @@ class UserFilterPreview extends React.Component {
 				{createSimpleRow('Адрес', addressText)}
 				{createSimpleRow('Тип недвижимости', type === REALTY_TYPES.FLAT ? 'Квартира' : 'Дом')}
 				{createSimpleRow('Количество комнат', roomTotal)}
-				{createSimpleRow('Только собственник', isPersonalLessor, '+')}
+				{createSimpleRow('Только собственник', isPersonalLessor, '✓')}
+				{createSimpleRow('Рядом с метро', nearSubway, '✓')}
 				{createSimpleRow('Цена от', priceFrom, currency)}
 				{createSimpleRow('Цена до', priceTo, currency)}
 				{createSimpleRow('Площадь от', squareFrom, 'м²')}
@@ -54,7 +56,7 @@ class UserFilterPreview extends React.Component {
 										(
 											<div className="filter-modal-row ability-row">
 												<div>{item.label}</div>
-												<b>+</b>
+												<b>✓</b>
 											</div>
 										))
 								}

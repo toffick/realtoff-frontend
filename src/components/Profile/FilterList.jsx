@@ -53,6 +53,8 @@ class FilterList extends React.Component {
 							room_total: roomTotal,
 							square_from: squareFrom,
 							square_to: squareTo,
+							near_subway: nearSubway,
+							is_personal_lessor: isPersonalLessor,
 						} = filter;
 
 						const address = {
@@ -69,6 +71,8 @@ class FilterList extends React.Component {
 							roomTotal,
 							squareFrom,
 							squareTo,
+							nearSubway,
+							isPersonalLessor,
 						};
 
 						return (

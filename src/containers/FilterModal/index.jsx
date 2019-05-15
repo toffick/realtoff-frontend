@@ -23,64 +23,6 @@ class FilterModalContainer extends React.Component {
 		this.props.saveSearchFilterRequest();
 	}
 
-	getBody = () => {
-		const { searchForm, location } = this.props;
-		const normalizedForm = NormalizedHelper.removeEmptyValuesFields(searchForm);
-
-		const {
-			roomTotal,
-			currency,
-			permitsMask,
-			type,
-			priceFrom,
-			priceTo,
-			squareFrom,
-			squareTo,
-			isPersonalLessor,
-		} = normalizedForm;
-
-		const createSimpleRow = (text, value, symbol) => (value ?
-			(
-				<div className="filter-modal-row">
-					<span>{text}</span>
-					<span>{value} {symbol}</span>
-				</div>
-			) : null);
-
-		const permits = PermitsMaskHelper.getPermitsByMask(permitsMask);
-
-		const address = location ? `${location.address.country}, ${location.address.city}` : '';
-
-		return (
-			<React.Fragment>
-				{createSimpleRow('Адрес', address)}
-				{createSimpleRow('Тип недвижимости', type === REALTY_TYPES.FLAT ? 'Квартира' : 'Дом')}
-				{createSimpleRow('Количество комнат', roomTotal)}
-				{createSimpleRow('Только собственник', isPersonalLessor, '+')}
-				{createSimpleRow('Цена от', priceFrom, currency)}
-				{createSimpleRow('Цена до', priceTo, currency)}
-				{createSimpleRow('Площадь от', squareFrom, 'м²')}
-				{createSimpleRow('Площадь до', squareTo, 'м²')}
-				{
-					permits.length ?
-						(
-							<div><b>Особые условия</b>
-								{
-									permits.map((item) =>
-										(
-											<div className="filter-modal-row ability-row">
-												<div>{item.label}</div><b>+</b>
-											</div>
-										))
-								}
-							</div>
-						)
-						: null
-				}
-			</React.Fragment>
-		);
-	}
-
 	render() {
 		const {
 			isShow,

@@ -15,8 +15,8 @@ class RegisterForm extends Component {
 	}
 
 	_emitChange =(e) => {
-		const { value, id } = e.target;
-		this.setState({ [id]: value });
+		const { value, name } = e.target;
+		this.setState({ [name]: value });
 	}
 
 	_onSubmit =(event) => {
@@ -43,7 +43,7 @@ class RegisterForm extends Component {
 					<input
 						className="form__field-input"
 						type="text"
-						id="email"
+						name="email"
 						value={email}
 						placeholder="Email"
 						onChange={this._emitChange}
@@ -58,7 +58,7 @@ class RegisterForm extends Component {
 				<div className="form__field-wrapper">
 					<input
 						className="form__field-input"
-						id="password"
+						name="password"
 						type="password"
 						value={password}
 						placeholder="••••••••••"
@@ -71,7 +71,7 @@ class RegisterForm extends Component {
 				<div className="form__field-wrapper">
 					<input
 						className="form__field-input"
-						id="password-repeat"
+						name="passwordRepeat"
 						type="password"
 						value={passwordRepeat}
 						placeholder="••••••••••"

@@ -210,7 +210,7 @@ class Offer extends React.Component {
 														(
 															<div className="filter-modal-row ability-row">
 																<div>{item.label}</div>
-																<b>+</b>
+																<b>✓</b>
 															</div>
 														))
 												}
