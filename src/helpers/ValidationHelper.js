@@ -1,9 +1,4 @@
 import validator from 'validator';
-import iso3166 from 'iso-3166-1-alpha-2';
-import {
-	CURRENCY_TYPES,
-	REALTY_TYPES,
-} from '../constants/OfferConstants';
 
 class ValidationHelper {
 
@@ -13,7 +8,7 @@ class ValidationHelper {
 	 * @returns {{errorsMap: {}, isValid: boolean}}
 	 */
 	static validateOfferSearchRequest(form) {
-		const errorObject = { errorsMap: {}, isValid: true };
+		const validateResult = { errorsMap: {}, isValid: true };
 		const {
 			priceFrom,
 			priceTo,
@@ -24,52 +19,52 @@ class ValidationHelper {
 
 		if (roomTotal.length) {
 			if (!validator.isNumeric(roomTotal)) {
-				errorObject.errorsMap.roomTotal = 'Комнаты должны быть числом';
+				validateResult.errorsMap.roomTotal = 'Комнаты должны быть числом';
 			} else if (Number(roomTotal) < 1) {
-				errorObject.errorsMap.roomTotal = 'Комнат не может быть меньше 1';
+				validateResult.errorsMap.roomTotal = 'Комнат не может быть меньше 1';
 			}
 		}
 
 		if (priceFrom.length) {
 			if (!validator.isNumeric(priceFrom)) {
-				errorObject.errorsMap.priceFrom = 'Цена(от) должна быть числом';
+				validateResult.errorsMap.priceFrom = 'Цена(от) должна быть числом';
 			} else if (Number(priceFrom) < 0) {
-				errorObject.errorsMap.priceFrom = 'Цена(от) должна не может быть меньше 0';
+				validateResult.errorsMap.priceFrom = 'Цена(от) должна не может быть меньше 0';
 			}
 		}
 
 		if (priceTo.length) {
 			if (!validator.isNumeric(priceTo)) {
-				errorObject.errorsMap.priceTo = 'Цена(до) должна быть числом';
+				validateResult.errorsMap.priceTo = 'Цена(до) должна быть числом';
 			} else if (Number(priceTo) < 0) {
-				errorObject.errorsMap.priceTo = 'Цена(до) должна быть больше 0';
+				validateResult.errorsMap.priceTo = 'Цена(до) должна быть больше 0';
 			} else if (validator.isNumeric(priceFrom) && Number(priceFrom) > Number(priceTo)) {
-				errorObject.errorsMap.priceTo = 'Цена(от) должна быть меньше цены(до)';
+				validateResult.errorsMap.priceTo = 'Цена(от) должна быть меньше цены(до)';
 			}
 		}
 
 
 		if (squareFrom.length) {
 			if (!validator.isNumeric(squareFrom)) {
-				errorObject.errorsMap.squareFrom = 'Площадь(от) должна быть числом';
+				validateResult.errorsMap.squareFrom = 'Площадь(от) должна быть числом';
 			} else if (Number(squareFrom) < 0) {
-				errorObject.errorsMap.squareFrom = 'Площадь(до) должна быть больше 0';
+				validateResult.errorsMap.squareFrom = 'Площадь(до) должна быть больше 0';
 			}
 		}
 
 		if (squareTo.length) {
 			if (!validator.isNumeric(squareTo)) {
-				errorObject.errorsMap.squareTo = 'Площадь(до) должна быть числом';
+				validateResult.errorsMap.squareTo = 'Площадь(до) должна быть числом';
 			} else if (Number(priceFrom < 0)) {
-				errorObject.errorsMap.squareTo = 'Площадь(до) должна быть больше 0';
+				validateResult.errorsMap.squareTo = 'Площадь(до) должна быть больше 0';
 			} else if (validator.isNumeric(squareFrom) && Number(squareFrom) > Number(squareTo)) {
-				errorObject.errorsMap.squareTo = 'Площадь(от) должна быть больше площади(до)';
+				validateResult.errorsMap.squareTo = 'Площадь(от) должна быть больше площади(до)';
 			}
 		}
 
-		errorObject.isValid = !Object.keys(errorObject.errorsMap).length;
+		validateResult.isValid = !Object.keys(validateResult.errorsMap).length;
 
-		return errorObject;
+		return validateResult;
 	}
 
 
@@ -79,7 +74,7 @@ class ValidationHelper {
 	 * @returns {{errorsMap: {}, isValid: boolean}}
 	 */
 	static validateCreateOfferRequest(personal, descriptionObj) {
-		const errorObject = { errorsMap: {}, isValid: true };
+		const validateResult = { errorsMap: {}, isValid: true };
 
 		const {
 			isFlat,
@@ -98,66 +93,125 @@ class ValidationHelper {
 
 		if (isFlat) {
 			if (!validator.isNumeric(floor) || totalFloorNumber < 1 || floor - totalFloorNumber > 0) {
-				errorObject.errorsMap.floor = 'Невелидное значения этажа';
+				validateResult.errorsMap.floor = 'Невелидное значения этажа';
 			}
 
 			if (!validator.isNumeric(totalFloorNumber) || floor < 1 || floor - totalFloorNumber > 0) {
-				errorObject.errorsMap.totalFloorNumber = 'Невелидное значения этажности';
+				validateResult.errorsMap.totalFloorNumber = 'Невелидное значения этажности';
 			}
 		}
 
 		if (!validator.isNumeric(squareTotal) || squareTotal < 1) {
-			errorObject.errorsMap.squareTotal = 'Площадь должна быть больше 1';
+			validateResult.errorsMap.squareTotal = 'Площадь должна быть больше 1';
 		}
 
 		if (!validator.isNumeric(totalRoomNumber) || totalRoomNumber < 1) {
-			errorObject.errorsMap.totalRoomNumber = 'Кол-во комнат должна быть больше 1';
+			validateResult.errorsMap.totalRoomNumber = 'Кол-во комнат должна быть больше 1';
 		}
 
 		if (!validator.isNumeric(pricePerMonth) || pricePerMonth < 1) {
-			errorObject.errorsMap.pricePerMonth = 'Цена в месяц должна быть больше 1';
+			validateResult.errorsMap.pricePerMonth = 'Цена в месяц должна быть больше 1';
 		}
 
 		if (description > 2000) {
-			errorObject.errorsMap.description = 'Описание не должно быть больше 2000 символов';
+			validateResult.errorsMap.description = 'Описание не должно быть больше 2000 символов';
 		}
 
 		if (!validator.isEmpty(additionalPhoneNumber) && !validator.isMobilePhone(additionalPhoneNumber)) {
-			errorObject.errorsMap.additionalPhoneNumber = 'Это не телефон!';
+			validateResult.errorsMap.additionalPhoneNumber = 'Это не телефон!';
 		}
 
-		errorObject.isValid = !Object.keys(errorObject.errorsMap).length;
+		validateResult.isValid = !Object.keys(validateResult.errorsMap).length;
 
-		return errorObject;
+		return validateResult;
 	}
 
 	/**
 	 *
 	 * @returns {{errorsMap: {}, isValid: boolean}}
-	 * @param firstName
-	 * @param telephoneNumber
+	 * @param newFirstName
+	 * @param newPhoneNumber
 	 */
-	static validateChangeProfile(firstName, telephoneNumber) {
-		const errorObject = { errorsMap: {}, isValid: true };
+	static validateChangeProfile(newFirstName, newPhoneNumber) {
 
-		if (validator.isEmpty(firstName)) {
-			errorObject.errorsMap.firstName = 'Имя не может быть пустым';
+		const validateResult = { errorsMap: {}, isValid: true };
+
+		if (!newFirstName || validator.isEmpty(newFirstName)) {
+			validateResult.errorsMap.newFirstName = 'Имя не может быть пустым';
+		} else if (newFirstName.length > 255) {
+			validateResult.errorsMap.newFirstName = 'Длина привышает 255 символов';
 		}
 
-		if (this.firstName.length > 255) {
-			errorObject.errorsMap.firstName = 'Длина привышает 255 символов';
+		if (!newPhoneNumber || validator.isEmpty(newPhoneNumber)) {
+			validateResult.errorsMap.newPhoneNumber = 'Номер телефона обязателен';
+		} else if (!validator.isMobilePhone(newPhoneNumber)) {
+			validateResult.errorsMap.newPhoneNumber = 'Невалидный номер телефона';
+		}
+		validateResult.isValid = !Object.keys(validateResult.errorsMap).length;
+
+		return validateResult;
+	}
+
+	/**
+	 *
+	 * @param email
+	 * @param password
+	 * @param passwordRepeat
+	 * @returns {string|null}
+	 */
+	static validateSignUp(email, password, passwordRepeat) {
+
+		if (validator.isEmpty(email)) {
+			return 'Электронная почта обязательна';
 		}
 
-		if (validator.isEmpty(telephoneNumber)) {
-			errorObject.errorsMap.telephoneNumber = 'Номер телефона обязателен';
+		if (!validator.isEmail(email, { allow_utf8_local_part: false })) {
+			return 'Неверный формат электронной почты';
+		} else if (email.length > 64) {
+			return 'Электронная почта должна быть не больше 64 символов';
 		}
 
-		if (!validator.isMobilePhone(telephoneNumber)) {
-			errorObject.errorsMap.telephoneNumber = 'Невалидный номер телефона';
+		if (validator.isEmpty(password)) {
+			return 'Пароль обязателен';
 		}
-		errorObject.isValid = !Object.keys(errorObject.errorsMap).length;
 
-		return errorObject;
+		if (!validator.isLength(password, { min: 6 })) {
+			return 'Пароль должен быть длинее 6 символов';
+		}
+
+		if (password !== passwordRepeat) {
+			return 'Пароли не совпадают';
+		}
+
+		return null;
+	}
+
+	/**
+	 *
+	 * @param email
+	 * @param password
+	 * @returns {string|null}
+	 */
+	static validateSignIn(email, password){
+		if (validator.isEmpty(email)) {
+			return 'Электронная почта обязательна';
+		}
+
+		if (!validator.isEmail(email, { allow_utf8_local_part: false })) {
+			return 'Неверный формат электронной почты';
+		} else if (email.length > 64) {
+			return 'Электронная почта должна быть не больше 64 символов';
+		}
+
+		if (validator.isEmpty(password)) {
+			return 'Пароль обязателен';
+		}
+
+		if (!validator.isLength(password, { min: 6 })) {
+			return 'Пароль должен быть длинее 6 символов';
+		}
+
+		return null;
 	}
 
 }

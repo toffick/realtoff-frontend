@@ -19,7 +19,7 @@ class OfferList extends React.Component {
 
 		return (
 			<div className="own-offers-wrapper">
-				Мои объявления
+				Мои предложения
 				<div className="list">
 					{
 						offers.map((offer) => {

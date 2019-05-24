@@ -1,5 +1,5 @@
 @mixin screen-max($width) {
-	@media (768px: $width + "px") {
+	@media (width: $width + "px") {
 		@content;
 	}
 }

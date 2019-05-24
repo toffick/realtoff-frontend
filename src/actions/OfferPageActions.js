@@ -6,6 +6,7 @@ import {
 	UPLOAD_OFFER_PHOTOS,
 	SET_NEW_OFFER_PHOTOS,
 	CLOSE_OFFER_REQUEST,
+	PHOTO_DELETE_REQUEST,
 } from './constants';
 
 export default {
@@ -15,5 +16,6 @@ export default {
 	uploadPhotos: (photos) => actionCreator(UPLOAD_OFFER_PHOTOS, { photos }),
 	setNewOfferPhotos: (photos) => actionCreator(SET_NEW_OFFER_PHOTOS, { photos }),
 	closeOfferRequest: () => actionCreator(CLOSE_OFFER_REQUEST),
+	deletePhoto: (photoId) => actionCreator(PHOTO_DELETE_REQUEST, { photoId }),
 };
 

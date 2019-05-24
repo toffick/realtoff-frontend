@@ -27,7 +27,7 @@ export function* changeOfferStatus() {
 			const success = result.data;
 			if (success) {
 				yield put(Actions.offerPage.getOfferRequest(offerId));
-				ToastWrapper.success(`Статус объявления ${offerId} изменен на ${status}`);
+				ToastWrapper.success(`Статус предложения ${offerId} изменен на ${status}`);
 			} else {
 				ToastWrapper.warn(`Ошибка измения статуса. Обратитесь ${__CONTACT_EMAIL__}`);
 			}

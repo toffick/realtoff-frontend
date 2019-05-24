@@ -22,7 +22,7 @@ class Header extends Component {
 			user.is_email_confirmed ?
 				(
 					<React.Fragment>
-						<Link to={ROUTER_PATHS.CREATE_OFFER} className="btn_header btn--dash btn--header" disabled>Создать объявление</Link>
+						<Link to={ROUTER_PATHS.CREATE_OFFER} className="btn_header btn--dash btn--header" disabled>Создать предложение</Link>
 						<Link to={ROUTER_PATHS.PROFILE} className="btn_header btn--dash btn--header">Профиль</Link>
 						<a href="#" className="btn_header btn--login btn--header" onClick={this._logout}>Выйти</a>
 					</React.Fragment>

@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 
 import ErrorMessage from '../../ErrorMessage/index';
 import LoadingButton from '../../Elements/LoadingButton';
+import ValidationHelper from '../../../helpers/ValidationHelper';
 
 class RegisterForm extends Component {
 
@@ -21,12 +22,19 @@ class RegisterForm extends Component {
 
 	_onSubmit =(event) => {
 		event.preventDefault();
-		// TODO validation
-		// TODO add to errors
+
 		const {
 			email, password, passwordRepeat,
 		} = this.state;
-		this.props.onSubmit(email, password);
+
+		const validResult = ValidationHelper.validateSignUp(email, password, passwordRepeat);
+
+		if (validResult) {
+			this.setState({ formErrors: validResult });
+		} else {
+			this.setState({ formErrors: null });
+			this.props.onSubmit(email, password);
+		}
 	}
 
 	render() {
@@ -45,7 +53,6 @@ class RegisterForm extends Component {
 						type="text"
 						name="email"
 						value={email}
-						placeholder="Email"
 						onChange={this._emitChange}
 						autoCorrect="off"
 						autoCapitalize="off"
@@ -61,7 +68,6 @@ class RegisterForm extends Component {
 						name="password"
 						type="password"
 						value={password}
-						placeholder="••••••••••"
 						onChange={this._emitChange}
 					/>
 					<label className="form__field-label" htmlFor="password">
@@ -74,7 +80,6 @@ class RegisterForm extends Component {
 						name="passwordRepeat"
 						type="password"
 						value={passwordRepeat}
-						placeholder="••••••••••"
 						onChange={this._emitChange}
 					/>
 					<label className="form__field-label" htmlFor="password">

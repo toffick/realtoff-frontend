@@ -16,7 +16,7 @@ class PhotoUploader extends React.Component {
 				buttonText="Загрузите фотографии"
 				onChange={this.onDrop}
 				imgExtension={['.jpg', '.jpeg']}
-				maxFileSize={5242880}
+				maxFileSize={3145728}
 			/>
 		);
 	}

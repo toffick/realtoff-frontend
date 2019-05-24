@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 
 import ErrorMessage from '../../ErrorMessage/index';
 import LoadingButton from '../../Elements/LoadingButton';
+import ValidationHelper from "../../../helpers/ValidationHelper";
 
 class LoginForm extends Component {
 
@@ -20,10 +21,18 @@ class LoginForm extends Component {
 
 	_onSubmit = (event) => {
 		event.preventDefault();
-		// TODO validation
-		// TODO add to errors
+
 		const { email, password } = this.state;
-		this.props.onSubmit(email, password);
+
+		const validResult = ValidationHelper.validateSignIn(email, password);
+
+		if (validResult) {
+			this.setState({ formErrors: validResult });
+		} else {
+			this.setState({ formErrors: null });
+			this.props.onSubmit(email, password);
+		}
+
 	}
 
 	render() {
@@ -41,7 +50,6 @@ class LoginForm extends Component {
 						type="text"
 						id="email"
 						value={email}
-						placeholder="frank.underwood"
 						onChange={this._emitChange}
 						autoCorrect="off"
 						autoCapitalize="off"
@@ -57,7 +65,6 @@ class LoginForm extends Component {
 						id="password"
 						type="password"
 						value={password}
-						placeholder="••••••••••"
 						onChange={this._emitChange}
 					/>
 					<label className="form__field-label" htmlFor="password">

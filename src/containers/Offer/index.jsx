@@ -33,31 +33,31 @@ import { USER_ROLES } from '../../constants/GlobalConstants';
 class Offer extends React.Component {
 
 	_isAuthUserAdmin() {
-		const { user } = this.props;
+		const {user} = this.props;
 
 		return user && user.role === USER_ROLES.ADMIN;
 	}
 
 	_isAuthUserOwner() {
-		const { user, offer } = this.props;
+		const {user, offer} = this.props;
 
 		if (!user || !offer) {
 			return false;
 		}
 
-		const { user_id: ownerId } = offer;
+		const {user_id: ownerId} = offer;
 
 		return user.id === ownerId;
 	}
 
 
 	componentDidMount() {
-		const { params } = this.props.match;
+		const {params} = this.props.match;
 		this.props.getOfferRequest(params.offerId);
 	}
 
 	getTitleByAddress = () => {
-		const { city, street, house_number: houseNumber } = this.props.offer.Address;
+		const {city, street, house_number: houseNumber} = this.props.offer.Address;
 		const cityFromCapital = city.charAt(0).toUpperCase() + city.slice(1);
 		return `${cityFromCapital}, ${street} ${houseNumber}`;
 	}
@@ -71,19 +71,23 @@ class Offer extends React.Component {
 	}
 
 	onOfferStatusChangeHandler = (newStatus) => {
-		const { id } = this.props.offer;
+		const {id} = this.props.offer;
 
 		this.props.changeOfferStatus(id, newStatus);
 	}
 
 	onUserStatusChangeHandler = (newStatus) => {
-		const { User: { id } } = this.props.offer;
+		const {User: {id}} = this.props.offer;
 
 		this.props.changeUserStatus(id, newStatus);
 	}
 
+	onPhotoDeleteHandler = (photoId) => {
+		this.props.deletePhoto(photoId);
+	}
+
 	getCarouselItems = () => {
-		const { photos, status } = this.props.offer;
+		const {photos, status} = this.props.offer;
 
 
 		const photosView = (this._isAuthUserOwner() && status === OFFER_STATUS.OPEN) || photos.length ?
@@ -91,10 +95,24 @@ class Offer extends React.Component {
 				{
 					photos.map((photoItem) => (
 						<Carousel.Item active>
+							<div
+								style={{marginBottom: '10px', textAlign: 'center'}}
+							>
+								{this._isAuthUserOwner() ?
+
+									<Button
+										onClick={() => this.onPhotoDeleteHandler(photoItem.id)}
+									>
+										Удалить фото
+									</Button>
+									:
+									null
+								}
+							</div>
 							<Image
-							     src={`${__BASE_URL__}${photoItem.destination}`}
-							     height={650}
-							     width={1070}
+								src={`${__BASE_URL__}${photoItem.destination}`}
+								height={650}
+								width={1070}
 							/>
 						</Carousel.Item>
 					))
@@ -103,7 +121,7 @@ class Offer extends React.Component {
 					this._isAuthUserOwner() && status === OFFER_STATUS.OPEN ?
 						<Carousel.Item>
 							<div className="item">
-								<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} style={{ margin: '0' }} />
+								<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} style={{margin: '0'}}/>
 							</div>
 						</Carousel.Item>
 						:
@@ -111,7 +129,7 @@ class Offer extends React.Component {
 				}
 			</Carousel>)
 			:
-			(<div className="item placeholder" />);
+			(<div className="item placeholder"/>);
 
 
 		return photosView;
@@ -121,14 +139,14 @@ class Offer extends React.Component {
 
 
 	render() {
-		const { offer, isRequestInProgress } = this.props;
+		const {offer, isRequestInProgress} = this.props;
 
 		if (isRequestInProgress) {
-			return <Loading />;
+			return <Loading/>;
 		}
 
 		if (!offer) {
-			return <Stub />;
+			return <Stub/>;
 		}
 
 		const {
@@ -151,9 +169,9 @@ class Offer extends React.Component {
 			square_total: squareTotal,
 		} = description;
 
-		const { coordinates } = address;
+		const {coordinates} = address;
 
-		const { first_name: userName, is_personal_lessor: isPersonalLessor, telephone_number: generalPhone } = user;
+		const {first_name: userName, is_personal_lessor: isPersonalLessor, telephone_number: generalPhone} = user;
 
 		const permits = PermitsMaskHelper.getPermitsByMask(permitsMask);
 
@@ -168,7 +186,7 @@ class Offer extends React.Component {
 								onClick={this.onCloseOfferHandler}
 								disabled={status !== OFFER_STATUS.OPEN}
 							>
-								Закрыть
+								Закрыть предложение
 							</Button>
 
 						</div>
@@ -189,7 +207,7 @@ class Offer extends React.Component {
 					<Card className="description">
 						<div>
 							<h5 className="title">
-								<Badge variant="dark" style={{ padding: '7px' }}>{pricePerMonth} {currency}/мес.</Badge>
+								<Badge variant="dark" style={{padding: '7px'}}>{pricePerMonth} {currency}/мес.</Badge>
 								<span> {roomTotal} комнатная квартира</span>
 							</h5>
 							<h3 className="address">
@@ -219,7 +237,7 @@ class Offer extends React.Component {
 										: null
 								}
 							</div>
-							<br />
+							<br/>
 							<p className="text">{descriptionText}</p>
 						</div>
 					</Card>
@@ -247,7 +265,7 @@ class Offer extends React.Component {
 
 						</div>
 						<div className="map">
-							<OfferMap coordinates={coordinates.coordinates} width="490px" heigth="290px" />
+							<OfferMap coordinates={coordinates.coordinates} width="490px" heigth="290px"/>
 						</div>
 					</div>
 				</div>
@@ -271,7 +289,8 @@ export default connect(
 		getOfferRequest: (id) => dispatch(Actions.offerPage.getOfferRequest(id)),
 		uploadPhotos: (photos) => dispatch(Actions.offerPage.uploadPhotos(photos)),
 		closeOfferRequest: () => dispatch(Actions.offerPage.closeOfferRequest()),
+		deletePhoto: (photoId) => dispatch(Actions.offerPage.deletePhoto(photoId)),
 		changeOfferStatus: (offerId, status) => dispatch(Actions.admin.changeOfferStatus(offerId, status)),
-		changeUserStatus: (userId, status) => dispatch(Actions.admin.changeUserStatus(userId, status)),
+		changeUserStatus: (userId, status) => dispatch(Actions.admin.changeUserStatus(userId, status))
 	}),
 )(Offer);

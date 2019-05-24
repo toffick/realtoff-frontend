@@ -143,7 +143,7 @@ class ApiService {
 
 		return this.createRequest({
 			method: 'put',
-			url: `${this.baseUrl}/api/v1/offers/upload-photos/${offerId}`,
+			url: `${this.baseUrl}/api/v1/offers/photos/${offerId}`,
 			data: formData,
 			enableAuthorizationHeader: true,
 			config: { headers: { 'Content-Type': 'multipart/form-data' } },
@@ -217,6 +217,16 @@ class ApiService {
 		});
 	}
 
+	async deletePhoto(photoId, offerId) {
+		return this.createRequest({
+			method: 'delete',
+			url: `${this.baseUrl}/api/v1/offers/photos/${offerId}`,
+			enableAuthorizationHeader: true,
+			body: {
+				photoId,
+			},
+		});
+	}
 
 	/**
 	 *

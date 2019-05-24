@@ -1,5 +1,5 @@
 export const CREATE_OFFER_STEPS = {
-	LOCATION: { id: 'LOCATION', title: 'Месторасположение' },
+	LOCATION: { id: 'LOCATION', title: 'Адрес' },
 	DETAILS: { id: 'DETAILS', title: 'Детали и описание' },
 	PERSONAL: { id: 'PERSONAL', title: 'Контакты и оплата' },
 };

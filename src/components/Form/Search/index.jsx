@@ -243,24 +243,27 @@ class   SearchForm extends Component {
 									disabled={isSubmitDisabled}
 								>Очистить
 								</Button>
-								{
-									isShowSaveButton ?
-										(
-											<Button
-												onClick={onSaveFilter}
-												disabled={isSubmitDisabled}
-											>Сохранить
-											</Button>
-										)
-										:
-										null
-								}
-								<Button
-									type="submit"
-									onClick={this.onSubmit}
-									disabled={isSubmitDisabled}
-								>Найти
-								</Button>
+								<div>
+									{
+										isShowSaveButton ?
+											(
+												<Button
+													onClick={onSaveFilter}
+													disabled={isSubmitDisabled}
+												>Сохранить
+												</Button>
+											)
+											:
+											null
+									}
+									<Button
+										type="submit"
+										onClick={this.onSubmit}
+										disabled={isSubmitDisabled}
+										style={{marginLeft: '5px'}}
+									>Найти
+									</Button>
+								</div>
 							</div>
 
 						</Form.Group>

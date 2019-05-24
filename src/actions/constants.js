@@ -52,6 +52,7 @@ export const OFFER_PAGE_REQUEST = 'offerPage/OFFER_PAGE_REQUEST';
 export const SET_OFFER_PAGE = 'offerPage/SET_OFFER_PAGE';
 export const UPLOAD_OFFER_PHOTOS = 'offerPage/UPLOAD_OFFER_PHOTOS';
 export const SET_NEW_OFFER_PHOTOS = 'offerPage/SET_NEW_OFFER_PHOTOS';
+export const PHOTO_DELETE_REQUEST = 'offerPage/PHOTO_DELETE_REQUEST';
 
 export const GET_PROFILE_REQUEST = 'profile/GET_PROFILE_REQUEST';
 export const SET_PROFILE = 'profile/SET_PROFILE';

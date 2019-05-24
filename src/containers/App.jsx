@@ -58,7 +58,7 @@ export default connect(
 	(state) => ({
 		user: state.auth.get('user'),
 		initInProcess: state.global.get('initRequestStatus'),
-		routerLocation: state.router.location,
+		routerLocation: state.router.location || {},
 	}),
 	(dispatch) => ({
 		logout: () => dispatch(Actions.auth.logout()),

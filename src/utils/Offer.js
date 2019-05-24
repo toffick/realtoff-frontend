@@ -10,6 +10,6 @@ export const getOfferStatusBadge = (status) => {
 		case OFFER_STATUS.CLOSED:
 			return <Badge variant="warning">Закрыто</Badge>;
 		case OFFER_STATUS.BANNED:
-			return <Badge variant="danger">Забанено</Badge>;
+			return <Badge variant="danger">Заблокировано</Badge>;
 	}
 };

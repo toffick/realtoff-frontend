@@ -53,7 +53,7 @@ class Profile extends React.Component {
 							:
 							<PersonalInfo profile={profile} onEditProfile={() => this.onChangeEditProcess(true)} />
 					}
-					<OfferList offers={offers} />
+					{/*<OfferList offers={offers} />*/}
 				</div>
 				<div style={{ paddingTop: '20px' }}>
 					{userFilters.length ?

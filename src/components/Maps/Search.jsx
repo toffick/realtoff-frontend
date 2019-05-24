@@ -43,8 +43,8 @@ class SearchMap extends Component {
 			<YMaps>
 				<Map
 					defaultState={mapParameters}
-					width="40vw"
-					height="40vh"
+					width="900px"
+					height="730px"
 					instanceRef={(ref) => {
 						this.mapRef = ref;
 						onInit();

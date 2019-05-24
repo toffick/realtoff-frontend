@@ -15,6 +15,7 @@ import {
 	CLOSE_OFFER_REQUEST,
 	CREATE_OFFER,
 	OFFER_PAGE_REQUEST,
+	PHOTO_DELETE_REQUEST,
 	UPLOAD_OFFER_PHOTOS,
 } from '../actions/constants';
 import {
@@ -37,7 +38,7 @@ export function* createOffer() {
 			const { id: offerId } = offer.data;
 
 			yield put(Actions.navigate.navigateTo(`${ROUTER_PATHS.OFFERS}/${offerId}`));
-			ToastWrapper.success('Великолепно, вы создали объявление! Теперь добавьте фотографии.');
+			ToastWrapper.success('Великолепно, вы создали предложения! Теперь добавьте фотографии.');
 
 		} catch (error) {
 			const errors = ErrorsHelper.processServerErrors(error);
@@ -69,7 +70,7 @@ export function* offerPageRequest() {
 				yield put(Actions.offerPage.setOffer(data.result));
 			} else {
 				// TODO такой объявы нет
-				// yield put(Actions.navigate.navigateTo(ROUTER_PATHS.NOT_FOUND));
+				yield put(Actions.navigate.navigateTo(ROUTER_PATHS.NOT_FOUND));
 			}
 
 		} catch (error) {
@@ -108,9 +109,10 @@ export function* closeOffer() {
 		try {
 			const offerId = yield select(offerIdSelector);
 			yield call([ApiService, ApiService.closeOffer], offerId);
-			ToastWrapper.success('Объявление закрыто');
+			yield put(Actions.offerPage.getOfferRequest(offerId));
+			ToastWrapper.success('Предложение закрыто');
 		} catch (error) {
-			ToastWrapper.warn('Не удалось закрыть объявления');
+			ToastWrapper.warn('Не удалось закрыть предложение');
 			const [errorObject] = ErrorsHelper.processServerErrors(error);
 			console.error(errorObject);
 		}
@@ -118,10 +120,28 @@ export function* closeOffer() {
 
 }
 
+export function* deletePhoto() {
+
+	yield takeEvery(PHOTO_DELETE_REQUEST, function* (action) {
+		try {
+			const { photoId } = action.payload;
+
+			const offerId = yield select(offerIdSelector);
+			yield call([ApiService, ApiService.deletePhoto], photoId, offerId);
+
+			yield put(Actions.offerPage.getOfferRequest(offerId));
+		} catch (error) {
+			ToastWrapper.warn('Не удалось удалить фото');
+			const [errorObject] = ErrorsHelper.processServerErrors(error);
+			console.error(errorObject);
+		}
+	});
+}
 
 export default function* root() {
 	yield fork(createOffer);
 	yield fork(offerPageRequest);
 	yield fork(closeOffer);
 	yield fork(uploadPhotos);
+	yield fork(deletePhoto);
 }

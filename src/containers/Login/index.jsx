@@ -25,7 +25,7 @@ class Login extends Component {
 			<div className="form-page__wrapper">
 				<div className="form-page__form-wrapper">
 					<div className="form-page__form-header">
-						<h2 className="form-page__form-heading">Login</h2>
+						<h2 className="form-page__form-heading">Вход</h2>
 					</div>
 					<LoginForm
 						onSubmit={this._login}

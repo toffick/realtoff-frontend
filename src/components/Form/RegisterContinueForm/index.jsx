@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import validator from 'validator';
 
 import ErrorMessage from '../../ErrorMessage/index';
 import LoadingButton from '../../Elements/LoadingButton';
@@ -21,10 +22,31 @@ class RegisterForm extends Component {
 
 	_onSubmit =(event) => {
 		event.preventDefault();
-		// TODO validation
-		// TODO add to errors
 		const { firstName, telephoneNumber, isPersonalLessor } = this.state;
-		this.props.onSubmit(firstName, telephoneNumber, isPersonalLessor);
+		const isPersonalLessorNormalized = isPersonalLessor !== 'false';
+
+		// validate in validateHelper
+		if (validator.isEmpty(firstName)) {
+			this.setState({ formErrors: 'Имя обязательно' });
+			return;
+		}
+
+		if (firstName.length > 255) {
+			this.setState({ formErrors: 'Имя не может быть больше 255 символов' });
+			return;
+		}
+
+		if (validator.isEmpty(telephoneNumber)) {
+			this.setState({ formErrors: 'Номер телефона обязателен' });
+			return;
+		}
+
+		if (!validator.isMobilePhone(telephoneNumber)) {
+			this.setState({ formErrors: 'Неверный формат номера' });
+			return;
+		}
+
+		this.props.onSubmit(firstName, telephoneNumber, isPersonalLessorNormalized);
 	}
 
 	render() {
@@ -62,6 +84,7 @@ class RegisterForm extends Component {
 						autoCorrect="off"
 						autoCapitalize="off"
 						spellCheck="false"
+						placeholder="+___ __ _______"
 					/>
 					<label className="form__field-label" htmlFor="username">
 						Мобильный телефон
@@ -69,14 +92,14 @@ class RegisterForm extends Component {
 				</div>
 				<div className="form__field-wrapper">
 					<label className="form__field-label" htmlFor="isPersonalLessor">
-						Уберите отметку, если вы агенство
+						Аккаунт пренадлежит агенству
 					</label>
 					<br />
 					<input
 						className="form__field-input"
 						type="checkbox"
 						name="isPersonalLessor"
-						value={isPersonalLessor}
+						value={!isPersonalLessor}
 						onChange={this._emitChange}
 						autoCorrect="off"
 						autoCapitalize="off"
@@ -89,7 +112,7 @@ class RegisterForm extends Component {
 						<LoadingButton />
 					) : (
 						<Button className="form__submit-btn" type="submit">
-							Сохранить личные данные
+							Завершить регистрацию
 						</Button>
 					)}
 				</div>

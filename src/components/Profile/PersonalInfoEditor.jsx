@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap';
 import moment from 'moment';
 import validator from 'validator';
+import ValidationHelper from '../../helpers/ValidationHelper';
 
 //  encapsulate editing logic
 class PersonalInfo extends React.Component {
@@ -29,7 +30,6 @@ class PersonalInfo extends React.Component {
 
 	onSaveHandler = () => {
 		const { newFirstName, newPhoneNumber, newPersonalLessorFlag } = this.state;
-		const validResult = this._validate();
 
 		const {
 			first_name: userName,
@@ -47,47 +47,21 @@ class PersonalInfo extends React.Component {
 			return oldValue;
 		};
 
+
+		const resultName = getResultValue(newFirstName, userName);
+		const resultPhone = getResultValue(newPhoneNumber, phoneNumber);
+		const resultPersonalLessorFlag = getResultValue(newPersonalLessorFlag, isPersonalLessor);
+
+		const validResult = ValidationHelper.validateChangeProfile(resultName, resultPhone);
+
 		if (!validResult.isValid) {
 			this.setState({ errorsMap: validResult.errorsMap });
+		} else if (isSomethingWasChangedFlag) {
+			this.props.onSave(resultName, resultPhone, resultPersonalLessorFlag);
 		} else {
-			this.setState({ errorsMap: {} });
-
-			const resultName = getResultValue(newFirstName, userName);
-			const resultPhone = getResultValue(newPhoneNumber, phoneNumber);
-			const resultPersonalLessorFlag = getResultValue(newPersonalLessorFlag, isPersonalLessor);
-
-			if (isSomethingWasChangedFlag) {
-				this.props.onSave(resultName, resultPhone, resultPersonalLessorFlag);
-			} else {
-				this.props.onCancelEdit();
-			}
+			this.props.onCancelEdit();
 		}
 
-	}
-
-	_validate() {
-		const { newFirstName, newPhoneNumber } = this.state;
-		const errorsMap = {};
-		let isValid = true;
-
-		if (typeof newFirstName === 'string') {
-			if (newFirstName.length > 255) {
-				errorsMap.newFirstName = 'Длина привышает 255 символов';
-				isValid = false;
-			}
-
-			if (newFirstName.length < 1) {
-				errorsMap.newFirstName = 'Имя не может быть пустым';
-				isValid = false;
-			}
-		}
-
-		if (typeof newPhoneNumber === 'string' && !validator.isMobilePhone(newPhoneNumber)) {
-			errorsMap.newPhoneNumber = 'Невалидный номер телефона';
-			isValid = false;
-		}
-
-		return { isValid, errorsMap };
 	}
 
 	render() {
@@ -148,7 +122,7 @@ class PersonalInfo extends React.Component {
 					<ListGroup.Item className="d-sm-flex justify-content-between">
 						<span className="font-weight-bold">Тип арендодателя</span>
 						<span className="pl-lg-1">
-							<span>Собственник/агенство</span>
+							<span>Частное лицо/агенство</span>
 							<div style={{ textAlign: 'right' }}>
 								<input
 									type="checkbox"

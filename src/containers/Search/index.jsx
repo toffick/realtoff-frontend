@@ -4,7 +4,10 @@ import qs from 'qs';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import scrollToComponent from 'react-scroll-to-component';
-import { Spinner } from 'react-bootstrap';
+import {
+	CardGroup,
+	Spinner,
+} from 'react-bootstrap';
 
 import SearchingForm from './Searcher';
 import SearchMap from '../../components/Maps/Search';
@@ -52,11 +55,14 @@ class Index extends React.Component {
 			cityLocation, offers, selectedOfferId, queryUri,
 		} = this.props;
 
+		const offerLength = this.props.offers.length;
 		return (
-			<div className="search wrapper">
-				<div className="form-map-wrapper">
-					<SearchingForm />
-					<div className="search-map">
+			<div className="search-page">
+				<div className="row panel-container">
+					<div className="col search-form-container">
+						<SearchingForm />
+					</div>
+					<div className="col search-map-container">
 						<SearchMap
 							queryUri={queryUri}
 							coordinates={cityLocation && cityLocation.coordinates}
@@ -73,35 +79,61 @@ class Index extends React.Component {
 								<Spinner animation="border" />
 							</div>
 							:
-							this.props.offers.length ?
-								<div>
-									Всего результатов: {this.props.offers.length}
+							<div>
+								<div className="result-container">
 									{
-										this.props.offers.map((item) =>
+										offerLength ?
+											<div>
+												<React.Fragment>
+													<h3 style={{ paddingLeft: '15px' }}>
+														Всего
+														найдено {offerLength} предложени{offerLength === 1 ? 'е' : 'й'}:
+													</h3>
+													<hr />
+												</React.Fragment>
+												<CardGroup style={{ width: '1080px' }}>
+													{
+
+														this.props.offers.map((item) =>
+															(
+
+																<div
+																	className="offer-preview-wrapper"
+																	ref={(ref) => {
+																		this.anchorsMap[item.id] = ref;
+																	}}
+																>
+																	<NavLink
+																		to={`${ROUTER_PATHS.OFFERS}/${item.id}`}
+																		className="offer-link"
+																	>
+																		<OfferPreview
+																			offer={item}
+																			isActive={selectedOfferId === item.id}
+																		/>
+																	</NavLink>
+																</div>
+															))
+													}
+												</CardGroup>
+											</div>
+											:
 											(
 												<div
-													className="offer-preview-wrapper"
-													ref={(ref) => {
-														this.anchorsMap[item.id] = ref;
-													}}
-												>
-													<NavLink
-														to={`${ROUTER_PATHS.OFFERS}/${item.id}`}
-														className="offer-link"
-													>
-														<OfferPreview
-															offer={item}
-															isActive={selectedOfferId === item.id}
-														/>
-													</NavLink>
+													className="search-spinner"
+												>{cityLocation ?
+														(
+															<h5 style={{ padding: '20px 0 30px 0' }}> Сохраните запрос, чтобы
+															получать интересные для Вас
+															предложения сразу на почту!
+															</h5>)
+														:
+														''}
 												</div>
-											))
+											)
 									}
 								</div>
-								:
-								(
-									<div className="search-spinner">{`${cityLocation ? 'Ничего не найдено' : ''}`}</div>
-								)
+							</div>
 					}
 				</div>
 			</div>

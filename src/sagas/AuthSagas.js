@@ -23,6 +23,13 @@ import ToastWrapper from '../helpers/ToastHelper';
 
 export function* authSaga() {
 
+	const assesToken = localStorage.getItem(LOCAL_STORAGE_PATHS.ACCESS_TOKEN_LOCAL_STORAGE);
+	const refreshToken = localStorage.getItem(LOCAL_STORAGE_PATHS.REFRESH_TOKEN_LOCAL_STORAGE);
+
+	if (!(assesToken || refreshToken)) {
+		return false;
+	}
+
 	try {
 		const authResult = yield call([ApiService, ApiService.auth]);
 
@@ -33,10 +40,7 @@ export function* authSaga() {
 		if (errorObject.isBanned) {
 			localStorage.removeItem(LOCAL_STORAGE_PATHS.ACCESS_TOKEN_LOCAL_STORAGE);
 			localStorage.removeItem(LOCAL_STORAGE_PATHS.REFRESH_TOKEN_LOCAL_STORAGE);
-			yield put(Actions.navigate.navigateTo(ROUTER_PATHS.INDEX));
 		}
-
-		console.error(errorObject);
 
 		return false;
 	}
@@ -179,7 +183,11 @@ export function* loginFlow() {
 
 		if (winner.auth) {
 			yield put(Actions.auth.setAuth(winner.auth));
-			yield put(Actions.navigate.navigateTo(ROUTER_PATHS.INDEX));
+			if (!winner.auth.telephone_number) {
+				yield put(Actions.navigate.navigateTo(ROUTER_PATHS.FINISH_REGISTRATION));
+			} else {
+				yield put(Actions.navigate.navigateTo(ROUTER_PATHS.INDEX));
+			}
 		}
 	}
 }

@@ -36,7 +36,7 @@ class AdminOfferPanel extends Component {
 					onClick={this.onOfferStatusChange.bind(this, OFFER_STATUS.BANNED)}
 					disabled={status === OFFER_STATUS.BANNED}
 				>
-					Забанить
+					Заблокировать предложение
 				</Button>
 			</div>
 		);
@@ -56,7 +56,7 @@ class AdminOfferPanel extends Component {
 						onClick={onChangeUserStatus.bind(this, USER_STATUS.BANNED)}
 						disabled={status === USER_STATUS.BANNED}
 					>
-						Забанить автора
+						Заблокировать автора
 					</Button>
 				</div>
 			</div>
