@@ -30,6 +30,7 @@ body {
   padding-top: 3.5em;
   background: #0f6674;
     background: url(../../import/bg1.jpg) fixed;
+    background-size: cover;
 
 }
 

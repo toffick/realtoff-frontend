@@ -1,24 +1,23 @@
-.offer-page {
-
+.offer-page-wrapper{
+  width: 99vw;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 1100px;
-  min-height: 90vh;
-  margin-top: 100px;
-  //padding-bottom: 30px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.offer-page {
+  background: white;
+  padding: 15px;
 
   .owner-panel {
     display: flex;
     justify-content: flex-end;
     width: 100%;
-    padding-top: 120px;
   }
 
   .admin-panel {
     width: 100%;
     text-align: end;
-    padding-top: 120px;
 
     button {
       margin: 2px;
@@ -31,12 +30,11 @@
   }
 
   .images-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     padding: 15px;
+    max-width: 1070px;
 
-    .item{
+
+    .item {
       height: 650px;
       width: 1070px;
     }
@@ -48,9 +46,9 @@
   }
 
   .description-wrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 60vw;
+    background: white;
+    padding: 0 0 15px 15px;
+    margin-bottom: 20px;
 
     .map {
       width: 500px;
@@ -60,23 +58,19 @@
 
     .contacts {
       display: flex;
-      justify-content: space-between;
-      padding: 0 5px 0 5px;
+      justify-content: flex-end;
+      padding: 25px 15px 0 5px;
       padding-left: 5px;
     }
 
     .description {
-      width: 100%;
       padding: 25px;
-      min-width: 490px;
+      width: 563px;
+      max-width: 563px;
 
       .title {
         display: flex;
         justify-content: space-between;
-      }
-
-      .address {
-        text-align: right;
       }
 
       .text {
@@ -85,5 +79,9 @@
     }
   }
 
+}
+
+.vl {
+  border-left: 1px solid rgba(0, 0, 0, .1);;
 }
 

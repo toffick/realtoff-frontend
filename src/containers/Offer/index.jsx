@@ -20,6 +20,7 @@ import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
 import { getOfferStatusBadge } from '../../utils/Offer';
 import { OFFER_STATUS } from '../../constants/OfferConstants';
 import { USER_ROLES } from '../../constants/GlobalConstants';
+import NormalizeHelper from '../../helpers/NormalizeHelper';
 
 // TODO super fixes
 // restyling
@@ -33,31 +34,37 @@ import { USER_ROLES } from '../../constants/GlobalConstants';
 class Offer extends React.Component {
 
 	_isAuthUserAdmin() {
-		const {user} = this.props;
+		const { user } = this.props;
 
 		return user && user.role === USER_ROLES.ADMIN;
 	}
 
 	_isAuthUserOwner() {
-		const {user, offer} = this.props;
+		const { user, offer } = this.props;
 
 		if (!user || !offer) {
 			return false;
 		}
 
-		const {user_id: ownerId} = offer;
+		const { user_id: ownerId } = offer;
 
 		return user.id === ownerId;
 	}
 
+	_getSubwayTimeWalking(distance) {
+		console.log(distance);
+		const averageSpeedMPerHour = 6600;
+		const ajustmentMin = 2.5;
+		return (Math.ceil(distance / averageSpeedMPerHour * 60) + ajustmentMin).toFixed(0);
+	}
 
 	componentDidMount() {
-		const {params} = this.props.match;
+		const { params } = this.props.match;
 		this.props.getOfferRequest(params.offerId);
 	}
 
 	getTitleByAddress = () => {
-		const {city, street, house_number: houseNumber} = this.props.offer.Address;
+		const { city, street, house_number: houseNumber } = this.props.offer.Address;
 		const cityFromCapital = city.charAt(0).toUpperCase() + city.slice(1);
 		return `${cityFromCapital}, ${street} ${houseNumber}`;
 	}
@@ -71,13 +78,13 @@ class Offer extends React.Component {
 	}
 
 	onOfferStatusChangeHandler = (newStatus) => {
-		const {id} = this.props.offer;
+		const { id } = this.props.offer;
 
 		this.props.changeOfferStatus(id, newStatus);
 	}
 
 	onUserStatusChangeHandler = (newStatus) => {
-		const {User: {id}} = this.props.offer;
+		const { User: { id } } = this.props.offer;
 
 		this.props.changeUserStatus(id, newStatus);
 	}
@@ -87,7 +94,7 @@ class Offer extends React.Component {
 	}
 
 	getCarouselItems = () => {
-		const {photos, status} = this.props.offer;
+		const { photos, status } = this.props.offer;
 
 
 		const photosView = (this._isAuthUserOwner() && status === OFFER_STATUS.OPEN) || photos.length ?
@@ -96,7 +103,7 @@ class Offer extends React.Component {
 					photos.map((photoItem) => (
 						<Carousel.Item active>
 							<div
-								style={{marginBottom: '10px', textAlign: 'center'}}
+								style={{ marginBottom: '10px', textAlign: 'center' }}
 							>
 								{this._isAuthUserOwner() ?
 
@@ -121,7 +128,7 @@ class Offer extends React.Component {
 					this._isAuthUserOwner() && status === OFFER_STATUS.OPEN ?
 						<Carousel.Item>
 							<div className="item">
-								<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} style={{margin: '0'}}/>
+								<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} style={{ margin: '0' }} />
 							</div>
 						</Carousel.Item>
 						:
@@ -129,7 +136,7 @@ class Offer extends React.Component {
 				}
 			</Carousel>)
 			:
-			(<div className="item placeholder"/>);
+			(<div className="item placeholder" />);
 
 
 		return photosView;
@@ -139,25 +146,26 @@ class Offer extends React.Component {
 
 
 	render() {
-		const {offer, isRequestInProgress} = this.props;
+		const { offer, isRequestInProgress } = this.props;
 
 		if (isRequestInProgress) {
-			return <Loading/>;
+			return <Loading />;
 		}
 
 		if (!offer) {
-			return <Stub/>;
+			return <Stub />;
 		}
 
 		const {
 			Address: address,
 			Description: description,
 			User: user,
+			Subways: subways,
 			price_per_month: pricePerMonth,
 			currency,
 			additional_phone_number: additionalPhoneNumber,
-			updated_at: updatedAt,
 			status,
+			type,
 		} = offer;
 
 		const {
@@ -169,87 +177,111 @@ class Offer extends React.Component {
 			square_total: squareTotal,
 		} = description;
 
-		const {coordinates} = address;
+		const { coordinates } = address;
 
-		const {first_name: userName, is_personal_lessor: isPersonalLessor, telephone_number: generalPhone} = user;
+		const { first_name: userName, is_personal_lessor: isPersonalLessor, telephone_number: generalPhone } = user;
 
 		const permits = PermitsMaskHelper.getPermitsByMask(permitsMask);
 
+		// TODO replace Description code to another component
 		return (
-			<div className="offer-page">
-				{
-					this._isAuthUserOwner() ?
-						<div className="owner-panel">
+			<div className="offer-page-wrapper">
+				<div className="offer-page">
+					{
+						this._isAuthUserOwner() ?
+							<div className="owner-panel">
 
-							<Button
-								variant="danger"
-								onClick={this.onCloseOfferHandler}
-								disabled={status !== OFFER_STATUS.OPEN}
-							>
-								Закрыть предложение
-							</Button>
+								<Button
+									variant="danger"
+									onClick={this.onCloseOfferHandler}
+									disabled={status !== OFFER_STATUS.OPEN}
+								>
+									Закрыть предложение
+								</Button>
 
-						</div>
-						:
-						this._isAuthUserAdmin() ?
-							<AdminOfferPanel
-								offer={offer}
-								onChangeOfferStatus={this.onOfferStatusChangeHandler}
-								onChangeUserStatus={this.onUserStatusChangeHandler}
-							/>
+							</div>
 							:
-							null
-				}
-				<div className="images-wrapper">
-					{this.getCarouselItems()}
-				</div>
-				<div className="description-wrapper">
-					<Card className="description">
-						<div>
-							<h5 className="title">
-								<Badge variant="dark" style={{padding: '7px'}}>{pricePerMonth} {currency}/мес.</Badge>
-								<span> {roomTotal} комнатная квартира</span>
-							</h5>
-							<h3 className="address">
-								{this.getTitleByAddress()}
-							</h3>
+							this._isAuthUserAdmin() ?
+								<AdminOfferPanel
+									offer={offer}
+									onChangeOfferStatus={this.onOfferStatusChangeHandler}
+									onChangeUserStatus={this.onUserStatusChangeHandler}
+								/>
+								:
+								null
+					}
+					<div className="images-wrapper">
+						{this.getCarouselItems()}
+					</div>
 
-							<div className="text-right">
-								<div>Этажность {floorNumber}/{floorTotal}</div>
-								<div>Общая площадь {squareTotal} м²</div>
-							</div>
+					<div className="description-wrapper row">
+						<div className="description col">
 							<div>
-								{
-									permits.length ?
-										(
-											<div>Особые условия
-												{
-													permits.map((item) =>
-														(
-															<div className="filter-modal-row ability-row">
-																<div>{item.label}</div>
-																<b>✓</b>
-															</div>
-														))
-												}
-											</div>
-										)
-										: null
-								}
+								<div className="title">
+									<h4 className="font-weight-bold">{NormalizeHelper.getNumberStringSuffix(roomTotal, type)}</h4>
+									<div className="vl" />
+									<h4 className="font-weight-bold">{pricePerMonth} {currency}/мес</h4>
+									<div className="vl" />
+									<div className="updated"> {getOfferStatusBadge(status)}    </div>
+								</div>
+								<hr />
+								<h3 className="address">
+									{this.getTitleByAddress()}
+								</h3>
+
+								<div className="row">
+									<span className="col">Этажность {floorNumber}/{floorTotal}</span>
+									<span className="col">Общая площадь {squareTotal} м²</span>
+								</div>
+								<hr />
+								<div className="row">
+									<div className="col">
+										{
+											permits.length ?
+												(
+													<div>Особые условия
+														{
+															permits.map((item) =>
+																(
+																	<div className="filter-modal-row ability-row">
+																		<div>{item.label}</div>
+																		<b>✓</b>
+																	</div>
+																))
+														}
+													</div>
+												)
+												: null
+										}
+									</div>
+									<div className="col">
+										{
+											subways.length ?
+												(
+													<div>
+														Рядом с метро
+														{
+															subways.map((item) =>
+																(
+																	<div className="filter-modal-row ability-row">
+																		<div>{item.name}</div>
+																		<span>(~{this._getSubwayTimeWalking(item.OfferSubway.average_distance)} мин)</span>
+																	</div>
+																))
+														}
+													</div>
+												)
+												: null
+										}
+									</div>
+								</div>
+								<hr />
+								<p className="text">{descriptionText}</p>
 							</div>
-							<br/>
-							<p className="text">{descriptionText}</p>
 						</div>
-					</Card>
 
-					<div>
-						<div className="contacts text-right">
-							<div className="updated"><Badge
-								variant="light"
-							>Обновлено {moment(updatedAt).locale('ru').format('LL')}
-							</Badge> {getOfferStatusBadge(status)}
-							</div>
-							<div>
+						<div className="col">
+							<div className="contacts text-right">
 								<div>
 									<b>Контакты</b>
 									<div>{userName} ({isPersonalLessor ? 'Собственник' : 'Агенство'})</div>
@@ -262,10 +294,9 @@ class Offer extends React.Component {
 									}
 								</div>
 							</div>
-
-						</div>
-						<div className="map">
-							<OfferMap coordinates={coordinates.coordinates} width="490px" heigth="290px"/>
+							<div className="map">
+								<OfferMap coordinates={coordinates.coordinates} width="490px" heigth="290px" />
+							</div>
 						</div>
 					</div>
 				</div>
@@ -291,6 +322,6 @@ export default connect(
 		closeOfferRequest: () => dispatch(Actions.offerPage.closeOfferRequest()),
 		deletePhoto: (photoId) => dispatch(Actions.offerPage.deletePhoto(photoId)),
 		changeOfferStatus: (offerId, status) => dispatch(Actions.admin.changeOfferStatus(offerId, status)),
-		changeUserStatus: (userId, status) => dispatch(Actions.admin.changeUserStatus(userId, status))
+		changeUserStatus: (userId, status) => dispatch(Actions.admin.changeUserStatus(userId, status)),
 	}),
 )(Offer);
