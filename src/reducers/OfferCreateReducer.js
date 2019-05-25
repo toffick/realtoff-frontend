@@ -7,9 +7,21 @@ import {
 	UPDATE_OFFER_PERSONAL,
 	CLEAR_OFFER_FORM,
 	SET_OFFER_ERRORS,
+	SET_NETX_BUTTON_ACCESS_STATE,
 } from '../actions/constants';
-import { CREATE_OFFER_STEPS, CURRENCY_TYPES } from '../constants/OfferConstants';
-import { MINSK_COORDINATES, MINSK_COORDINATES_BOUNDED_BY } from '../constants/MapConstants';
+import {
+	CREATE_OFFER_STEPS,
+	CURRENCY_TYPES,
+} from '../constants/OfferConstants';
+import {
+	MINSK_COORDINATES,
+	MINSK_COORDINATES_BOUNDED_BY,
+} from '../constants/MapConstants';
+
+const defaultNextStepAccessMap = () => Object.values(CREATE_OFFER_STEPS).reduce((a, i) => {
+	a[i.id] = false;
+	return a;
+}, {});
 
 const initialState = Map({
 	step: CREATE_OFFER_STEPS.LOCATION,
@@ -33,10 +45,17 @@ const initialState = Map({
 		pricePerMonth: '',
 	},
 	errorObject: {},
+	nextStepAccessMap: defaultNextStepAccessMap(),
 });
 
 function offerCreateReducer(state = initialState, action) {
 	switch (action.type) {
+		case SET_NETX_BUTTON_ACCESS_STATE: {
+			const { newState, scenario } = action.payload;
+			const nextStepAccessMap = state.get('nextStepAccessMap');
+			return state.set('nextStepAccessMap', { ...nextStepAccessMap, [scenario]: newState });
+
+		}
 		case CHANGE_OFFER_STEP: {
 			const { step } = action.payload;
 			return state.set('step', step);

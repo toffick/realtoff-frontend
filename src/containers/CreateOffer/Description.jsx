@@ -5,10 +5,21 @@ import PropTypes from 'prop-types';
 import DescriptionForm from '../../components/Form/CreateOffer/DescriptionForm';
 
 import Actions from '../../actions';
+import ValidationHelper from "../../helpers/ValidationHelper";
+import { CREATE_OFFER_STEPS } from "../../constants/OfferConstants";
 
 class OfferDescription extends Component {
 
 	changeDescriptionHandler = (newDescription) => {
+
+		const { setAccessToNextStep, description } = this.props;
+
+		if (ValidationHelper.checkCreateOfferDetailsNextAccess(description, newDescription)) {
+			setAccessToNextStep(true, CREATE_OFFER_STEPS.DETAILS.id);
+		} else {
+			setAccessToNextStep(false, CREATE_OFFER_STEPS.DETAILS.id);
+		}
+
 		this.props.updateDescription(newDescription);
 	}
 
@@ -33,6 +44,7 @@ OfferDescription.propTypes = {
 	errorObject: PropTypes.object,
 	description: PropTypes.object.isRequired,
 	updateDescription: PropTypes.func.isRequired,
+	setAccessToNextStep: PropTypes.func.isRequired,
 };
 
 OfferDescription.defaultProps = {
@@ -46,5 +58,6 @@ export default connect(
 	}),
 	(dispatch) => ({
 		updateDescription: (description) => dispatch(Actions.offerCreate.updateDescription(description)),
+		setAccessToNextStep: (state, scenario) => dispatch(Actions.offerCreate.setAccessToNextStep(state, scenario)),
 	}),
 )(OfferDescription);

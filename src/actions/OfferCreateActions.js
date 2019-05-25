@@ -9,6 +9,7 @@ import {
 	CREATE_OFFER,
 	CLEAR_OFFER_FORM,
 	SET_OFFER_ERRORS,
+	SET_NETX_BUTTON_ACCESS_STATE
 } from './constants';
 
 export default {
@@ -21,4 +22,5 @@ export default {
 	createOffer: () => actionCreator(CREATE_OFFER),
 	clearOfferForm: () => actionCreator(CLEAR_OFFER_FORM),
 	setOfferErrors: (errorsObject) => actionCreator(SET_OFFER_ERRORS, { errorsObject }),
+	setAccessToNextStep: (newState, scenario) => actionCreator(SET_NETX_BUTTON_ACCESS_STATE, { newState, scenario }),
 };

@@ -5,10 +5,19 @@ import PropTypes from 'prop-types';
 import PersonalForm from '../../components/Form/CreateOffer/PersonalForm';
 
 import Actions from '../../actions';
+import { CREATE_OFFER_STEPS } from '../../constants/OfferConstants';
 
 class OfferPersonal extends Component {
 
 	changePersonalHandler = (newDescription) => {
+		const { setAccessToNextStep } = this.props;
+
+		if (newDescription.pricePerMonth.length) {
+			setAccessToNextStep(true, CREATE_OFFER_STEPS.PERSONAL.id);
+		} else {
+			setAccessToNextStep(false, CREATE_OFFER_STEPS.PERSONAL.id);
+		}
+
 		this.props.updatePersonal(newDescription);
 	}
 
@@ -32,6 +41,7 @@ OfferPersonal.propTypes = {
 	errorObject: PropTypes.object,
 	personal: PropTypes.object.isRequired,
 	updatePersonal: PropTypes.func.isRequired,
+	setAccessToNextStep: PropTypes.func.isRequired,
 };
 
 OfferPersonal.defaultProps = {
@@ -45,5 +55,6 @@ export default connect(
 	}),
 	(dispatch) => ({
 		updatePersonal: (personal) => dispatch(Actions.offerCreate.updatePersonal(personal)),
+		setAccessToNextStep: (state, scenario) => dispatch(Actions.offerCreate.setAccessToNextStep(state, scenario)),
 	}),
 )(OfferPersonal);

@@ -128,7 +128,7 @@ class DescriptionForm extends Component {
 				</Form.Group>
 
 				<Form.Group>
-					<Form.Label>Добавьте описание вашего предложения</Form.Label>
+					<Form.Label>Добавьте описание</Form.Label>
 					<Form.Control
 						as="textarea"
 						id="description"

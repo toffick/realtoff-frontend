@@ -192,7 +192,7 @@ class ValidationHelper {
 	 * @param password
 	 * @returns {string|null}
 	 */
-	static validateSignIn(email, password){
+	static validateSignIn(email, password) {
 		if (validator.isEmpty(email)) {
 			return 'Электронная почта обязательна';
 		}
@@ -212,6 +212,32 @@ class ValidationHelper {
 		}
 
 		return null;
+	}
+
+	/**
+	 *
+	 * @param location
+	 * @returns {boolean}
+	 */
+	static checkCreateOfferLocationNextAccess(location) {
+		const {
+			city, country_code, house_number, street,
+		} = location.address;
+		return city && country_code && house_number && street;
+	}
+
+	/**
+	 *
+	 * @returns {boolean}
+	 * @param oldForm
+	 * @param newValue
+	 */
+	static checkCreateOfferDetailsNextAccess(oldForm, newValue) { // sry, budes, but i should(
+		const merge = { ...oldForm, ...newValue };
+		const {
+			floor, squareTotal, totalFloorNumber, totalRoomNumber,
+		} = merge;
+		return floor.length && squareTotal.length && totalFloorNumber.length && totalRoomNumber.length;
 	}
 
 }

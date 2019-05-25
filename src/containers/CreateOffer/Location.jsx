@@ -6,7 +6,9 @@ import CreateOfferMap from '../../components/Maps/Offer';
 import LocationForm from '../../components/Form/CreateOffer/LocationForm';
 
 import Actions from '../../actions';
-import NormalizeHelper from "../../helpers/NormalizeHelper";
+import NormalizeHelper from '../../helpers/NormalizeHelper';
+import ValidationHelper from '../../helpers/ValidationHelper';
+import { CREATE_OFFER_STEPS } from '../../constants/OfferConstants';
 
 class OfferLocation extends Component {
 
@@ -19,6 +21,15 @@ class OfferLocation extends Component {
 	}
 
 	changeLocationHandler = (location) => {
+
+		const { setAccessToNextStep } = this.props;
+
+		if (ValidationHelper.checkCreateOfferLocationNextAccess(location)) {
+			setAccessToNextStep(true, CREATE_OFFER_STEPS.LOCATION.id);
+		} else {
+			setAccessToNextStep(false, CREATE_OFFER_STEPS.LOCATION.id);
+		}
+
 		this.props.setLocation(location);
 	}
 
@@ -60,6 +71,7 @@ OfferLocation.propTypes = {
 	autocomleteList: PropTypes.array,
 	locationAutocompleteRequest: PropTypes.func.isRequired,
 	updateAutocompleteList: PropTypes.func.isRequired,
+	setAccessToNextStep: PropTypes.func.isRequired,
 };
 
 OfferLocation.defaultProps = {
@@ -79,5 +91,6 @@ export default connect(
 		locationAutocompleteRequest: (query) => dispatch(Actions.offerCreate.locationAutocompleteRequest(query)),
 		setLocation: (location) => dispatch(Actions.offerCreate.setLocation(location)),
 		updateAutocompleteList: (list) => dispatch(Actions.offerCreate.updateAutocompleteList(list)),
+		setAccessToNextStep: (state, scenario) => dispatch(Actions.offerCreate.setAccessToNextStep(state, scenario)),
 	}),
 )(OfferLocation);

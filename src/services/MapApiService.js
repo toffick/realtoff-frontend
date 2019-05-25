@@ -97,6 +97,12 @@ class YMapApi {
 					case 'house':
 						searchItem.address.house_number = name;
 						searchItem.description += ` ${name}`;
+					case 'province':
+						if (!searchItem.address.city) {
+							searchItem.address.city = name;
+							searchItem.description += ` ${name}`;
+						}
+
 
 				}
 			});
