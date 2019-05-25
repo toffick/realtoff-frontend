@@ -1,8 +1,7 @@
 
 .wrapper {
-	display: flex;
 	height: 100%;
-	width: 99vw;
+	width: 100%;
 }
 
 #app {

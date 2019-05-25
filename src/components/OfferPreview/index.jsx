@@ -14,7 +14,8 @@ class OfferPreview extends Component {
 		const {
 			destination: previewImg, currency, price_per_month: pricePerMonth, description, room_total: roomTotal, type,
 		} = offer;
-		const slicedDescription = description.length > 80 ? `${description.slice(0, 80)}...` : description;
+
+		const slicedDescription = description.length > 50 ? `${description.slice(0, 50)}...` : description;
 		const imageSrc = previewImg ? `${__BASE_URL__}${previewImg}` : `${__BASE_URL__}/import/no_photo.jpg`;
 
 		const roomDescr = NormalizeHelper.getNumberStringSuffix(roomTotal, type);
@@ -38,7 +39,7 @@ class OfferPreview extends Component {
 						{slicedDescription ||  (<br/>)}
 					</Card.Text>
 				</Card.Body>
-				<Card.Footer>
+				<Card.Footer className="text-right">
 					<small className="text-muted">Создано {moment(offer.created_at).locale('ru').format('LL')}</small>
 				</Card.Footer>
 			</Card>

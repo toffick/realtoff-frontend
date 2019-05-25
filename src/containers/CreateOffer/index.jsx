@@ -10,6 +10,7 @@ import Actions from '../../actions';
 import { CREATE_OFFER_STEPS } from '../../constants/OfferConstants';
 import { offerSelector } from '../../reducers/selectors';
 import ValidationHelper from '../../helpers/ValidationHelper';
+import Form from "react-bootstrap/es/Form";
 
 
 const STEPS_SCENARIO = [
@@ -100,13 +101,19 @@ class CreateOffer extends Component {
 		})();
 
 		return (
-			<div className="offer">
-				<h2>{step.title}</h2>
-				<div className="step-wrap">
-					{stepComponent}
+			<div className="offer-create-page-wrapper">
+				<div className="offer-create">
+					<h2  style={{padding: '10px 0 0 10px'}}>{step.title}</h2>
+					<div className="step-wrap">
+						{stepComponent}
+					</div>
+
 				</div>
-				<div className="step-navigator">
-					{this._getNavigationHandlers()}
+				<div className="step-navigator-container">
+					<hr />
+					<div className="step-navigator">
+						{this._getNavigationHandlers()}
+					</div>
 				</div>
 			</div>
 		);

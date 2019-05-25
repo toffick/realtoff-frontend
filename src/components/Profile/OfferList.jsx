@@ -18,8 +18,7 @@ class OfferList extends React.Component {
 		const { offers } = this.props;
 
 		return (
-			<div className="own-offers-wrapper">
-				Мои предложения
+
 				<div className="list">
 					{
 						offers.map((offer) => {
@@ -52,7 +51,6 @@ class OfferList extends React.Component {
 						})
 					}
 				</div>
-			</div>
 		);
 	}
 

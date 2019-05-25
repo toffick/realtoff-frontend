@@ -1,34 +1,52 @@
-.offer {
-
+.offer-create-page-wrapper {
   display: flex;
+  align-items: center;
+  height: 100%;
   flex-direction: column;
-  justify-content: space-between;
-  width: 50vw;
-  min-height: 70vh;
+  padding-top: 30px;
+}
 
-  .step-wrap{
-    height: 100%;
-    padding: 15px;
+.offer-create {
+  width: 1100px;
+  padding: 20px;
+  height: 600px;
+  background-color: rgba(255, 255, 255, 0.96);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 
-    .location-wrap{
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+  .step-wrap {
+
+    .location-wrap {
       height: 100%;
       width: 100%;
 
-      .location-form-wrap{
-        padding: 1vh 1vw 1vh 1vw;
+      .location-form-wrap {
+        //padding: 1vh 1vw 1vh 1vw;
       }
 
-      .map-wrap{
-        height: 50vh;
-        padding: 1vh 1vw 1vh 1vw;
+      .map-wrap {
+        height: 450px;
+        width: 1160px;
+        //padding: 1vh 1vw 1vh 1vw;
       }
 
     }
 
   }
+
+}
+
+
+.step-navigator-container{
+
+  width: 1100px;
+  padding: 20px;
+  height: 100px;
+  background-color: rgba(255, 255, 255, 0.96);
+  display: flexs;
+  justify-content: center;
+  flex-direction: column;
 
   .step-navigator {
     display: flex;
@@ -37,34 +55,34 @@
 
 }
 
-.personal-form-wrapper{
+.personal-form-wrapper {
   display: flex;
   justify-content: center;
 }
 
-.navigate-button-wrap{
+.navigate-button-wrap {
 
-  .back{
+  .back {
     padding-left: 3px;
 
-    &:hover{
+    &:hover {
       padding-left: 0;
     }
   }
 
-  .next{
+  .next {
     padding-right: 3px;
 
-    &:hover{
+    &:hover {
       padding-right: 0;
     }
   }
 
-  .item{
+  .item {
 
     font-size: 18px;
 
-    &:hover{
+    &:hover {
       display: inline;
       color: #6CC0E5;
       border-radius: 3px;

@@ -41,7 +41,7 @@ class DescriptionForm extends Component {
 		const { errorObject } = this.props;
 
 		return (
-			<Form>
+			<Form style={{padding: '20px 50px 0px 50px'}}>
 				<Form.Row>
 					<Form.Group as={Col}>
 						<Form.Label>Тип жилой недвижимости</Form.Label>

@@ -33,6 +33,7 @@ class SearchFormContainer extends React.Component {
 	}
 
 	onSubmitHandler = () => {
+		// TODO сравнивать хэш текущего объекта и предыдущего для отправки. мб это нужно сделать будет в саге
 		const validInfo = ValidationHelper.validateOfferSearchRequest(this.props.form);
 		if (validInfo.isValid) {
 			this.props.setErrorObject({});

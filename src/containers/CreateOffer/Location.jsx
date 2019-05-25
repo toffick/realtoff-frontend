@@ -40,6 +40,8 @@ class OfferLocation extends Component {
 				</div>
 				<div className="map-wrap">
 					<CreateOfferMap
+						width={1060}
+						heigth={450}
 						coordinates={coordinates}
 					/>
 				</div>

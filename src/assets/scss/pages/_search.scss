@@ -1,13 +1,17 @@
+
 .search-page {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 25px;
+
 }
 
 .panel-container {
   padding: 10px;
-  background: white;
+  background-color: rgba(255, 255, 255, 0.96);
+
 
   .search-form-container {
     padding: 0 5px 0 0 !important;
@@ -29,19 +33,20 @@
 .results-wrapper {
   padding-top: 25px;
   width: 1280px;
-  background: white;
+  background-color: rgba(255, 255, 255, 0.96);
+
+  .search-spinner {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+  }
 
   .result-container {
     display: flex;
     justify-content: center;
-
-    .search-spinner {
-      display: flex;
-      height: 100%;
-      width: 100%;
-      justify-content: center;
-      align-items: center;
-    }
 
     .offer-preview-wrapper {
 
@@ -59,6 +64,7 @@
           font-size: 18px;
           display: flex;
           justify-content: space-between;
+          padding-bottom: 5px;
         }
         &:hover {
           background: #f7f7f7;

@@ -1,12 +1,12 @@
 .offer-page-wrapper{
-  width: 99vw;
+  width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .offer-page {
-  background: white;
+  background-color: rgba(255, 255, 255, 0.96);
   padding: 15px;
 
   .owner-panel {
@@ -46,7 +46,6 @@
   }
 
   .description-wrapper {
-    background: white;
     padding: 0 0 15px 15px;
     margin-bottom: 20px;
 

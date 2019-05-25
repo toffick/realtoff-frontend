@@ -47,9 +47,9 @@ class Header extends Component {
 			<Navbar collapseOnSelect expand="lg" bg="light" variant="dark" fixed="top">
 				<Nav.Item href="/" className="logo">
 					{/* TODO class */}
-					<a href={ROUTER_PATHS.INDEX}>
+					<Link to={ROUTER_PATHS.INDEX}>
 						RealtOff
-					</a>
+					</Link>
 				</Nav.Item>
 
 				<Nav.Item style={{ paddingLeft: '25px' }}>

@@ -52,9 +52,8 @@ class Offer extends React.Component {
 	}
 
 	_getSubwayTimeWalking(distance) {
-		console.log(distance);
 		const averageSpeedMPerHour = 6600;
-		const ajustmentMin = 2.5;
+		const ajustmentMin = 2;
 		return (Math.ceil(distance / averageSpeedMPerHour * 60) + ajustmentMin).toFixed(0);
 	}
 
@@ -239,7 +238,8 @@ class Offer extends React.Component {
 										{
 											permits.length ?
 												(
-													<div>Особые условия
+													<div>
+														<h5>Особые условия</h5>
 														{
 															permits.map((item) =>
 																(
@@ -259,8 +259,8 @@ class Offer extends React.Component {
 											subways.length ?
 												(
 													<div>
-														Рядом с метро
-														{
+														<h5>Рядом с метро</h5>
+	{
 															subways.map((item) =>
 																(
 																	<div className="filter-modal-row ability-row">

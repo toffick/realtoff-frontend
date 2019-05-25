@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import Stub from '../../components/Stub';
 
@@ -42,28 +41,45 @@ class Profile extends React.Component {
 
 		return (
 			<div className="profile-page-wrapper">
-				<div className="d-sm-flex justify-content-between">
-					{
-						this.state.editProcess ?
-							<PersonalInfoEditor
-								profile={profile}
-								onCancelEdit={() => this.onChangeEditProcess(false)}
-								onSave={this.onSaveEditedChanges}
-							/>
-							:
-							<PersonalInfo profile={profile} onEditProfile={() => this.onChangeEditProcess(true)} />
-					}
-					{/*<OfferList offers={offers} />*/}
-				</div>
-				<div style={{ paddingTop: '20px' }}>
-					{userFilters.length ?
-						<React.Fragment>
-						Сохраненные фильтры, по которым Вы получаете уведомления
-							<FilterList filters={userFilters} onDeleteFilter={this.onDeleteUserFilterHandler} />
-						</React.Fragment>
-						:
-						null
-					}
+				<div className="profile-page">
+					<h3 style={{ paddingLeft: '15px' }} className="display-4">Личный кабинет</h3>
+					<hr />
+					<div className="row">
+						<div className="col">
+							{
+								this.state.editProcess ?
+									<PersonalInfoEditor
+										profile={profile}
+										onCancelEdit={() => this.onChangeEditProcess(false)}
+										onSave={this.onSaveEditedChanges}
+									/>
+									:
+									<PersonalInfo profile={profile} onEditProfile={() => this.onChangeEditProcess(true)} />
+							}
+						</div>
+						<div className="col" style={{ paddingTop: '20px' }}>
+							{userFilters.length ?
+								<React.Fragment>
+									<h4>
+										Сохраненные фильтры, по которым Вы получаете уведомления:
+									</h4>
+									<FilterList filters={userFilters} onDeleteFilter={this.onDeleteUserFilterHandler} />
+								</React.Fragment>
+								:
+								null
+							}
+
+						</div>
+					</div>
+					<hr />
+					<div className="offers">
+						<h4>
+							Мои предложения
+						</h4>
+						<div>
+							<OfferList offers={offers} />
+						</div>
+					</div>
 
 				</div>
 			</div>

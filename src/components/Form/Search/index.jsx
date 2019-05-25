@@ -27,7 +27,7 @@ const autoCompleteMenuStyles = {
 	zIndex: 5,
 };
 
-class   SearchForm extends Component {
+class SearchForm extends Component {
 
 	onChange = (e) => {
 		const { value, name } = e.target;
@@ -78,7 +78,7 @@ class   SearchForm extends Component {
 			<Card style={{ padding: '15px' }}>
 				<Form>
 					<Form.Row>
-						<Form.Label>Введите город</Form.Label>
+						<Form.Label>Город</Form.Label>
 						<SearchInput
 							onAddressQueryChange={this.props.onAddressQueryChange}
 							onSetLocation={this.props.onSetLocation}
@@ -236,7 +236,7 @@ class   SearchForm extends Component {
 								/>
 							</Form.Group>
 
-							<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+							<div style={{ display: 'flex', justifyContent: 'space-between', minWidth: '250px' }}>
 								<Button
 									variant="secondary"
 									onClick={this.onClear}

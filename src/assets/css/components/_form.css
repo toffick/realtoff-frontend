@@ -90,7 +90,7 @@
   font-size: 0.8em;
   font-family: 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
   user-select: none;
-  max-width: 194px;
+  max-width: 100%;
 }
 
 .js-form__err .form__error-wrapper {

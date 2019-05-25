@@ -18,7 +18,7 @@ class OfferMap extends Component {
 	}
 
 	componentWillUpdate(nextProps) {
-		this.mapRef.setCenter(nextProps.coordinates, 12); // god, give me strength
+		this.mapRef.setCenter(nextProps.coordinates, 12);
 	}
 
 	render() {

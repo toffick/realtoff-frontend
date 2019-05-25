@@ -1,66 +1,78 @@
-.profile-page-wrapper {
 
+.profile-page-wrapper {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  min-height: 90vh;
-  min-width: 1200px;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.profile-page {
+
+  background-color: rgba(255, 255, 255, 0.96);
+  padding: 15px;
 
   .personal-info {
-    min-width: 400px;
+    min-width: 450px;
+    max-width: 450px;
+    margin: 15px;
 
-    .edit-buttons{
+    .edit-buttons {
       padding-top: 5px;
       display: flex;
       justify-content: flex-end;
       width: 100%;
 
-      button{
+      button {
         margin-left: 5px;
       }
     }
 
-    &.edit-form{
-      input{
+    &.edit-form {
+      input {
         width: 150px;
       }
     }
   }
 
-  .own-offers-wrapper {
+  .offers {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     padding: 15px;
-    .list {
-      display: flex;
-      flex-wrap: wrap;
-      max-width: 800px;
+    align-items: center;
 
-      .offer-card {
-        max-width: 380px;
-        width: 380px;
-        padding: 20px;
-      }
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 1200px;
+
+        .offer-card {
+          max-width: 380px;
+          width: 380px;
+          padding: 20px;
+        }
 
     }
-  }
 
-  .user-filter-wrapper{
-    width: 1200px;
+  }
+  .user-filter-wrapper {
+    width: 800px;
     display: flex;
     flex-wrap: wrap;
 
-    .user-filter{
+    .user-filter {
       width: 390px;
       max-width: 390px;
       margin: 5px;
 
-      .header-filter{
+      .header-filter {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 6px 0 6px;
+        padding: 10px 6px 0 20px;
         margin-bottom: 0;
       }
     }
   }
-
 
 }
