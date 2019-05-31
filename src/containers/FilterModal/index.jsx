@@ -7,9 +7,6 @@ import {
 } from 'react-bootstrap';
 
 import Actions from '../../actions';
-import NormalizedHelper from '../../helpers/NormalizeHelper';
-import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
-import { REALTY_TYPES } from '../../constants/OfferConstants';
 import ErrorMessage from '../../components/ErrorMessage';
 import UserFilterPreview from '../../components/UserFilterPreview';
 

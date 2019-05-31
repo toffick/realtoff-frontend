@@ -29,3 +29,5 @@ export const OFFER_STATUS = {
 	CLOSED: 'CLOSED',
 	BANNED: 'BANNED',
 };
+
+export const MAX_PHOTO_COUNT = 10;

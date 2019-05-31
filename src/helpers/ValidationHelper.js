@@ -113,12 +113,12 @@ class ValidationHelper {
 			validateResult.errorsMap.pricePerMonth = 'Цена в месяц должна быть больше 1';
 		}
 
-		if (description > 2000) {
+		if (description.length > 2000) {
 			validateResult.errorsMap.description = 'Описание не должно быть больше 2000 символов';
 		}
 
 		if (!validator.isEmpty(additionalPhoneNumber) && !validator.isMobilePhone(additionalPhoneNumber)) {
-			validateResult.errorsMap.additionalPhoneNumber = 'Это не телефон!';
+			validateResult.errorsMap.additionalPhoneNumber = 'Неверный формат номера';
 		}
 
 		validateResult.isValid = !Object.keys(validateResult.errorsMap).length;

@@ -3,11 +3,8 @@ import { connect } from 'react-redux';
 import Image from 'react-image-resizer';
 import {
 	Carousel,
-	Badge,
-	Card,
 	Button,
 } from 'react-bootstrap';
-import moment from 'moment';
 
 import PhotoUploader from '../../components/PhotoUploader';
 import Loading from '../../components/Loading';
@@ -18,9 +15,13 @@ import AdminOfferPanel from '../../components/Offer/AdminPanel';
 import Actions from '../../actions';
 import PermitsMaskHelper from '../../helpers/PermitsMaskHelper';
 import { getOfferStatusBadge } from '../../utils/Offer';
-import { OFFER_STATUS } from '../../constants/OfferConstants';
+import {
+	MAX_PHOTO_COUNT,
+	OFFER_STATUS,
+} from '../../constants/OfferConstants';
 import { USER_ROLES } from '../../constants/GlobalConstants';
 import NormalizeHelper from '../../helpers/NormalizeHelper';
+import ToastWrapper from '../../helpers/ToastHelper';
 
 // TODO super fixes
 // restyling
@@ -69,7 +70,15 @@ class Offer extends React.Component {
 	}
 
 	onSelectPhotosHandler = (pictures) => {
-		this.props.uploadPhotos(pictures);
+		const { photos } = this.props.offer;
+
+		const remainingPhotoCount = pictures.length + photos.length;
+
+		if (remainingPhotoCount > MAX_PHOTO_COUNT) {
+			ToastWrapper.warn(`Слишком много фото. Можно загрузить еще ${MAX_PHOTO_COUNT - photos.length}`);
+		} else {
+			this.props.uploadPhotos(pictures);
+		}
 	}
 
 	onCloseOfferHandler = () => {
@@ -124,7 +133,7 @@ class Offer extends React.Component {
 					))
 				}
 				{
-					this._isAuthUserOwner() && status === OFFER_STATUS.OPEN ?
+					this._isAuthUserOwner() && status === OFFER_STATUS.OPEN && photos.length < MAX_PHOTO_COUNT ?
 						<Carousel.Item>
 							<div className="item">
 								<PhotoUploader onSelectPhotos={this.onSelectPhotosHandler} style={{ margin: '0' }} />
@@ -217,9 +226,9 @@ class Offer extends React.Component {
 						<div className="description col">
 							<div>
 								<div className="title">
-									<h4 className="font-weight-bold">{NormalizeHelper.getNumberStringSuffix(roomTotal, type)}</h4>
+									<h5 className="font-weight-bold">{NormalizeHelper.getNumberStringSuffix(roomTotal, type)}</h5>
 									<div className="vl" />
-									<h4 className="font-weight-bold">{pricePerMonth} {currency}/мес</h4>
+									<h5 className="font-weight-bold">{pricePerMonth} {currency}/мес</h5>
 									<div className="vl" />
 									<div className="updated"> {getOfferStatusBadge(status)}    </div>
 								</div>
@@ -260,7 +269,7 @@ class Offer extends React.Component {
 												(
 													<div>
 														<h5>Рядом с метро</h5>
-	{
+														{
 															subways.map((item) =>
 																(
 																	<div className="filter-modal-row ability-row">
@@ -295,7 +304,7 @@ class Offer extends React.Component {
 								</div>
 							</div>
 							<div className="map">
-								<OfferMap coordinates={coordinates.coordinates} width="490px" heigth="290px" />
+								<OfferMap coordinates={coordinates.coordinates} width="490px" heigth="290px" zoom={16} />
 							</div>
 						</div>
 					</div>

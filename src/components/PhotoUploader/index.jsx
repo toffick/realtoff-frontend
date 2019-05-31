@@ -13,10 +13,13 @@ class PhotoUploader extends React.Component {
 		return (
 			<ImageUploader
 				withIcon
+				withPreview
 				buttonText="Загрузите фотографии"
 				onChange={this.onDrop}
-				imgExtension={['.jpg', '.jpeg']}
+				imgExtension={['.jpg', '.jpeg', '.png']}
+				label={'Загрузите до 10 фотографий в формате jpg, jpeg и png'}
 				maxFileSize={3145728}
+				fileSizeError="Размер фото слишком большой"
 			/>
 		);
 	}

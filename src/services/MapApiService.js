@@ -84,28 +84,27 @@ class YMapApi {
 				switch (kind) {
 					case 'country':
 						searchItem.address.country = name;
-						searchItem.description += name;
 						return;
 					case 'locality':
 						searchItem.address.city = name;
-						searchItem.description += ` ${name}`;
 						return;
 					case 'street':
 						searchItem.address.street = name;
-						searchItem.description += ` ${name}`;
 						return;
 					case 'house':
 						searchItem.address.house_number = name;
-						searchItem.description += ` ${name}`;
 					case 'province':
 						if (!searchItem.address.city) {
 							searchItem.address.city = name;
-							searchItem.description += ` ${name}`;
 						}
-
-
 				}
 			});
+
+			const {
+				country, city='', street = '', house_number='',
+			} = searchItem.address;
+
+			searchItem.description = `${country} ${city} ${street} ${house_number}`;
 
 			if (result.find((item) => item.description === searchItem.description)) {
 				return false;

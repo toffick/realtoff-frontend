@@ -100,7 +100,7 @@ class ApiService {
 	async createOffer(offerData) {
 		return this.createRequest({
 			method: 'POST',
-			url: `${this.baseUrl}/api/v1/create-offer`,
+			url: `${this.baseUrl}/api/v1/offers`,
 			data: {
 				...offerData,
 			},
@@ -222,7 +222,7 @@ class ApiService {
 			method: 'delete',
 			url: `${this.baseUrl}/api/v1/offers/photos/${offerId}`,
 			enableAuthorizationHeader: true,
-			body: {
+			params: {
 				photoId,
 			},
 		});

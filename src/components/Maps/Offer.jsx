@@ -18,13 +18,13 @@ class OfferMap extends Component {
 	}
 
 	componentWillUpdate(nextProps) {
-		this.mapRef.setCenter(nextProps.coordinates, 12);
+		this.mapRef.setCenter(nextProps.coordinates, 16); // to constant
 	}
 
 	render() {
-		const { coordinates, width, heigth } = this.props;
+		const { coordinates, width, heigth, zoom } = this.props;
 
-		const mapParameters = { center: coordinates, zoom: 12 };
+		const mapParameters = { center: coordinates, zoom };
 
 		return (
 			<YMaps>
@@ -50,6 +50,7 @@ OfferMap.propTypes = {
 	coordinates: PropTypes.array,
 	width: PropTypes.string,
 	heigth: PropTypes.string,
+	zoom: PropTypes.number,
 };
 
 OfferMap.defaultProps = {
@@ -57,6 +58,7 @@ OfferMap.defaultProps = {
 	coordinates: [],
 	width: '46vw',
 	heigth: '47vh',
+	zoom: 12
 };
 
 export default OfferMap;

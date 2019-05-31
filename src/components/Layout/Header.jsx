@@ -44,7 +44,7 @@ class Header extends Component {
 
 
 		return (
-			<Navbar collapseOnSelect expand="lg" bg="light" variant="dark" fixed="top">
+			<Navbar collapseOnSelect expand="lg" bg="light" variant="dark" fixed="top" className="header-color">
 				<Nav.Item href="/" className="logo">
 					{/* TODO class */}
 					<Link to={ROUTER_PATHS.INDEX}>

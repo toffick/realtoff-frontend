@@ -20,6 +20,8 @@ import {
 import Actions from '../actions';
 import ErrorsHelper from '../helpers/ErrorsHelper';
 import ToastWrapper from '../helpers/ToastHelper';
+import { Redirect } from 'react-router';
+import React from 'react';
 
 export function* authSaga() {
 
@@ -183,7 +185,9 @@ export function* loginFlow() {
 
 		if (winner.auth) {
 			yield put(Actions.auth.setAuth(winner.auth));
-			if (!winner.auth.telephone_number) {
+			if (!winner.auth.is_email_confirmed) {
+				yield put(Actions.navigate.navigateTo(ROUTER_PATHS.INDEX));
+			} else if (!winner.auth.telephone_number) {
 				yield put(Actions.navigate.navigateTo(ROUTER_PATHS.FINISH_REGISTRATION));
 			} else {
 				yield put(Actions.navigate.navigateTo(ROUTER_PATHS.INDEX));

@@ -42,10 +42,13 @@ class Profile extends React.Component {
 		return (
 			<div className="profile-page-wrapper">
 				<div className="profile-page">
-					<h3 style={{ paddingLeft: '15px' }} className="display-4">Личный кабинет</h3>
+					<h3 style={{ padding: '20px 15px' }} className="display-4">Личный кабинет</h3>
 					<hr />
 					<div className="row">
 						<div className="col">
+							<h4 style={{padding: '15px'}}>
+							Персональная информация
+						</h4>
 							{
 								this.state.editProcess ?
 									<PersonalInfoEditor
@@ -58,11 +61,11 @@ class Profile extends React.Component {
 							}
 						</div>
 						<div className="col" style={{ paddingTop: '20px' }}>
+							<h4>
+								Сохраненные фильтры
+							</h4>
 							{userFilters.length ?
 								<React.Fragment>
-									<h4>
-										Сохраненные фильтры, по которым Вы получаете уведомления:
-									</h4>
 									<FilterList filters={userFilters} onDeleteFilter={this.onDeleteUserFilterHandler} />
 								</React.Fragment>
 								:

@@ -10,9 +10,11 @@ import { CREATE_OFFER_STEPS } from '../../constants/OfferConstants';
 class OfferPersonal extends Component {
 
 	changePersonalHandler = (newDescription) => {
-		const { setAccessToNextStep } = this.props;
+		const { setAccessToNextStep, personal } = this.props;
 
-		if (newDescription.pricePerMonth.length) {
+		const merge = { ...personal, ...newDescription };
+
+		if (merge.pricePerMonth && merge.pricePerMonth.length) {
 			setAccessToNextStep(true, CREATE_OFFER_STEPS.PERSONAL.id);
 		} else {
 			setAccessToNextStep(false, CREATE_OFFER_STEPS.PERSONAL.id);
